@@ -73,6 +73,7 @@
 
 ### David Briceag — Regional Manager, Spain & Portugal
 - Phone: +351 927 901 200 | PT citations number: 931 052 612 | Email: contact@tatkowski.com (shared M365)
+- PT address (for citations/NAP): Avenida São João de Deus, Edifício Príncipe Real, Lote 1, 1C, 8500-500 Portimão, Algarve
 - Commission-based contractor. Contractor Agreement drafted May 2026 — **still unsigned (operational risk)**
 - Fiverr Pro: davidjo9@hotmail.com
 - GitHub setup instructions sent via TEAM ONE 4 June 2026 — awaiting his GitHub username to add as repo collaborator
@@ -140,7 +141,7 @@
 - IE/EU: Signed Statement of Accuracy; no sworn registry required in most cases
 - UK: Signed Statement of Accuracy; no notarisation needed including UKVI
 - Portugal: Traducao certificada by Ordem dos Advogados lawyer; notarisation sometimes required
-- Spain: Traduccion jurada — MAEC-registered Traductor Jurado (TIJ number required); mandatory for official use
+- Spain: Traduccion jurada �� MAEC-registered Traductor Jurado (TIJ number required); mandatory for official use
 
 ### Phase 2: Interpreting (active in Ireland, planned elsewhere)
 
@@ -451,7 +452,7 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 
 **PDF signatures:** Source: tatkowski_signature_podpis_white.png. Process: greyscale, crop (avg brightness 5-240, +6px left/top, +1px right/bottom), invert, RGB PNG 300dpi. Embed at 50mm wide, ratio ~3.16.
 
-**Coding / agent prompts:** Read files before editing. Build gate before commit. Screenshot 390px + 1440px after visual change. Never batch git commands — always 3 separate steps. Always --ipv4 (IPv6 DNS glitch on this machine).
+**Coding / agent prompts:** Read files before editing. Build gate before commit. Screenshot 390px + 1440px after visual change. Never batch git commands ��� always 3 separate steps. Always --ipv4 (IPv6 DNS glitch on this machine).
 
 **Git deploy (always 3 separate commands):**
 git add -A
@@ -518,7 +519,7 @@ git push origin main --ipv4
 | tatkowski.ie to tatkowski.co.uk direction pages | Once .ie purchased. |
 
 ### RECENTLY COMPLETED
-- B1 Annual Return filed 4 June 2026 (deadline 15 June) ✓
+- B1 Annual Return filed 4 June 2026 (deadline 15 June) ���
 - Fyffes EUR 220 paid 4 June 2026 (Weronika Michalak + Revolut confirmed) ✓
 - GitHub KB system live: https://github.com/satanhimself2137/tatkowski-kb ✓
 - GitHub CLI v2.93.0 installed, authed as satanhimself2137 ✓
@@ -628,7 +629,7 @@ Key patterns: order:{ref} | order:pending:{sessionId} | users:{username} | push:
 | apps/es _routes.json — quote forms silently failing | Open. Fix before ES scales. |
 | Flag emoji restoration european-languages.astro UK/ES/PT | Open. |
 | certified translation services dublin position drift 15 to 26 | Open — investigate. |
-| IE dropout queries (medical/legal/pharmaceutical/translation companies ireland) | Open — find which pages used to rank. |
+| IE dropout queries (medical/legal/pharmaceutical/translation companies ireland) | Open �� find which pages used to rank. |
 
 ### D1 migration plan
 Current: ORDERS_KV (flat, no querying). Target: Cloudflare D1. Trigger: order #200 (~42 now).
