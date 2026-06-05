@@ -448,6 +448,15 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 - Project knowledge (claude.ai): the repo is wired in via the READ-ONLY GitHub connector - it auto-syncs on a delay, NOT on push. It is a convenience read layer only: cheap, chunked, works on mobile (no Desktop Commander), but it LAGS fresh commits (seen ~24h behind 05/06/26) and returns fragments, not the whole file. NEVER trust it for anything changed in the last ~24h or immediately after a write - use gh api for fresh or full-file reads. It is never a write path. (No more manual file uploads - the old "replace manually" step is gone.)
 - Commit message format (auto-applied by helper): [Claude/Maciej] or [Claude/David] - description - DD/MM/YY
 
+### Issues & gotchas log (sibling tool to kb.ps1)
+- File: `issues_log.md` in repo root. Append-only log of issues, workarounds, and gotchas across all areas (TECH, CLIENT, LEGAL, OPS, FIN, HR, MKT, SEO, add categories freely).
+- Helper: `tools/issues.ps1` (same patterns as kb.ps1: stateless, gh api, self-timeout, atomic). Bootstrap identically — fetch from `tools/issues.ps1` on the repo, write to `%TEMP%\issues.ps1`, invoke.
+- **Search before troubleshooting:** `& "$env:TEMP\issues.ps1" read -Search "keyword"` or `-Category TECH` or `-Status open`.
+- Log new: `& "$env:TEMP\issues.ps1" log -Category TECH -Title "..." -Symptom "..." -Context "..." -By Claude`
+- Resolve: `& "$env:TEMP\issues.ps1" resolve -Id N -Resolution "..." -By Maciej`
+- Bump recurrence on repeat: `& "$env:TEMP\issues.ps1" bump -Id N`
+- Newest entries on top. Resolved entries stay — the trail is the value. ASCII `--` separators by design (encoding-safe).
+
 ---
 
 ## 12. KEY OPERATIONAL DECISIONS & PRINCIPLES
