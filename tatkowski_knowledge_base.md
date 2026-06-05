@@ -723,16 +723,28 @@ Username + password. Sessions in ORDERS_KV, 8h TTL. ADMIN_PASSWORD: Cloudflare P
 ### Design system
 Background: #080d14 | Brand orange: #ff6a1a | Surface: #0f1724 (cards), #162035 (inputs) | Success: #10b981 | Warning: #f59e0b | Danger: #ef4444
 
-### Next build queue
-Archive/delete for unpaid quotes | Order modification UI | Notification history log | Inline document preview | Pipeline widget calculation fix | Kanban search | Mobile status tab labels
+### Order stages (locked 05/06/26)
+Quoted → Paid → In Progress → Delivered
+- "New" = filter view on Quoted (SmartQuote step 1 leads, pre-payment), not a column
+- "Needs Sourcing" = exception flag on a Quoted card, not a stage
 
-### FULL PRO build target (scoped by Maciej 05/06/26) — end-state SalesManager as single operating cockpit
-1. Finish core: complete the delivery flow (currently unfinished); client document drawer; in-browser multi-format document viewer; order modification; notification history.
-2. Document-baking studio — SEPARATE access/role. Ingests many formats (PDF/JPG/PNG/DOCX), bakes QR + company logo + details, allows manual edits, outputs final cert PDF through the same pipeline. MUST also handle docs that arrived MANUALLY via WhatsApp (standalone "treat this document" entry point, not only SmartQuote orders).
-3. Chatwoot embedded as a bottom-nav button — multi-number inbox (one per geo); agents work conversations in-app.
-4. WhatsApp AI intake: AI persona + guidance + its own DB/knowledge. Takes docs/photos in any format from WA chat -> processes through the SmartQuote pipeline -> quotes in WA -> takes payment on approval (Revolut) -> emails client a doc-drawer link with their orders -> posts status updates -> captures delivery preference (WA / email / both) -> all controlled from SalesManager.
-5. Notifications by assigned geo: order-placed alerts route to the right agent (same as SmartQuote, flagged source = WhatsApp).
-6. Escalation handoff (HIGH priority): agent can take a conversation over from the AI inside the embedded Chatwoot port.
+### FULL PRO build target (scoped by Maciej 05/06/26, refined 05/06/26) — end-state SalesManager as single operating cockpit
+
+Core to finish:
+- Delivery flow (currently unfinished)
+- Client document drawer (logged-in client surface: order list, redownload, status, delivery preference). This is what the WA AI emails clients — must exist before AI arc ships.
+- In-browser multi-format document viewer (PDF/JPG/PNG/DOCX)
+- Order modification UI
+- Notification history log
+- Interpreting intake (gap — no SmartQuote equivalent exists; lead product runs on freeform WA + B2B email). Decide: separate intake widget, or one unified intake branching on type (date/time/lang/location/duration/client).
+- B2B invoicing mode (Fyffes, Medmark etc. don't use Revolut links — need invoice number, PO ref, 30-day terms, bank-transfer reconciliation, monthly statements).
+
+Pro layers:
+- Document-baking studio — SEPARATE access/role. Ingests many formats (PDF/JPG/PNG/DOCX), bakes QR + company logo + details, allows manual edits, outputs final cert PDF through the same pipeline. MUST also handle docs that arrived MANUALLY via WhatsApp (standalone "treat this document" entry point, not only SmartQuote orders).
+- Chatwoot embedded as a bottom-nav button — AI numbers ONLY in Chatwoot (one per geo). Country agents run their own WhatsApp Business on top, on their own phones. If an agent picks up a second number later, plug into SalesManager via that agent's view in Chatwoot.
+- WhatsApp AI intake: AI persona + guidance + its own DB/knowledge. Takes docs/photos in any format from WA chat -> processes through the SmartQuote pipeline -> quotes in WA -> takes payment on approval (Revolut) -> emails client a doc-drawer link with their orders -> posts status updates -> captures delivery preference (WA / email / both) -> all controlled from SalesManager.
+- Notifications by assigned geo: order-placed alerts route to the right agent (same as SmartQuote, flagged source = WhatsApp).
+- Escalation handoff (HIGH priority): agent can take a conversation over from the AI inside the embedded Chatwoot port.
 
 REALITY CHECK — "the only thing missing is D1" (Maciej 05/06/26): NOT correct. D1 is one workstream, not the gate. Critical path, gating first:
 - Chatwoot on Hetzner — GATING prerequisite for inbox + embed + escalation. Not built. This is the real blocker.
