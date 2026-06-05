@@ -208,6 +208,16 @@ Maintained list of interpreters and translators known to Tatkowski Interpreting 
 
 ---
 
+## Portuguese / English
+
+**Paul** *(active — remote)*
+- Languages: Portuguese ↔ English (interpreter)
+- Location: Brazil (remote-only)
+- Source: Fiverr
+- Notes: Took the Phill Anderson booking 23 May 2026 (PT↔EN interpreting, ~1h15m, remote). Direct contact details still to be captured from Fiverr order. Cross-listed against IE because that's where he's been booked; serves any market remotely.
+
+---
+
 ## Catalan / German / Spanish
 
 **Marta Balcells** *(applied — Nov 2025)*
@@ -227,7 +237,6 @@ Maintained list of interpreters and translators known to Tatkowski Interpreting 
 
 ## To check / unresolved
 
-- **Paul** — PT–EN interpreter, Dublin (contact details not yet recorded)
 - **Vladimir / Артем / Юрий / Liana / Iulian / Aleksander / Vadym / Simone Nascimento / Dianna / Bruna / Mehmed / Sabrina / Vanessa Hage** — flagged by keyword sweep but appear to be **clients** in the threads, not interpreters. Excluded from this list.
 - **Muhammad Umer** — generic translator pitch, low signal.
 - **asad** — one-message cold pitch ("Are you Hire Translator"). Low signal.
