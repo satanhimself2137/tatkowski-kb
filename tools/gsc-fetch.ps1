@@ -9,10 +9,10 @@ $folders = if($Prop -eq "all"){ "ie_tatkowski.com","uk_tatkowski.co.uk","es_tatk
 function Gh($a){ $j=Start-Job { param($x) & gh @x 2>&1 } -ArgumentList @(,$a); if(Wait-Job $j -Timeout $TimeoutSec){ $o=Receive-Job $j; Remove-Job $j; $o } else { Stop-Job $j; Remove-Job $j -Force; throw "gh timed out ${TimeoutSec}s" } }
 $root=Join-Path $env:TEMP "gsc"
 foreach($folder in $folders){
-  $list = Gh @("api","repos/$Repo/contents/gsc/$folder?ref=$Branch","--jq",".[].name")
+  $list = Gh @("api","repos/$Repo/contents/gsc/${folder}?ref=$Branch","--jq",".[].name")
   $dst = Join-Path $root $folder; New-Item -ItemType Directory -Force -Path $dst | Out-Null
   foreach($name in ($list -split "`n" | Where-Object { $_ })){
-    $raw = Gh @("api","repos/$Repo/contents/gsc/$folder/$name?ref=$Branch","--jq",".content")
+    $raw = Gh @("api","repos/$Repo/contents/gsc/$folder/${name}?ref=$Branch","--jq",".content")
     $b64 = (($raw -join "") -replace "\s","")
     [IO.File]::WriteAllBytes((Join-Path $dst $name),[Convert]::FromBase64String($b64))
   }
