@@ -313,6 +313,12 @@ Astro 5 + React 18 monorepo on Cloudflare Pages. Apps: ie, uk, es, pt + packages
 6. IE hreflang verification (en-IE) on tatkowski.com — replaces the dead GSC geo-target task (feature deprecated by Google Sept 2022). hreflang + ccTLD + citations are the only country signals now.
 7. Irish translation cluster — ranking page 1 but zero clicks, fix meta/CTR
 
+### Competitor scrape (20/05/26) — reusable rig
+Location: C:\Users\adern\Downloads\data\scape competition\ (NOTE typo "scape", on C: not D:). Puppeteer + Cheerio. scrape-competitors.js (content: title/meta/pricing/review signals) + map-competitor-structure.js (page-count taxonomy by category). Outputs: competitor-data/ + competitor-structure/ (each: raw/ + reports/ + summary.md). node_modules present, runs as-is.
+Key finding: market leaders win on LANGUAGE + DOCUMENT page volume. IE certifiedtranslations.ie = 1112 pages (642 language). UK translayte = 1395 (155 lang + 225 blog), absolutetranslations = 1343 (260 lang + 108 doc). ES leaders 300-420 pp. PT thin (alphatrad 391, rest <120). Validates: build out language + doc-type clusters; consider a blog (UK leaders lean on it heavily).
+Pricing intel: IE thetranslationcompany "from EUR 14.99" (we are premium at 39.99 — justify via certification/QR/24h). UK per-word (TS24 GBP 0.08/word, espresso 0.10-0.25). ES jurada EUR 28-36 (juratrad).
+LIMITATION: content scrape is SHALLOW (0-5 pages/competitor). RE-RUN deeper before using to spec pages — crawl the language/doc pages, capture H1/H2/word-count/schema/internal-links.
+
 ### GSC data pipeline
 Location: D:\tatkowski-gsc\ - Node + OAuth2 (adernhael@gmail.com).
 Schedule: Windows Task Scheduler "Tatkowski_GSC_Weekly_Pull", Sundays 14:00 -> runs D:\tatkowski-gsc\run-weekly.ps1. Logs: D:\tatkowski-gsc\logs\weekly_*.log.
