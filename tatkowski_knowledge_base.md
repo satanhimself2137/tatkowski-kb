@@ -65,6 +65,7 @@
 - Legal CRO title: Company Secretary.
 - Based in Malahide. Maciej's partner and soon-to-be wife.
 - Brand, social media (Facebook, LinkedIn, Instagram), admin, directories
+  - Social profile URLs (confirmed 05/06/26): Facebook https://www.facebook.com/profile.php?id=61586714891353 ; Instagram https://www.instagram.com/contact_tatkowski/ ; LinkedIn company page exists but exact URL not yet recorded - get slug from Magda.
 - B10 forms SR8705989 + SR8706130 registered 2 June 2026.
 
 ### Artur Pawłowski — Sales Manager
@@ -91,7 +92,7 @@
 - Postage (hard copy): +EUR 10 flat
 - Orders over 3 pages or 750 words may need additional time — caveat in quote
 
-**Pricing ��� Portugal & Spain:**
+**Pricing ����� Portugal & Spain:**
 - Standard (24-48h): EUR 49.99/page
 - Urgent (within 24h): EUR 64.99/page
 
@@ -313,7 +314,7 @@ Astro 5 + React 18 monorepo on Cloudflare Pages. Apps: ie, uk, es, pt + packages
 7. Irish translation cluster — ranking page 1 but zero clicks, fix meta/CTR
 
 ### GSC data pipeline
-Location: D:\tatkowski-gsc\ ��� Node + OAuth2 (adernhael@gmail.com)
+Location: D:\tatkowski-gsc\ ����� Node + OAuth2 (adernhael@gmail.com)
 Schedule: Windows Task Scheduler, Sundays 14:00. Logs: D:\tatkowski-gsc\logs\
 Commands: npm run pull (resumable), npm run export (CSV to data/csv/)
 
@@ -480,7 +481,7 @@ git push origin main --ipv4
 | Item | Owner | Notes |
 |---|---|---|
 | BrightLocal UK campaign - DONE | Maciej | Resolved 2 June: replied to ticket 722747, updated .co.uk to 07752154028 + 24/7 hours; BrightLocal confirmed and queued. Campaign 971664 now Submitting to Sites (35 citations). |
-| BrightLocal PT campaign - launch | Maciej/David | NAP phone = +351 931 052 612 (David company Business WhatsApp, human); address per David team entry; site = tatkowski.pt. Before ordering: tatkowski.pt MUST show 931 052 612 + business hours or it hits a pre-submission hold like UK. Attach logo. AI line 931 052 617 stays OFF public listings. |
+| BrightLocal PT campaign - DONE 05/06/26 | Maciej | Campaign 972979 (TATKOWSKI-PT-8500), 35 citations, $112, queued (data-accuracy stage). NAP +351 931 052 612 / tatkowski.pt / Portimao, service-area (address hidden), hours 24/7, PT description + services + logo submitted. tatkowski.pt deployed with matching number/hours (commit 715e21d) so pre-submission matched - no hold. |
 | Antkiewicz payment verification | Maciej | Delivered 3 June. Check Revolut for EUR 39.99 payment. |
 | Cepaitis 8 June interpreting | Maciej | Lithuanian/Russian. Olga confirmed. Bowler Geraghty & Co, 2 Lower Ormond Quay, Dublin 1, 14:30. cepaitis77@yahoo.com. |
 | David GitHub username | David | Send to Maciej once account created — Maciej adds to tatkowski-kb repo as collaborator. |
@@ -670,7 +671,7 @@ Archive/delete for unpaid quotes | Order modification UI | Notification history 
 
 ## 17. BROADER VISION — TATKOWSKI SYSTEMS
 
-Tatkowski Interpreting & Recruitment is Company 1. Goal is not to sell — build it to self-managing state, then build Company 2, 3, etc. under a Tatkowski Systems umbrella.
+Tatkowski Interpreting & Recruitment is Company 1. Goal is not to sell ��� build it to self-managing state, then build Company 2, 3, etc. under a Tatkowski Systems umbrella.
 
 Pattern: Maciej doesn't just manage systems — he builds new infrastructure on top of them. ToH (Traffic on Hand) at Royal Mail, Kibana dashboards, now SalesManager + WhatsApp AI intake.
 
