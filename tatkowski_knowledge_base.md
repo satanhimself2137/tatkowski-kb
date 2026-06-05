@@ -1,6 +1,6 @@
 # TATKOWSKI INTERPRETING & RECRUITMENT LIMITED — COMPANY KNOWLEDGE BASE
 **Last updated: 05 June 2026**
-**Version: 5.3**
+**Version: 5.4**
 *Living company bible. Master copy on GitHub: https://github.com/satanhimself2137/tatkowski-kb — read/written by Claude via tools/kb.ps1 over gh api + Desktop Commander (stateless, no local clone). Project file auto-loads in Claude sessions; replace after significant updates.*
 
 **STALE-DATA RULE:** Financial figures, GSC data, order statuses, and outstanding payments are accurate as of the date above. When working more than 7 days after this date, treat anything marked "as of [date]" or "outstanding" as potentially changed — check live sources (email, Revolut, GSC) before acting.
@@ -77,7 +77,7 @@
 - PT address (for citations/NAP): Avenida São João de Deus, Edifício Príncipe Real, Lote 1, 1C, 8500-500 Portimão, Algarve
 - Commission-based contractor. Contractor Agreement drafted May 2026 — **still unsigned (operational risk)**
 - Fiverr Pro: davidjo9@hotmail.com
-- GitHub setup instructions sent via TEAM ONE 4 June 2026 — awaiting his GitHub username to add as repo collaborator
+- David ADDED as tatkowski-kb repo collaborator (confirmed 05/06/26). His Claude can read+write the repo. GSC analysis guide sent via TEAM ONE 05/06/26 (gsc/HOW_TO.md).
 - PT WhatsApp AI number: 931 052 617 (fresh eSIM, confirmed by David 05/06/26 as the AI/Cloud API line). Handles translation intake via AI + Chatwoot port in SalesManager. Distinct from 931 052 612 (human company WhatsApp). NOTE: 612 vs 617 differ by one digit - do not conflate.
 
 ---
@@ -314,9 +314,12 @@ Astro 5 + React 18 monorepo on Cloudflare Pages. Apps: ie, uk, es, pt + packages
 7. Irish translation cluster — ranking page 1 but zero clicks, fix meta/CTR
 
 ### GSC data pipeline
-Location: D:\tatkowski-gsc\ ������� Node + OAuth2 (adernhael@gmail.com)
-Schedule: Windows Task Scheduler, Sundays 14:00. Logs: D:\tatkowski-gsc\logs\
-Commands: npm run pull (resumable), npm run export (CSV to data/csv/)
+Location: D:\tatkowski-gsc\ - Node + OAuth2 (adernhael@gmail.com).
+Schedule: Windows Task Scheduler "Tatkowski_GSC_Weekly_Pull", Sundays 14:00 -> runs D:\tatkowski-gsc\run-weekly.ps1. Logs: D:\tatkowski-gsc\logs\weekly_*.log.
+Flow: run-weekly.ps1 does (1) npm run pull (resumable/incremental), (2) npm run export (CSV to data/csv/), (3) python gsc-sync.py -> stages CSVs + commits to repo gsc/ (idempotent, only commits if data changed).
+NOTE (fixed 05/06/26): run-weekly.ps1 was MISSING - the weekly task had never actually run. Created it + gsc-sync.py and added the auto re-commit. Verified end-to-end 05/06/26; next scheduled run 07/06.
+Repo-resident copy: all 4 properties' GSC CSVs live in the repo under gsc/ (committed snapshot, auto-refreshed weekly). Any team member's Claude pulls via tools/gsc-fetch.ps1 and analyses with pandas. See gsc/MANIFEST.md (schema) + gsc/HOW_TO.md (David's guide).
+Commands (manual): npm run pull, npm run export, python gsc-sync.py [--by Maciej|David].
 
 ### Directories
 - SayMore (acct ID 4499615): ~50 platforms. Audit fixes pending: INIS to ISD; address line; delete Swords + Corballis service areas; Eircode K36 KV97 space.
@@ -492,7 +495,7 @@ git push origin main --ipv4
 | BrightLocal PT campaign - DONE 05/06/26 | Maciej | Campaign 972979 (TATKOWSKI-PT-8500), 35 citations, $112, queued (data-accuracy stage). NAP +351 931 052 612 / tatkowski.pt / Portimao, service-area (address hidden), hours 24/7, PT description + services + logo submitted. tatkowski.pt deployed with matching number/hours (commit 715e21d) so pre-submission matched - no hold. |
 | Antkiewicz payment verification | Maciej | Delivered 3 June. Check Revolut for EUR 39.99 payment. |
 | Cepaitis 8 June interpreting | Maciej | Lithuanian/Russian. Olga confirmed. Bowler Geraghty & Co, 2 Lower Ormond Quay, Dublin 1, 14:30. cepaitis77@yahoo.com. |
-| David GitHub username | David | Send to Maciej once account created — Maciej adds to tatkowski-kb repo as collaborator. |
+| David GitHub collaborator — DONE 05/06/26 | Maciej | David added as repo collaborator; his Claude can read+write KB + gsc/ data. |
 | Algerian enquiry follow-up | Maciej | Awaiting scans for package quote. |
 | Velnichuk name confirmation | Maciej | Awaiting English spelling for 3 names per Irish docs before Vovka assigned. |
 
