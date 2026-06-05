@@ -22,10 +22,10 @@ Maintained list of interpreters and translators known to Tatkowski Interpreting 
 - Rate: $12/page + 5% loyalty discount
 - Notes: Zero issues since Sept 2025. Default assign for Ukrainian jobs.
 
-**Anita** *(prior contact)*
+**Anita** *(BLACKLISTED — do not contact)*
 - Languages: Ukrainian ↔ English
 - WhatsApp chat: 79401714761909@lid
-- Notes: Saved as "Anita UKR Interpreter". Last contact Dec 2025. Minimal thread history loaded — to verify.
+- Notes: Saved as "Anita UKR Interpreter". Never to be contacted under any circumstances. Retained as a record only so she's not re-sourced by mistake.
 
 **Marina Kopach** *(on file)*
 - Languages: Ukrainian ↔ English (translation + interpreting, remote)
