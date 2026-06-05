@@ -11,4 +11,5 @@ _Source of truth for David's tasks. Key items mirrored to KB. Updated 05/06/26._
 - [ ] PT/ES localised service pages (with Maciej) - currently redirected to English.
 
 ## Done (recent)
+- [x] 05/06 - PT BrightLocal campaign live (972979) on your company WhatsApp 931 052 612.
 - [x] 04/06 - Provided PT NAP address (Portimao) + company Business WhatsApp 931 052 612.
