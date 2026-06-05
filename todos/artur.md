@@ -5,7 +5,7 @@ _Source of truth for Artur's tasks. Key items mirrored to KB. Updated 05/06/26._
 - [ ] (add current items)
 
 ## Next
-- [ ] Take over UK order handling (when ready).
+- [ ] Take over UK order handling when ready (Fiverr account connected via invite).
 
 ## Done (recent)
 -
