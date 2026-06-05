@@ -290,7 +290,7 @@ Astro 5 + React 18 monorepo on Cloudflare Pages. Apps: ie, uk, es, pt + packages
 - Gen3 (benchmark): legal-translation, certified-translation, all doc-type pages
 - Gen2 (upgraded): business-interpreting, court-interpreting, medical-interpreting, medical-translation, document-translation, immigration-translation, parent-teacher-meetings, phone-interpreting, school-interpreting, european-languages, irish-translation
 - Gen1 (needs upgrade): arabic, chinese, lithuanian, portuguese, romanian, russian translation pages; direction pages
-- Money pages (Gen3 rebuild priority): polish-translation, ukrainian-translation �� highest impression volume, buried at pos 38-41
+- polish-translation + ukrainian-translation: Gen3 since Sprint 2 (01/06), 1555-1600 lines. The pos 38-41 / 1,400-imp figure PREDATES the rebuild - re-judge from the 07/06 GSC pull, do not rebuild again.
 
 ### GSC performance — most recent 28 days vs prior 28 days (5 May to 1 June vs 7 Apr to 4 May)
 | Site | Clicks | Impressions | CTR | Avg pos |
@@ -305,7 +305,7 @@ Astro 5 + React 18 monorepo on Cloudflare Pages. Apps: ie, uk, es, pt + packages
 **IE dropouts:** medical translator 10 to 0 | pharmaceutical translation services 7 to 0 | legal translation services 6 to 0 | translation companies ireland 5 to 0
 
 ### Active SEO sprint priorities
-1. Full Gen3 rebuild of /polish-translation/ and /ukrainian-translation/ — highest impact
+1. Gen3 rebuild of the 6 thin IE language stubs (~165 lines each): russian, romanian, arabic, chinese, lithuanian, portuguese — template = polish-translation.astro (already Gen3). [polish + ukrainian ALREADY Gen3 since Sprint 2 01/06; the old "rebuild polish/ukrainian" note was STALE — verified 05/06/26, 1555-1600 lines, bigger than certified-translation benchmark.]
 2. Direction pages rebuild (pos 60-76)
 3. Rebuild ES/PT localised service pages in correct language
 4. BrightLocal UK - DONE (hold resolved 2 June, campaign 971664 live)
