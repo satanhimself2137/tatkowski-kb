@@ -75,7 +75,7 @@
 ### David Briceag — Regional Manager, Spain & Portugal
 - Numbers: +351 927 901 200 = personal (runs his current WhatsApp Business / sender line, NOT public). +351 931 052 612 = COMPANY Business WhatsApp = PUBLIC NAP for PT (citations/website/GBP), human-answered for corporate + interpreting clients. +351 931 052 617 = AI / Cloud API (translation intake via AI + Chatwoot port in SalesManager). | Email: contact@tatkowski.com (shared M365)
 - PT address (for citations/NAP): Avenida São João de Deus, Edifício Príncipe Real, Lote 1, 1C, 8500-500 Portimão, Algarve
-- Commission-based contractor. Contractor Agreement drafted May 2026 — **still unsigned (operational risk)**
+- Commission-based contractor. Contractor Agreement + non-compete SIGNED - returned 17 May 2026 from davidjo9@hotmail.com ("David Briceag Signed Agreement May.pdf", single combined PDF, in contact@ mailbox). Risk closed.
 - Fiverr Pro: davidjo9@hotmail.com
 - David ADDED as tatkowski-kb repo collaborator (confirmed 05/06/26). His Claude can read+write the repo. GSC analysis guide sent via TEAM ONE 05/06/26 (gsc/HOW_TO.md).
 - PT WhatsApp AI number: 931 052 617 (fresh eSIM, confirmed by David 05/06/26 as the AI/Cloud API line). Handles translation intake via AI + Chatwoot port in SalesManager. Distinct from 931 052 612 (human company WhatsApp). NOTE: 612 vs 617 differ by one digit - do not conflate.
@@ -310,7 +310,7 @@ Astro 5 + React 18 monorepo on Cloudflare Pages. Apps: ie, uk, es, pt + packages
 3. Rebuild ES/PT localised service pages in correct language
 4. BrightLocal UK - DONE (hold resolved 2 June, campaign 971664 live)
 5. PT citations - David first. NAP phone = +351 931 052 612 (David's COMPANY Business WhatsApp, human). NOT 927 (personal), NOT 617 (AI).
-6. GSC geo-targeting: set IE target on tatkowski.com (30-min task, still pending)
+6. IE hreflang verification (en-IE) on tatkowski.com — replaces the dead GSC geo-target task (feature deprecated by Google Sept 2022). hreflang + ccTLD + citations are the only country signals now.
 7. Irish translation cluster — ranking page 1 but zero clicks, fix meta/CTR
 
 ### GSC data pipeline
@@ -485,7 +485,7 @@ git push origin main --ipv4
 >
 > Key open items by owner:
 > - Maciej: BrightLocal PT order + pay; fix SmartQuote/BookInterpreter hardcoded wa.me number (06/06); PT geo Lisbon -> Portimao (parked).
-> - David: sign contractor agreement + non-compete (overdue, operational risk); confirm 931 052 617 never on WhatsApp (AI freshness); send GitHub username; source ES AI SIM.
+> - David: confirm 931 052 617 never on WhatsApp (AI freshness); send GitHub username; source ES AI SIM. [Contractor agreement + non-compete SIGNED 17 May - risk closed.]
 
 ### THIS WEEK
 
@@ -509,10 +509,10 @@ git push origin main --ipv4
 | GBP verification - ROUTED 05/06/26 | Maciej | IE profile now service-area; ticket routed to verification team via chat w/ Vishwanath. Case 3-6482000040927. ETA 24-48h. Do NOT edit profile until verified. |
 | Rebuild /polish-translation/ and /ukrainian-translation/ to Gen3 | Maciej | Highest GSC impact (pos 38-41, 1,400+ imps each). |
 | Rebuild ES/PT localised service pages | David/Maciej | Currently redirected to English. Wrong long-term. |
-| GSC geo-targeting: set IE target on tatkowski.com | Maciej | 30-minute fix, still pending. |
+| GSC geo-targeting — DEAD TASK | — | Google deprecated International/country Targeting Sept 2022; the setting no longer exists. IE targeting now via hreflang (en-IE), ccTLD signals, content + local citations. ACTION instead: verify hreflang on tatkowski.com in code. |
 | SayMore audit fixes | Maciej | INIS to ISD; address line; delete Swords + Corballis service areas; Eircode space K36 KV97. |
 | Flag emoji restoration | Maciej | european-languages.astro files across UK/ES/PT (last loose end of UTF-8 fix). |
-| David contractor agreement | David | Sent May 2026, not returned. Operational risk. |
+| David contractor agreement — DONE | David | Signed + returned 17 May 2026 (davidjo9@hotmail.com, combined PDF in contact@ mailbox). Operational risk closed 05/06/26. |
 | Marius Nicula contact share | Maciej | Share Marius details to civil ceremony client ~18 June (5 days before 23 June). |
 | ES app _routes.json silently failing | Maciej | Quote forms failing on ES. Fix before ES scales. |
 
@@ -677,6 +677,22 @@ Background: #080d14 | Brand orange: #ff6a1a | Surface: #0f1724 (cards), #162035 
 
 ### Next build queue
 Archive/delete for unpaid quotes | Order modification UI | Notification history log | Inline document preview | Pipeline widget calculation fix | Kanban search | Mobile status tab labels
+
+### FULL PRO build target (scoped by Maciej 05/06/26) — end-state SalesManager as single operating cockpit
+1. Finish core: complete the delivery flow (currently unfinished); client document drawer; in-browser multi-format document viewer; order modification; notification history.
+2. Document-baking studio — SEPARATE access/role. Ingests many formats (PDF/JPG/PNG/DOCX), bakes QR + company logo + details, allows manual edits, outputs final cert PDF through the same pipeline. MUST also handle docs that arrived MANUALLY via WhatsApp (standalone "treat this document" entry point, not only SmartQuote orders).
+3. Chatwoot embedded as a bottom-nav button — multi-number inbox (one per geo); agents work conversations in-app.
+4. WhatsApp AI intake: AI persona + guidance + its own DB/knowledge. Takes docs/photos in any format from WA chat -> processes through the SmartQuote pipeline -> quotes in WA -> takes payment on approval (Revolut) -> emails client a doc-drawer link with their orders -> posts status updates -> captures delivery preference (WA / email / both) -> all controlled from SalesManager.
+5. Notifications by assigned geo: order-placed alerts route to the right agent (same as SmartQuote, flagged source = WhatsApp).
+6. Escalation handoff (HIGH priority): agent can take a conversation over from the AI inside the embedded Chatwoot port.
+
+REALITY CHECK — "the only thing missing is D1" (Maciej 05/06/26): NOT correct. D1 is one workstream, not the gate. Critical path, gating first:
+- Chatwoot on Hetzner — GATING prerequisite for inbox + embed + escalation. Not built. This is the real blocker.
+- Meta permanent System User token — required before WA AI production. Not done.
+- WA number provisioning — UK + ES AI numbers still to register; ES AI SIM still needed.
+- Document-baking studio + in-browser viewer — net-new builds.
+- AI persona + RAG (Vectorize + EmbeddingGemma over KB) + per-number conversation state — designed, not built.
+- D1 migration — justified for the Pro RELATIONAL model (orders <-> conversations <-> clients <-> docs <-> delivery prefs <-> geo), which outgrows flat KV. So D1 lands ALONGSIDE the build, earlier than the order-#200 volume trigger, but it is NOT the only or gating piece. Order count ~42; KV fine for today's ops. D1 = architecture decision, not volume.
 
 ---
 
