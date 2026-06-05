@@ -719,3 +719,14 @@ Current milestone: Translation business to self-managing (WhatsApp AI handles in
 *End of knowledge base v5.1*
 *Updated: Claude session 04 June 2026 — Fyffes paid, B1 filed, GitHub KB system live, David PT numbers confirmed*
 *Next update: after any significant order, market launch, team change, or operational decision.*
+
+
+---
+**KB Update â€“ 05/06/2026 â€“ By Maciej**
+
+Added interpreter contacts sourced via Olga Tarasova following Fyffes assignment (05/06/2026):
+
+- **Sarah** â€” Chinese interpreter â€” +353 89 418 0947 (via Olga)
+- **Dominykas** â€” Lithuanian interpreter â€” +353 86 371 6651 (via Olga)
+- **Neringa** â€” Lithuanian interpreter â€” +353 87 781 3979 (via Olga)
+- **Ivona** â€” Lithuanian interpreter â€” +353 87 933 2632 (via Olga)
