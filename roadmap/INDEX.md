@@ -10,7 +10,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Status | Owner | Last update | File |
 |---|---|---|---|---|
-| Drawer v1 — client document portal | IN PROGRESS — Phase 1+ | Agent (Continue.dev) | 05/06/26 | [drawer.md](drawer.md) |
+| Drawer v1 — client document portal | IN PROGRESS — local-clean, awaiting prod deploy | Agent (Continue.dev) | 06/06/26 | [drawer.md](drawer.md) |
 
 ## Queued (next up)
 
