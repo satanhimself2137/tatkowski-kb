@@ -375,7 +375,7 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 | Name | Pairs | Notes |
 |---|---|---|
 | Olga Tarasova | UA/EN (RU acceptable) | Dublin (Balbriggan). Go-to. ~EUR 50/h + travel. Helltarasova@gmail.com / +353 85 732 1738. 5-star Google review. Admin of Room 7 Dublin interpreter network (~25). |
-| Paul R | PT to EN | Dublin. Fiverr handle "Paul R". Used for Anderson 23 May. Direct contact still to capture from Fiverr order. |
+| Paul R | PT to EN | Brazil, remote-only. Fiverr-sourced. Used for Anderson 23 May (remote). Direct contact still to capture from Fiverr order. |
 | Marius Nicula | RO to EN | Booked for Drogheda civil ceremony 23 June. nicula_marius888@yahoo.ie |
 | Dominykas | LT/RU to EN | ATII, Dublin. dom@dawmuz.com. EUR 65/h + 2h min + VAT. Viable only for B2B EUR 200+. |
 | Diana Barbolovici Sabou | RO/ES to EN | Navan. CV reviewed May 2026. Backup option. |
