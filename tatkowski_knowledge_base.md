@@ -412,7 +412,8 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 | Paperweight.ie | Print jobs (Malahide) | Used May 2026 |
 
 ### WhatsApp numbers architecture (planned: 2 per market, 8 total)
-- Hard rule: AI number (Cloud API) and Human number (App) can never be the same. Once a SIM is registered on Cloud API it is permanently API-only.
+- Hard rule (post-registration): AI number (Cloud API) and Human number (App) can never be the same. Once a SIM is registered on Cloud API it is permanently API-only.
+- Hard rule (pre-registration): a number destined for Cloud API must be a **virgin number** — never logged in to the WhatsApp app or WhatsApp Business app. Even one prior login flags it as app-registered to Meta and breaks Cloud API onboarding cleanly. If a number has any WhatsApp history, it cannot be the AI line — source a fresh SIM instead.
 - IE: AI (Cloud API) already registered | Human: Maciej +353 83 871 0861
 - UK: AI = old +44 number being repurposed | Human: Artur's number
 - ES: AI SIM via David (1 eSIM needed) | Human: David +351 927 901 200
