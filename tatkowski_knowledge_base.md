@@ -391,7 +391,7 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 |---|---|---|
 | Microsoft 365 (contact@tatkowski.com) | Email, calendar | M365 connector active. Always use mailboxOwnerEmail: contact@tatkowski.com. Calendar SEARCH only via MCP �� no create. Auto-renewed 3 June 2026. |
 | Revolut Business | Merchant payments | All client payments. Link naming: Certified Translation - [Surname] - [Doc Type] x[pages]. Interpreting: Interpreting - [Lang] - [Service] - [Date]. Webhook ID: ddf96576-f5ce-4767-afbb-ebdb59d3aea2. Fee ~1.48%. Personal address updated 4 June 2026. |
-| GitHub (satanhimself2137) | Code repo + KB | tatkowski-kb repo: https://github.com/satanhimself2137/tatkowski-kb �� master KB copy, read/written by Claude via gh api (Desktop) and GitHub MCP (David). Monorepo: tatkowski-interpreting-recruitment. GitHub CLI v2.93.0 installed. Copilot Pro+ live from 1 June 2026. |
+| GitHub (satanhimself2137) | Code repo + KB | tatkowski-kb repo: https://github.com/satanhimself2137/tatkowski-kb — master KB copy, read/written by BOTH Claudes (Maciej via gh CLI + Desktop Commander on Windows; David via Python + Contents API + Desktop Commander on Mac). Monorepo: tatkowski-interpreting-recruitment. GitHub CLI v2.93.0 installed (Maciej-side only). Copilot Pro+ live from 1 June 2026. See "Connected Claudes" subsection below for full operating model. |
 | SayMore (acct ID 4499615) | Directory listings | dashboard.saymore.ie/s/4499615/ |
 | FCR Media | GBP posts + backlinks | EUR 61.50/mo. Not renewing. Contact: Enoma. Cancel by 31 Oct 2026. |
 | BrightLocal | Citation Builder + Reputation Manager | UK campaign 971664, $112, LIVE (hold resolved 2 June). PT next: NAP phone +351 931 052 612, site tatkowski.pt. |
@@ -433,6 +433,38 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 - Company can pay a licence fee to Maciej for dedicated home office room (~25% of rent ~EUR 600/mo). Requires written licence + accountant sign-off.
 - Switch mobile contract to company name — biggest standing deductible currently missed.
 - Software subs, translator costs, travel, bank fees all 100% deductible with receipts.
+
+### Connected Claudes — read/write architecture (locked 05/06/26)
+
+Both Maciej's Claude and David's Claude read AND write the same live KB repo (`satanhimself2137/tatkowski-kb`, branch `main`) within their own sessions. No middleman, no read-only sync, no human relay. Different transports per OS, same Contents API underneath.
+
+**Maciej side (Windows)**
+- Claude Desktop + Desktop Commander MCP
+- GitHub CLI (`gh`) v2.93.0 authed as `satanhimself2137`
+- Reads/writes via `gh api repos/.../contents/<path>` (GET) and `gh api ... -X PUT --input -` (write with sha)
+- Helper: `tools/kb.ps1` (v3) in the repo — fetches itself to `%TEMP%`, wraps read/write with stale-guard and per-call timeouts
+
+**David side (Mac, Apple Silicon)**
+- Claude Desktop + Desktop Commander MCP
+- No `gh` CLI (sandbox egress blocks brew + binary downloads; only `api.github.com` whitelisted)
+- Token: classic PAT (`repo` scope, no expiration) at `~/.tatkowski-kb-token`, chmod 600. File-based, NOT env var — Mac GUI apps launched from the Dock don't inherit shell env so `~/.zshrc` exports never reach Desktop Commander
+- Reads/writes via Python + `urllib.request` + `Authorization: token <PAT>` header — same REST endpoints `gh api` hits
+
+**Shared rules**
+- Commit format: `[Claude/Maciej]` or `[Claude/David] - description - DD/MM/YY`
+- Newest-on-top convention in append-only files (ai_notes.md, issues_log.md)
+- No locking — concurrent edits to the same file get a 409 sha conflict on the second PUT. Re-read for fresh sha, re-apply. In practice edits land on different files in parallel.
+- AI-to-AI sync via `ai_notes.md` — leave a message, the other Claude reads it next session and replies in the same file
+- Per-person todos in `todos/maciej.md` and `todos/david.md` — each owns their own file, reads the other's
+- Project files auto-loaded in Claude sessions are STALE — repo is truth. Both sides' instructions enforce "read live, ignore stale project file"
+
+**Setup verification end-to-end (David side, 05/06/26)**
+1. Token persisted to `~/.tatkowski-kb-token` ✓
+2. Python read returned valid sha ✓
+3. Read-modify-write cycle: read todos/david.md → reorganise per David's three instructions → PUT back with fresh sha → commit landed ✓
+4. v2 project instructions live in his Claude project settings (`ai_notes.md` 05/06/26 v2 block) — first session silently reads six repo files before answering anything ✓
+
+What this unlocks: David can act on the live business state from any chat (todos, KB, GSC data, interpreter rosters) and his changes are immediately visible to Maciej's Claude next session. No more handoff lag, no more "tell Maciej so he can commit". Same operating model can be added to Magda or Artur with a PAT, a chmod-600 file, and a copy of the v2 instructions block.
 
 ### KB workflow (as of 5 June 2026) - STATELESS, repo is the only source of truth
 - Master copy: GitHub repo https://github.com/satanhimself2137/tatkowski-kb (tatkowski_knowledge_base.md, branch **main**).
