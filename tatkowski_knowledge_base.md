@@ -430,7 +430,7 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 ### KB workflow (as of 5 June 2026) - STATELESS, repo is the only source of truth
 - Master copy: GitHub repo https://github.com/satanhimself2137/tatkowski-kb (tatkowski_knowledge_base.md, branch **main**).
 - NO local clone. Local clones rot/get deleted (this happened 05/06/26). Everything goes through gh api over Desktop Commander.
-- Helper script lives IN the repo: tools/kb.ps1 (v2). It wraps read (base64 decode) + write (fetch SHA, base64, commit), auto-tags commits, refuses to overwrite if repo moved since read (stale-guard), and self-timeouts every gh call (20s) + disables interactive prompts so a hung gh can NEVER wedge Desktop Commander.
+- Helper script lives IN the repo: tools/kb.ps1 (v3). It wraps read (base64 decode) + write (fetch SHA, base64, commit), auto-tags commits, refuses to overwrite if repo moved since read (stale-guard), and self-timeouts every gh call (20s) + disables interactive prompts so a hung gh can NEVER wedge Desktop Commander. v3 adds `read -Section N` which prints just one numbered section (full file still written to %TEMP%\kb_work.md) - use it for cheap surgical edits instead of pulling the whole ~10k-token file into context. Full `read` is only needed for recaps/audits.
 - Per-session flow (any team member, via Desktop Commander):
   1. BOOTSTRAP (fetch helper, the only setup - nothing kept on disk):
      $b64=(gh api "repos/satanhimself2137/tatkowski-kb/contents/tools/kb.ps1?ref=main" --jq ".content")-replace "\s",""; [IO.File]::WriteAllBytes("$env:TEMP\kb.ps1",[Convert]::FromBase64String($b64))
@@ -439,7 +439,7 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
   4. WRITE: & "$env:TEMP\kb.ps1" write -By David -Message "what changed"   (David uses -By David, Maciej -By Maciej)
 - If %TEMP%\kb.ps1 vanishes, re-run step 1. Requirements per machine: gh authed + Desktop Commander. That's it.
 - RULE: one logical operation per start_process call. NEVER chain multiple gh calls glued with ';' - if one hangs it wedges the whole bridge (caused a 4-min dead bridge 05/06/26). The helper exists so you don't hand-roll gh chains.
-- Project file (claude.ai project): replace manually after significant updates - auto-loads into context for all sessions.
+- Project knowledge (claude.ai): the repo is wired in via the READ-ONLY GitHub connector - it auto-syncs on a delay, NOT on push. It is a convenience read layer only: cheap, chunked, works on mobile (no Desktop Commander), but it LAGS fresh commits (seen ~24h behind 05/06/26) and returns fragments, not the whole file. NEVER trust it for anything changed in the last ~24h or immediately after a write - use gh api for fresh or full-file reads. It is never a write path. (No more manual file uploads - the old "replace manually" step is gone.)
 - Commit message format (auto-applied by helper): [Claude/Maciej] or [Claude/David] - description - DD/MM/YY
 
 ---
