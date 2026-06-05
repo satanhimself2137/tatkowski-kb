@@ -404,7 +404,7 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 | Cloudflare KV (ORDERS_KV) | Order state, sessions | ID: 8f5f06b234c1432ca17886549b886af8 |
 | Cloudflare R2 (tatkowski-orders) | Document storage | 90-day retention — Cron Trigger planned |
 | VS Code + GitHub Copilot Chat | IDE agent | Copilot Pro+ on Auto routing (live from 1 June 2026). No BYOK — agent picks model per task. Sonnet 4.6 high = default execution; Opus 4.7 = harder/diagnostic work. Local Ollama qwen2.5-coder:14b on RTX 2080 Super for routine work outside Copilot. |
-| Anthropic API | AI integration | Key: tatkowski-vscode-dev. WA + doc analysis use Claude Haiku (Workers AI / direct API). |
+| Anthropic API (tatkowski-vscode-dev key) | RETIRED — not in use | Key exists but unused. Direct Anthropic API too expensive. WA AI + doc analysis run on Cloudflare Workers AI instead (LLaVA / Llama 4 Scout / etc.). |
 | Fiverr | Translator sourcing | Account: adernhael. |
 | GSC pipeline | SEO data | D:\tatkowski-gsc\ — see Section 7 |
 | WhatsApp bridge | In-session WA reads/sends | D:\tatkowski-whatsapp\bridge\inject.js. Desktop Claude only. Re-arm after page reload. API: __tw.findChat, getMessages, sendText. Team messages send without approval. Client/external messages require explicit "send". |
@@ -676,15 +676,15 @@ Key patterns: order:{ref} | order:pending:{sessionId} | users:{username} | push:
 ### AI model decisions (May/June 2026)
 | Use case | Decision |
 |---|---|
-| WhatsApp conversation AI | Claude Haiku (Anthropic API) |
-| Document analysis | Claude Haiku Vision (Anthropic API) |
+| WhatsApp conversation AI | Cloudflare Workers AI (Llama 4 Scout or similar — TBD when WA AI build resumes) |
+| Document analysis | Cloudflare Workers AI Vision (LLaVA — currently live on SmartQuote) |
 | IDE agent/chat | GitHub Copilot Chat Pro+ on Auto routing (Sonnet 4.6 high default, Opus 4.7 for harder/diagnostic work) |
 | IDE autocomplete | Qwen2.5-coder:14b (local Ollama, outside Copilot) |
 
 ### WhatsApp AI (in build)
 - Meta Cloud API direct (no WATI)
 - App ID 1523183499431643 | WABA ID 2086178738626839 | IE Phone Number ID 1170128006173405
-- Claude Haiku for conversation + Haiku Vision for doc analysis
+- Claude Haiku via Anthropic API was previously planned but **abandoned 05/06/26 — direct Anthropic API too expensive**. WA AI conversation + doc analysis stay on Cloudflare Workers AI native models.
 - RAG: EmbeddingGemma + Cloudflare Vectorize over tatkowski_knowledge_base.md
 - Conversation state: Cloudflare KV per phone number
 - Permanent System User token needed before production
