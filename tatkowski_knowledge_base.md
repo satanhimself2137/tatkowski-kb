@@ -97,7 +97,7 @@
 - Urgent (within 24h): EUR 64.99/page
 
 **Rules (all markets):**
-- Per-page only — never flat per-document
+- Per-page only �� never flat per-document
 - Quote total to client only — never show per-page breakdown
 - Confirm language pair before committing to turnaround
 - B2B clients: round numbers, invoice-based, no .99 on interpreting
@@ -112,7 +112,7 @@
 - QR validation code embedded in final PDF (validate.tatkowski.com/[ref])
 - 90-day document storage and re-download via private drawer link
 
-**Standard DOCX layout (Vovka/Emerson format — confirmed 3 June 2026):**
+**Standard DOCX layout (Vovka/Emerson format ��� confirmed 3 June 2026):**
 - Page 1: mirrors original document layout — red official header band, reference number, centred title, justified body text, two-column stamp/signature block at bottom
 - Page 2: translator certification statement with embedded signature image
 - Logo: tatkowski_INTERPRETING_AND_REC.png, centred, ~0.3in from top, scaled to 24% of original file size
@@ -261,7 +261,7 @@ Must use MAEC-registered Traductor Jurado (TIJ number in credentials).
 
 **Document handling:**
 - Do not pre-emptively question clients about their documents. If something appears wrong, translator flags at translation stage.
-- Name spelling: ask client how they want names spelled per their Irish documents — short, no over-explanation.
+- Name spelling: ask client how they want names spelled per their Irish documents ��� short, no over-explanation.
 - Never demand photo ID for routine cert work.
 
 **B2B payments:** 2 business days post-assignment internal grace before chasing (Fyffes confirmed as first B2B default).
@@ -314,7 +314,7 @@ Astro 5 + React 18 monorepo on Cloudflare Pages. Apps: ie, uk, es, pt + packages
 7. Irish translation cluster — ranking page 1 but zero clicks, fix meta/CTR
 
 ### GSC data pipeline
-Location: D:\tatkowski-gsc\ ����� Node + OAuth2 (adernhael@gmail.com)
+Location: D:\tatkowski-gsc\ ������� Node + OAuth2 (adernhael@gmail.com)
 Schedule: Windows Task Scheduler, Sundays 14:00. Logs: D:\tatkowski-gsc\logs\
 Commands: npm run pull (resumable), npm run export (CSV to data/csv/)
 
@@ -380,9 +380,9 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 
 | Tool | Purpose | Notes |
 |---|---|---|
-| Microsoft 365 (contact@tatkowski.com) | Email, calendar | M365 connector active. Always use mailboxOwnerEmail: contact@tatkowski.com. Calendar SEARCH only via MCP — no create. Auto-renewed 3 June 2026. |
+| Microsoft 365 (contact@tatkowski.com) | Email, calendar | M365 connector active. Always use mailboxOwnerEmail: contact@tatkowski.com. Calendar SEARCH only via MCP �� no create. Auto-renewed 3 June 2026. |
 | Revolut Business | Merchant payments | All client payments. Link naming: Certified Translation - [Surname] - [Doc Type] x[pages]. Interpreting: Interpreting - [Lang] - [Service] - [Date]. Webhook ID: ddf96576-f5ce-4767-afbb-ebdb59d3aea2. Fee ~1.48%. Personal address updated 4 June 2026. |
-| GitHub (satanhimself2137) | Code repo + KB | tatkowski-kb repo: https://github.com/satanhimself2137/tatkowski-kb — master KB copy, read/written by Claude via gh api (Desktop) and GitHub MCP (David). Monorepo: tatkowski-interpreting-recruitment. GitHub CLI v2.93.0 installed. Copilot Pro+ live from 1 June 2026. |
+| GitHub (satanhimself2137) | Code repo + KB | tatkowski-kb repo: https://github.com/satanhimself2137/tatkowski-kb �� master KB copy, read/written by Claude via gh api (Desktop) and GitHub MCP (David). Monorepo: tatkowski-interpreting-recruitment. GitHub CLI v2.93.0 installed. Copilot Pro+ live from 1 June 2026. |
 | SayMore (acct ID 4499615) | Directory listings | dashboard.saymore.ie/s/4499615/ |
 | FCR Media | GBP posts + backlinks | EUR 61.50/mo. Not renewing. Contact: Enoma. Cancel by 31 Oct 2026. |
 | BrightLocal | Citation Builder + Reputation Manager | UK campaign 971664, $112, LIVE (hold resolved 2 June). PT next: NAP phone +351 931 052 612, site tatkowski.pt. |
@@ -470,7 +470,7 @@ git push origin main --ipv4
 
 ## 13. PENDING ITEMS & NEXT ACTIONS
 
-> **To-do system (added 05/06/26):** Per-person task lists are now the SOURCE OF TRUTH in the monorepo at `docs/todos/` (maciej.md, magda.md, artur.md, david.md). Update repo files first; reflect significant items here.
+> **To-do system (added 05/06/26):** Per-person task lists are the SOURCE OF TRUTH in the KB repo at `todos/` (maciej.md, magda.md, artur.md, david.md). Update those first; reflect significant items here.
 >
 > Key open items by owner:
 > - Maciej: BrightLocal PT order + pay; fix SmartQuote/BookInterpreter hardcoded wa.me number (06/06); PT geo Lisbon -> Portimao (parked).
@@ -637,7 +637,7 @@ Key patterns: order:{ref} | order:pending:{sessionId} | users:{username} | push:
 | apps/es _routes.json — quote forms silently failing | Open. Fix before ES scales. |
 | Flag emoji restoration european-languages.astro UK/ES/PT | Open. |
 | certified translation services dublin position drift 15 to 26 | Open — investigate. |
-| IE dropout queries (medical/legal/pharmaceutical/translation companies ireland) | Open �� find which pages used to rank. |
+| IE dropout queries (medical/legal/pharmaceutical/translation companies ireland) | Open ��� find which pages used to rank. |
 
 ### D1 migration plan
 Current: ORDERS_KV (flat, no querying). Target: Cloudflare D1. Trigger: order #200 (~42 now).
