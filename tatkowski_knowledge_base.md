@@ -72,12 +72,12 @@
 - Fiverr account connected via invite.
 
 ### David Briceag — Regional Manager, Spain & Portugal
-- Phone: +351 927 901 200 | PT citations number: 931 052 612 | Email: contact@tatkowski.com (shared M365)
+- Numbers: +351 927 901 200 = personal (runs his current WhatsApp Business / sender line, NOT public). +351 931 052 612 = COMPANY Business WhatsApp = PUBLIC NAP for PT (citations/website/GBP), human-answered for corporate + interpreting clients. +351 931 052 617 = AI / Cloud API (translation intake via AI + Chatwoot port in SalesManager). | Email: contact@tatkowski.com (shared M365)
 - PT address (for citations/NAP): Avenida São João de Deus, Edifício Príncipe Real, Lote 1, 1C, 8500-500 Portimão, Algarve
 - Commission-based contractor. Contractor Agreement drafted May 2026 — **still unsigned (operational risk)**
 - Fiverr Pro: davidjo9@hotmail.com
 - GitHub setup instructions sent via TEAM ONE 4 June 2026 — awaiting his GitHub username to add as repo collaborator
-- PT WhatsApp AI eSIM: still needed (separate from 931 052 612 — must be fresh number for Meta Cloud API)
+- PT WhatsApp AI number: 931 052 617 (fresh eSIM, confirmed by David 05/06/26 as the AI/Cloud API line). Handles translation intake via AI + Chatwoot port in SalesManager. Distinct from 931 052 612 (human company WhatsApp). NOTE: 612 vs 617 differ by one digit - do not conflate.
 
 ---
 
@@ -289,7 +289,7 @@ Astro 5 + React 18 monorepo on Cloudflare Pages. Apps: ie, uk, es, pt + packages
 - Gen3 (benchmark): legal-translation, certified-translation, all doc-type pages
 - Gen2 (upgraded): business-interpreting, court-interpreting, medical-interpreting, medical-translation, document-translation, immigration-translation, parent-teacher-meetings, phone-interpreting, school-interpreting, european-languages, irish-translation
 - Gen1 (needs upgrade): arabic, chinese, lithuanian, portuguese, romanian, russian translation pages; direction pages
-- Money pages (Gen3 rebuild priority): polish-translation, ukrainian-translation — highest impression volume, buried at pos 38-41
+- Money pages (Gen3 rebuild priority): polish-translation, ukrainian-translation �� highest impression volume, buried at pos 38-41
 
 ### GSC performance — most recent 28 days vs prior 28 days (5 May to 1 June vs 7 Apr to 4 May)
 | Site | Clicks | Impressions | CTR | Avg pos |
@@ -307,19 +307,19 @@ Astro 5 + React 18 monorepo on Cloudflare Pages. Apps: ie, uk, es, pt + packages
 1. Full Gen3 rebuild of /polish-translation/ and /ukrainian-translation/ — highest impact
 2. Direction pages rebuild (pos 60-76)
 3. Rebuild ES/PT localised service pages in correct language
-4. BrightLocal UK — resolve hold (see Pending Items)
-5. PT citations — David first
+4. BrightLocal UK - DONE (hold resolved 2 June, campaign 971664 live)
+5. PT citations - David first. NAP phone = +351 931 052 612 (David's COMPANY Business WhatsApp, human). NOT 927 (personal), NOT 617 (AI).
 6. GSC geo-targeting: set IE target on tatkowski.com (30-min task, still pending)
 7. Irish translation cluster — ranking page 1 but zero clicks, fix meta/CTR
 
 ### GSC data pipeline
-Location: D:\tatkowski-gsc\ — Node + OAuth2 (adernhael@gmail.com)
+Location: D:\tatkowski-gsc\ ��� Node + OAuth2 (adernhael@gmail.com)
 Schedule: Windows Task Scheduler, Sundays 14:00. Logs: D:\tatkowski-gsc\logs\
 Commands: npm run pull (resumable), npm run export (CSV to data/csv/)
 
 ### Directories
 - SayMore (acct ID 4499615): ~50 platforms. Audit fixes pending: INIS to ISD; address line; delete Swords + Corballis service areas; Eircode K36 KV97 space.
-- BrightLocal UK Citation Builder (campaign 971664) — ON HOLD as of 2 June. See Pending Items.
+- BrightLocal UK Citation Builder (campaign 971664) - LIVE. Pre-submission hold resolved 2 June (site updated to UK number + 24/7 hours); now Submitting to Sites, 35 citations.
 - Yelp Ireland: set up May 2026
 - Manual IE directories pending (Magda): yourlocal.ie, localsearch.ie, irishbusinesslink.ie, askspud.ie, zuko.ie, near-me.ie, bigdirectory.ie
 - Apple Business Connect, Bing Places: pending
@@ -384,7 +384,7 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 | GitHub (satanhimself2137) | Code repo + KB | tatkowski-kb repo: https://github.com/satanhimself2137/tatkowski-kb — master KB copy, read/written by Claude via gh api (Desktop) and GitHub MCP (David). Monorepo: tatkowski-interpreting-recruitment. GitHub CLI v2.93.0 installed. Copilot Pro+ live from 1 June 2026. |
 | SayMore (acct ID 4499615) | Directory listings | dashboard.saymore.ie/s/4499615/ |
 | FCR Media | GBP posts + backlinks | EUR 61.50/mo. Not renewing. Contact: Enoma. Cancel by 31 Oct 2026. |
-| BrightLocal | Citation Builder + Reputation Manager | UK campaign 971664, $112. ON HOLD — see Pending Items. |
+| BrightLocal | Citation Builder + Reputation Manager | UK campaign 971664, $112, LIVE (hold resolved 2 June). PT next: NAP phone +351 931 052 612, site tatkowski.pt. |
 | EuroDNS | Domain registrar | tatkowski.pt: Case ID 00896138, invoice E-1824442 |
 | Meta Cloud API (direct) | WhatsApp AI automation | App ID 1523183499431643, WABA ID 2086178738626839, IE Phone Number ID 1170128006173405. No WATI. |
 | Chatwoot (planned) | Multi-number WhatsApp inbox | Hetzner CX22 (EUR 4.51/mo, IE datacentre) — gating step before AI builds. |
@@ -406,9 +406,9 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 - IE: AI (Cloud API) already registered | Human: Maciej +353 83 871 0861
 - UK: AI = old +44 number being repurposed | Human: Artur's number
 - ES: AI SIM via David (1 eSIM needed) | Human: David +351 927 901 200
-- PT: AI SIM via David (1 eSIM needed, different from 931 052 612) | Human: David +351 927 901 200
-- David has provided 931 052 612 for PT directory citations (NAP). This is NOT the AI number — must be a separate fresh eSIM registered to Meta.
-- David needs 2 new SIMs total (1 PT + 1 ES) for AI channels. Physical PAYG only.
+- PT: AI = 931 052 617 (Cloud API, fresh eSIM) | Human company WhatsApp + public NAP = 931 052 612 | David personal (not public) = 927 901 200
+- CONFIRMED 05/06/26 (David via TEAM ONE): 931 052 612 = company Business WhatsApp (human, PUBLIC NAP for citations); 931 052 617 = AI / Cloud API (fresh eSIM); 927 901 200 = David personal. Hard rule holds: 617 stays API-only once registered.
+- PT AI eSIM = 931 052 617 (sorted). ES AI channel still needs its own number. Physical PAYG only.
 
 ### Implementation sequence (locked)
 1. Chatwoot on Hetzner — gating step
@@ -452,7 +452,7 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 
 **PDF signatures:** Source: tatkowski_signature_podpis_white.png. Process: greyscale, crop (avg brightness 5-240, +6px left/top, +1px right/bottom), invert, RGB PNG 300dpi. Embed at 50mm wide, ratio ~3.16.
 
-**Coding / agent prompts:** Read files before editing. Build gate before commit. Screenshot 390px + 1440px after visual change. Never batch git commands ��� always 3 separate steps. Always --ipv4 (IPv6 DNS glitch on this machine).
+**Coding / agent prompts:** Read files before editing. Build gate before commit. Screenshot 390px + 1440px after visual change. Never batch git commands ���� always 3 separate steps. Always --ipv4 (IPv6 DNS glitch on this machine).
 
 **Git deploy (always 3 separate commands):**
 git add -A
@@ -473,7 +473,8 @@ git push origin main --ipv4
 
 | Item | Owner | Notes |
 |---|---|---|
-| BrightLocal UK campaign — ON HOLD | Maciej | Paused 2 June. Issues: phone 07752154028 vs website +353 83 871 0861 mismatch; business hours not supplied. Second reminder from BrightLocal 4 June 07:01. Reply to ticket 722747 with: which phone to use across UK citations + business hours (Mon-Fri 09:00-18:00). |
+| BrightLocal UK campaign - DONE | Maciej | Resolved 2 June: replied to ticket 722747, updated .co.uk to 07752154028 + 24/7 hours; BrightLocal confirmed and queued. Campaign 971664 now Submitting to Sites (35 citations). |
+| BrightLocal PT campaign - launch | Maciej/David | NAP phone = +351 931 052 612 (David company Business WhatsApp, human); address per David team entry; site = tatkowski.pt. Before ordering: tatkowski.pt MUST show 931 052 612 + business hours or it hits a pre-submission hold like UK. Attach logo. AI line 931 052 617 stays OFF public listings. |
 | Antkiewicz payment verification | Maciej | Delivered 3 June. Check Revolut for EUR 39.99 payment. |
 | Cepaitis 8 June interpreting | Maciej | Lithuanian/Russian. Olga confirmed. Bowler Geraghty & Co, 2 Lower Ormond Quay, Dublin 1, 14:30. cepaitis77@yahoo.com. |
 | David GitHub username | David | Send to Maciej once account created — Maciej adds to tatkowski-kb repo as collaborator. |
