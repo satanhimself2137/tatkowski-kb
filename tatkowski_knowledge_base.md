@@ -403,8 +403,8 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 | Cloudflare Vectorize | RAG for WhatsApp AI | EmbeddingGemma + tatkowski_knowledge_base.md |
 | Cloudflare KV (ORDERS_KV) | Order state, sessions | ID: 8f5f06b234c1432ca17886549b886af8 |
 | Cloudflare R2 (tatkowski-orders) | Document storage | 90-day retention — Cron Trigger planned |
-| VS Code + GitHub Copilot | IDE | BYOK via VS Code 1.122, Anthropic API key tatkowski-vscode-dev. Claude Sonnet 4.6 for chat/agent, Haiku for autocomplete. Local Ollama qwen2.5-coder:14b on RTX 2080 Super. |
-| Anthropic API | AI integration | Key: tatkowski-vscode-dev. Transitioning WA + doc analysis to Claude Haiku. |
+| VS Code + GitHub Copilot Chat | IDE agent | Copilot Pro+ on Auto routing (live from 1 June 2026). No BYOK — agent picks model per task. Sonnet 4.6 high = default execution; Opus 4.7 = harder/diagnostic work. Local Ollama qwen2.5-coder:14b on RTX 2080 Super for routine work outside Copilot. |
+| Anthropic API | AI integration | Key: tatkowski-vscode-dev. WA + doc analysis use Claude Haiku (Workers AI / direct API). |
 | Fiverr | Translator sourcing | Account: adernhael. |
 | GSC pipeline | SEO data | D:\tatkowski-gsc\ — see Section 7 |
 | WhatsApp bridge | In-session WA reads/sends | D:\tatkowski-whatsapp\bridge\inject.js. Desktop Claude only. Re-arm after page reload. API: __tw.findChat, getMessages, sendText. Team messages send without approval. Client/external messages require explicit "send". |
@@ -678,8 +678,8 @@ Key patterns: order:{ref} | order:pending:{sessionId} | users:{username} | push:
 |---|---|
 | WhatsApp conversation AI | Claude Haiku (Anthropic API) |
 | Document analysis | Claude Haiku Vision (Anthropic API) |
-| IDE agent/chat | VS Code 1.122 BYOK + Claude Sonnet 4.6 |
-| IDE autocomplete | Claude Haiku / Qwen2.5-coder:14b (local Ollama) |
+| IDE agent/chat | GitHub Copilot Chat Pro+ on Auto routing (Sonnet 4.6 high default, Opus 4.7 for harder/diagnostic work) |
+| IDE autocomplete | Qwen2.5-coder:14b (local Ollama, outside Copilot) |
 
 ### WhatsApp AI (in build)
 - Meta Cloud API direct (no WATI)
