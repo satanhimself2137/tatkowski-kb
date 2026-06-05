@@ -1,6 +1,6 @@
 # TATKOWSKI INTERPRETING & RECRUITMENT LIMITED — COMPANY KNOWLEDGE BASE
-**Last updated: 04 June 2026 (end of day)**
-**Version: 5.1**
+**Last updated: 05 June 2026**
+**Version: 5.2**
 *Living company bible. Master copy on GitHub: https://github.com/satanhimself2137/tatkowski-kb — read/written directly by Claude via gh api (Desktop) and GitHub MCP (David). Project file auto-loads in Claude sessions; replace after significant updates.*
 
 **STALE-DATA RULE:** Financial figures, GSC data, order statuses, and outstanding payments are accurate as of the date above. When working more than 7 days after this date, treat anything marked "as of [date]" or "outstanding" as potentially changed — check live sources (email, Revolut, GSC) before acting.
@@ -332,12 +332,12 @@ Contract signed 16 Oct 2025. EUR 61.50/mo from 1 Dec 2025. Not renewing. Cancel 
 
 ## 8. GOOGLE BUSINESS PROFILE HISTORY
 
-**Current status (June 2026):** Support ticket 4-3059000041687 open. Profile reverted to service-area. Starlink utility bill + CRO link submitted. Awaiting Google.
-**Service area:** Ireland + Dublin (both selected).
+**Current status (05 June 2026):** VERIFICATION ROUTED. IE profile confirmed reverted to service-area (storefront->service-area ticket processed). Live support chat w/ specialist Vishwanath -> ticket routed to verification team, ETA 24-48h. NEW case ID: 3-6482000040927 (supersedes old 4-3059000041687). ACTION: do NOT edit IE profile until verified - edits reset review. Watch contact@tatkowski.com + 'Get verified' prompt.
+**Service area:** Dublin only. Removed country-level 'Ireland' per Google rule (areas <=~2hr drive from base, up to 20 areas). Can add specific cities later (e.g. Cork) within policy.
 **Root cause:** FCR Media switched to storefront January 2026 without sign-off ��� triggered video verification impossible at residential address.
 **Profile:** 20 five-star reviews, 5.0 average.
 **Review link:** https://g.page/r/CfRJ5zTwe30FEBE/review
-**UK GBP:** Not yet created. Create after tatkowski.co.uk has more authority.
+**UK GBP:** Created and VERIFIED (service-area). Confirmed 05/06/26 during IE support chat - separate profile, no action needed.
 **Rule:** Service-area type, one per market, no storefront.
 
 ---
@@ -495,7 +495,7 @@ git push origin main --ipv4
 | WhatsApp AI sequence | Maciej | (1) Chatwoot on Hetzner (2) IE WABA to Chatwoot (3) register UK number (4) migrate IE citations off +353 838710861 (5) David ES/PT SIMs (6) AI worker. Permanent System User token needed before production. |
 | SalesManager next build | Maciej | Archive/delete unpaid quotes, order modification, notification history, inline doc preview, Kanban search, pipeline widget fix, mobile tab labels. |
 | ICO fee registration (UK GDPR) | Maciej | GBP 40 at ico.org.uk/registration. Tier 1. Live action item. |
-| GBP verification | Maciej | Support case 4-3059000041687. Starlink bill + CRO link submitted. Awaiting Google. |
+| GBP verification - ROUTED 05/06/26 | Maciej | IE profile now service-area; ticket routed to verification team via chat w/ Vishwanath. Case 3-6482000040927. ETA 24-48h. Do NOT edit profile until verified. |
 | Rebuild /polish-translation/ and /ukrainian-translation/ to Gen3 | Maciej | Highest GSC impact (pos 38-41, 1,400+ imps each). |
 | Rebuild ES/PT localised service pages | David/Maciej | Currently redirected to English. Wrong long-term. |
 | GSC geo-targeting: set IE target on tatkowski.com | Maciej | 30-minute fix, still pending. |
