@@ -91,7 +91,7 @@
 - Postage (hard copy): +EUR 10 flat
 - Orders over 3 pages or 750 words may need additional time — caveat in quote
 
-**Pricing — Portugal & Spain:**
+**Pricing ��� Portugal & Spain:**
 - Standard (24-48h): EUR 49.99/page
 - Urgent (within 24h): EUR 64.99/page
 
@@ -135,7 +135,7 @@
 9. Order marked Delivered, 90-day retention timer starts
 10. Review request sent via WhatsApp 24h after delivery
 
-**Document validation:** validate.tatkowski.com/[ref] — shows doc reference, type, language pair, date, issuing company, Valid/Expired. Does NOT show client name, content, or download link.
+**Document validation:** validate.tatkowski.com/[ref] �� shows doc reference, type, language pair, date, issuing company, Valid/Expired. Does NOT show client name, content, or download link.
 
 **Certification standards:**
 - IE/EU: Signed Statement of Accuracy; no sworn registry required in most cases
@@ -333,7 +333,7 @@ Contract signed 16 Oct 2025. EUR 61.50/mo from 1 Dec 2025. Not renewing. Cancel 
 
 **Current status (June 2026):** Support ticket 4-3059000041687 open. Profile reverted to service-area. Starlink utility bill + CRO link submitted. Awaiting Google.
 **Service area:** Ireland + Dublin (both selected).
-**Root cause:** FCR Media switched to storefront January 2026 without sign-off — triggered video verification impossible at residential address.
+**Root cause:** FCR Media switched to storefront January 2026 without sign-off ��� triggered video verification impossible at residential address.
 **Profile:** 20 five-star reviews, 5.0 average.
 **Review link:** https://g.page/r/CfRJ5zTwe30FEBE/review
 **UK GBP:** Not yet created. Create after tatkowski.co.uk has more authority.
@@ -459,7 +459,7 @@ git add -A
 git commit -m "..."
 git push origin main --ipv4
 
-**Terminal:** PowerShell first. Windows machine. && not valid — use ; for command chaining.
+**Terminal:** PowerShell first. Windows machine. && not valid ��� use ; for command chaining.
 
 **Hard truths preferred.** Evidence-backed. Push back when wrong.
 
@@ -468,6 +468,12 @@ git push origin main --ipv4
 ---
 
 ## 13. PENDING ITEMS & NEXT ACTIONS
+
+> **To-do system (added 05/06/26):** Per-person task lists are now the SOURCE OF TRUTH in the monorepo at `docs/todos/` (maciej.md, magda.md, artur.md, david.md). Update repo files first; reflect significant items here.
+>
+> Key open items by owner:
+> - Maciej: BrightLocal PT order + pay; fix SmartQuote/BookInterpreter hardcoded wa.me number (06/06); PT geo Lisbon -> Portimao (parked).
+> - David: sign contractor agreement + non-compete (overdue, operational risk); confirm 931 052 617 never on WhatsApp (AI freshness); send GitHub username; source ES AI SIM.
 
 ### THIS WEEK
 
