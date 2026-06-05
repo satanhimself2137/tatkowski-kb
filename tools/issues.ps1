@@ -41,8 +41,8 @@ function Put-FileContent($content, $sha, $message) {
   return $url
 }
 
-$file = Get-FileContent
-$body = $file.content
+$fileData = Get-FileContent
+$body = $fileData.content
 $marker = "<!-- ENTRIES BELOW (newest first) -->"
 
 switch ($Action) {
@@ -96,7 +96,7 @@ switch ($Action) {
       throw "Marker '$marker' missing in $File. File integrity broken -- fix before logging."
     }
     $new = $body -replace [regex]::Escape($marker), "$marker`n`n$entry"
-    $url = Put-FileContent $new $file.sha "log #$idStr [$($Category.ToUpper())] $Title"
+    $url = Put-FileContent $new $fileData.sha "log #$idStr [$($Category.ToUpper())] $Title"
     "LOGGED #$idStr -> $url"
   }
 
@@ -117,7 +117,7 @@ switch ($Action) {
     $block = $block -replace "(?m)^- Resolution: \(open\)$", "- Resolution: RESOLVED $date by $By -- $Resolution"
 
     $new = $body.Substring(0, $m.Index) + $block + $body.Substring($m.Index + $m.Length)
-    $url = Put-FileContent $new $file.sha "resolve #$idStr"
+    $url = Put-FileContent $new $fileData.sha "resolve #$idStr"
     "RESOLVED #$idStr -> $url"
   }
 
@@ -137,7 +137,7 @@ switch ($Action) {
     $block = [regex]::Replace($block, $bumpPattern, "`${1}$newCount")
 
     $new = $body.Substring(0, $m.Index) + $block + $body.Substring($m.Index + $m.Length)
-    $url = Put-FileContent $new $file.sha "bump #$idStr to $newCount"
+    $url = Put-FileContent $new $fileData.sha "bump #$idStr to $newCount"
     "BUMPED #$idStr -> recurrence=$newCount -> $url"
   }
 }
