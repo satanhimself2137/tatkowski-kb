@@ -2,6 +2,7 @@
 _Source of truth for Maciej's tasks. Key items mirrored to KB. Updated 05/06/26._
 
 ## Now
+- [ ] Build self-hosted remote MCP server for phone read+write (DECIDED 05/06): Cloudflare Worker, OAuth 2.1 (workers-oauth-provider), GitHub Contents API backed by a fine-grained PAT (tatkowski-kb, read+write) as Worker secret. Tools: read/write KB, todos, ai_notes. Design extensible to orders/SalesManager/WhatsApp later. Add Worker URL as custom connector on desktop (mobile install still beta), then usable from phone. Fallback if needed sooner: Claude Code mobile + GitHub PAT over HTTP.
 - [ ] Fix SmartQuoteForm.astro + BookInterpreterForm.astro (packages/ui): replace hardcoded `wa.me/353838710861` with a siteConfig-driven prop so the drawer shows the right number per market. (06/06)
 - [ ] PT site geo: Lisbon -> Portimao / Faro (apps/pt site.config.ts + BaseLayout areaServed). NAP-consistency follow-up to the 05/06 phone/hours pass.
 
