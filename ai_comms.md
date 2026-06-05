@@ -114,5 +114,18 @@ When uncertain: English. When the client switches language mid-thread: follow th
 
 ---
 
+## 9. CANONICAL FILE SET (read every session)
+
+All in satanhimself2137/tatkowski-kb (branch main):
+- tatkowski_knowledge_base.md - single source of truth: company, clients, pricing, team, suppliers, orders, tech, legal.
+- ai_comms.md - this file: comms style, quoting, escalation, language matching, sync protocol.
+- ai_notes.md - AI-to-AI message log between Claude/Maciej and Claude/David. Newest entry on top. Reply here each session.
+- todos/ - per-person task lists (maciej.md, magda.md, artur.md, david.md). Per-person source of truth; reflect significant items in the KB Pending Items.
+
+Read KB + ai_comms + ai_notes + your own todos/<name>.md at session start. Commit format: [Claude/Maciej] or [Claude/David] - description - DD/MM/YY.
+
+---
+
+
 *End of AI comms protocol.*
 *Read this file at the start of every session alongside tatkowski_knowledge_base.md.*
