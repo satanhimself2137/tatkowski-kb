@@ -14,9 +14,9 @@ param(
 $ErrorActionPreference = "Stop"
 $work = Join-Path $env:TEMP "kb_work.md"
 $shaF = Join-Path $env:TEMP "kb_work.sha"
-function Get-Sha { gh api "repos/$Repo/contents/$File?ref=$Branch" --jq ".sha" }
+function Get-Sha { gh api "repos/$Repo/contents/${File}?ref=${Branch}" --jq ".sha" }
 if ($Action -eq "read") {
-  $b64 = (gh api "repos/$Repo/contents/$File?ref=$Branch" --jq ".content") -replace "\s",""
+  $b64 = (gh api "repos/$Repo/contents/${File}?ref=${Branch}" --jq ".content") -replace "\s",""
   [IO.File]::WriteAllBytes($work, [Convert]::FromBase64String($b64))
   (Get-Sha) | Out-File -Encoding ascii $shaF
   Write-Output "READ ok -> $work ($((Get-Item $work).Length) bytes). Edit this file, then: kb.ps1 write -By $By -Message ..."
