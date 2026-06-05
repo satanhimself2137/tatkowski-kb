@@ -1,7 +1,7 @@
 # TATKOWSKI INTERPRETING & RECRUITMENT LIMITED — COMPANY KNOWLEDGE BASE
 **Last updated: 05 June 2026**
-**Version: 5.2**
-*Living company bible. Master copy on GitHub: https://github.com/satanhimself2137/tatkowski-kb — read/written directly by Claude via gh api (Desktop) and GitHub MCP (David). Project file auto-loads in Claude sessions; replace after significant updates.*
+**Version: 5.3**
+*Living company bible. Master copy on GitHub: https://github.com/satanhimself2137/tatkowski-kb — read/written by Claude via tools/kb.ps1 over gh api + Desktop Commander (stateless, no local clone). Project file auto-loads in Claude sessions; replace after significant updates.*
 
 **STALE-DATA RULE:** Financial figures, GSC data, order statuses, and outstanding payments are accurate as of the date above. When working more than 7 days after this date, treat anything marked "as of [date]" or "outstanding" as potentially changed — check live sources (email, Revolut, GSC) before acting.
 
@@ -424,12 +424,20 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 - Switch mobile contract to company name — biggest standing deductible currently missed.
 - Software subs, translator costs, travel, bank fees all 100% deductible with receipts.
 
-### KB workflow (as of 4 June 2026)
-- Master copy: GitHub repo https://github.com/satanhimself2137/tatkowski-kb (tatkowski_knowledge_base.md, branch master)
-- Maciej's Claude (Desktop): reads/writes via gh api using GitHub CLI (satanhimself2137, already authed)
-- David's Claude: reads/writes via GitHub MCP (GitHub account pending — awaiting username to add as collaborator)
-- Project file (claude.ai project): replace manually after significant updates — auto-loads into context for all sessions
-- Commit message format: [Claude/Maciej] or [Claude/David] - description - DD/MM/YY
+### KB workflow (as of 5 June 2026) - STATELESS, repo is the only source of truth
+- Master copy: GitHub repo https://github.com/satanhimself2137/tatkowski-kb (tatkowski_knowledge_base.md, branch **main**).
+- NO local clone. Local clones rot/get deleted (this happened 05/06/26). Everything goes through gh api over Desktop Commander.
+- Helper script lives IN the repo: tools/kb.ps1 (v2). It wraps read (base64 decode) + write (fetch SHA, base64, commit), auto-tags commits, refuses to overwrite if repo moved since read (stale-guard), and self-timeouts every gh call (20s) + disables interactive prompts so a hung gh can NEVER wedge Desktop Commander.
+- Per-session flow (any team member, via Desktop Commander):
+  1. BOOTSTRAP (fetch helper, the only setup - nothing kept on disk):
+     $b64=(gh api "repos/satanhimself2137/tatkowski-kb/contents/tools/kb.ps1?ref=main" --jq ".content")-replace "\s",""; [IO.File]::WriteAllBytes("$env:TEMP\kb.ps1",[Convert]::FromBase64String($b64))
+  2. READ:  & "$env:TEMP\kb.ps1" read            (writes %TEMP%\kb_work.md)
+  3. EDIT %TEMP%\kb_work.md with targeted string replacements (never regenerate whole file from scratch).
+  4. WRITE: & "$env:TEMP\kb.ps1" write -By David -Message "what changed"   (David uses -By David, Maciej -By Maciej)
+- If %TEMP%\kb.ps1 vanishes, re-run step 1. Requirements per machine: gh authed + Desktop Commander. That's it.
+- RULE: one logical operation per start_process call. NEVER chain multiple gh calls glued with ';' - if one hangs it wedges the whole bridge (caused a 4-min dead bridge 05/06/26). The helper exists so you don't hand-roll gh chains.
+- Project file (claude.ai project): replace manually after significant updates - auto-loads into context for all sessions.
+- Commit message format (auto-applied by helper): [Claude/Maciej] or [Claude/David] - description - DD/MM/YY
 
 ---
 
