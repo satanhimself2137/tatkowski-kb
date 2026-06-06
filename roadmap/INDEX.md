@@ -10,7 +10,6 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Status | Owner | Last update | File |
 |---|---|---|---|---|
-| Document-baking studio + viewer | NOT STARTED | Maciej | 06/06/26 | [baking-studio.md](baking-studio.md) |
 | Portugal market research | In progress | David (via Claude) | 06/06/26 | [portugal-market-research.md](portugal-market-research.md) |
 
 ## Queued (next up)
@@ -28,6 +27,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Shipped | File |
 |---|---|---|
+| Document-baking studio + viewer | 06/06/26 | [baking-studio.md](baking-studio.md) |
 | Drawer v1 — client document portal | 06/06/26 | [drawer.md](drawer.md) |
 
 ## Templates & meta
