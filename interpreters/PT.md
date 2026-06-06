@@ -1,6 +1,6 @@
 # Interpreters — Portugal (PT)
 
-Last updated: 06/06/2026
+Last updated: 06/06/2026 (updated)
 
 Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 927 901 200, fluent Portuguese + Spanish). PT presence: certified translation operational via David's local lawyer network; interpreting capacity light.
 
@@ -13,13 +13,17 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 - Role: Certified Portuguese translator (advogada)
 - Notes: Used historically for Maciej-side PT certifications. Reliable.
 
-**Viviana** *(active — David-side PT certifying lawyer)* — DETAILS PENDING
+**Viviana** *(active — David-side PT certifying lawyer)*
 - Role: Portuguese lawyer who certifies translations David produces locally
-- Notes: David's current PT certification channel. Full name, email, contact to be captured from David.
+- Phone: +351 933 029 651
+- Email: PENDING — David to update
+- Notes: David's current PT certification channel.
 
-**Veneta** *(active — David-side PT certifying lawyer)* — DETAILS PENDING
+**Veneta Dobreva** *(active — David-side PT certifying lawyer)*
 - Role: Portuguese lawyer who certifies translations David produces locally
-- Notes: David's current PT certification channel. Full name, email, contact to be captured from David.
+- Email: venetadobreva.adv@gmail.com
+- Phone: +351 961 138 359
+- Notes: David's current PT certification channel.
 
 **David Briceag** *(internal — Regional Manager)*
 - Languages: Portuguese, Spanish (fluent)
