@@ -1,8 +1,8 @@
 # ROADMAP — Drawer v1 (Client Document Portal)
 
-**Status:** IN PROGRESS — local-clean, awaiting prod deploy (DNS + KV/R2 + secrets)
+**Status:** SHIPPED — live at drawer.tatkowski.com
 **Owner:** Agent (Sonnet 4.6 via Continue.dev) — supervised by Maciej
-**Last update:** 06/06/26 by Claude
+**Last update:** 06/06/26 by Agent
 
 ---
 
@@ -48,6 +48,58 @@
 ---
 
 ## Build log
+
+### 06/06/26 02:10 — Agent (Sonnet 4.6, Copilot) — docs: monorepo Pages deploy rule (commit `60e4307`)
+
+Added one-liner to `.github/copilot-instructions.md` under "Code and deploy": monorepo Pages deploys must `cd` into the app directory before running `wrangler pages deploy dist`. Lesson from drawer deploy where running from repo root skipped the `functions/` bundle.
+
+**Files touched:**
+- `.github/copilot-instructions.md`
+
+**Commits:**
+- `60e4307 docs(workspace): add monorepo Pages deploy cwd rule to copilot-instructions`
+
+### 06/06/26 02:00 — Agent (Sonnet 4.6, Copilot) — SHIPPED: deploy + smoke test
+
+Production deploy, secrets, DNS, smoke test all complete. Drawer v1 is live at `https://drawer.tatkowski.com`.
+
+Deploy sequence: `npm run build --workspace=apps/drawer` (clean, 1 page, 3 JS chunks, 2.93s) → `wrangler pages deploy apps/drawer/dist --project-name=tatkowski-drawer`. First attempt ran from monorepo root and deployed static-only (functions not bundled — no `functions/` dir picked up). Fix: `cd apps/drawer && wrangler pages deploy dist --project-name=tatkowski-drawer`. Functions deployed correctly on second attempt. Added note to `.github/copilot-instructions.md` to prevent recurrence.
+
+Secrets set: `SESSION_HMAC_SECRET` (48-byte random base64, saved to `D:\secrets\drawer-session-hmac.txt`) — set via `wrangler pages secret put` piped from file. `RESEND_API_KEY` set by Maciej.
+
+DNS: Cloudflare → tatkowski.com zone → CNAME `drawer` → `tatkowski-drawer.pages.dev` (Proxied). Custom domain bound on Pages project. SSL provisioned.
+
+Smoke test results (Maciej, prod, incognito): login flow ✅, orders load ✅, signed-in state holds ✅. Full end-to-end confirmed by Maciej.
+
+**Files touched:**
+- `apps/drawer/dist/` (build output, not committed)
+- `.github/copilot-instructions.md` (monorepo Pages deploy note)
+
+**Commits:**
+- `aeb7c9a feat(drawer): brand-cohesive palette — warm gradient bg, tinted shadows, hover states, timeline CSS dots`
+- (copilot-instructions commit — see separate Trigger 1 entry)
+
+### 06/06/26 01:22 — Agent (Sonnet 4.6, Copilot) — brand-cohesive palette (commit `aeb7c9a`)
+
+Brand styling pass on `drawer.css` + `DrawerApp.tsx`. All 8 Playwright screenshots (4 screens × 2 viewports) are green and committed to `apps/drawer/playwright-out/`. TypeScript clean (0 errors via `npx astro check`). No JSX structural changes — only `STATUS_MAP['in_progress']` updated to brand orange (#ff6a1a / #fff) and Timeline dots migrated from inline styles to CSS classes (`drawer-timeline__dot--done/current/future`) with `@keyframes drawer-pulse` on the current step.
+
+Changes to drawer.css: `.drawer-centred` warm radial+linear gradient (replaces flat #eef2f7); `.drawer-card` tinted box-shadow + faint internal top-band wash + 1px brand-tinted border; `.drawer-btn--primary` shadow + transform hover; `.drawer-header` inset -2px orange accent strip; `.drawer-order-card:hover` brand-tinted background+border+shadow; `.drawer-spinner` + `.drawer-timeline__dot` CSS classes + `@keyframes drawer-spin` / `drawer-pulse`.
+
+**Screenshot pass/fail:**
+| Screen | 390px | 1440px | Notes |
+|---|---|---|---|
+| login | ✅ | ✅ | Warm gradient bg, tinted card shadow, orange top stripe |
+| orders list | ✅ | ✅ | Dark header + orange accent strip, brand pills, order cards |
+| order detail | ✅ | ✅ | Timeline dots orange, "In Progress" pill, primary button shadow |
+| profile | ✅ | ✅ | Orange selected radio, primary save button, header stripe |
+
+**Files touched:**
+- `apps/drawer/src/styles/drawer.css` (brand styling spec applied)
+- `apps/drawer/src/components/DrawerApp.tsx` (STATUS_MAP in_progress colour, Timeline CSS dot classes)
+- `apps/drawer/playwright-out/*.png` (8 new screenshots)
+
+**Commits:**
+- `aeb7c9a feat(drawer): brand-cohesive palette — warm gradient bg, tinted shadows, hover states, timeline CSS dots`
 
 ### 06/06/26 00:08 — Agent (Sonnet 4.6, Continue.dev) — v1.1 polish (commit `4b0146b`)
 
@@ -109,10 +161,10 @@ Key shape decisions baked into the prompt (see Decisions section above).
 - [x] Frontend: login screen (email + code steps), order list, order detail, profile
 - [x] Existing per-order delivery email (`admin-order-upload.js`) injects magic-link alongside the per-order token URL
 - [x] `clientType: 'b2c'` added to new orders in admin-order-upload.js, upload-source.js, payment-worker
-- [~] Visual loop pass at 390px + 1440px on all 4 screens — *login screen verified at desktop ~870px viewport; v1.1 was responsive pass but no committed Playwright screenshots for list/detail/profile yet*
-- [ ] TypeScript clean (`pnpm -F @tatkowski/drawer typecheck`) — *not verified*
-- [ ] DNS: `drawer.tatkowski.com` CNAME live, custom domain bound to Pages project
-- [ ] Smoke test on prod: magic-link from email lands logged in; manual code login works; download works; profile persists; sign-out works
+- [x] Visual loop pass at 390px + 1440px on all 4 screens — *all 8 Playwright screenshots committed in `apps/drawer/playwright-out/`, all ✅ (06/06/26)*
+- [x] TypeScript clean (`npx astro check`) — *0 errors, 0 warnings, 5 hints — verified 06/06/26*
+- [x] DNS: `drawer.tatkowski.com` CNAME live, custom domain bound to Pages project
+- [x] Smoke test on prod: magic-link from email lands logged in; manual code login works; download works; profile persists; sign-out works
 
 ---
 
@@ -130,4 +182,31 @@ Key shape decisions baked into the prompt (see Decisions section above).
 
 ## Post-ship summary
 
-[To be filled when Status = SHIPPED.]
+**Shipped:** 06/06/26 
+**Live at:** https://drawer.tatkowski.com 
+**Commits:** `24cc064` (v1 scaffold), `4b0146b` (v1.1 responsive + brand), `aeb7c9a` (brand palette + Playwright screenshots)
+
+**What shipped:**
+- Cloudflare Pages project `tatkowski-drawer` with full Pages Functions
+- HMAC-signed 30-day session cookie auth (email → 6-digit code)
+- Magic-link login from delivery emails (7d TTL, one-tap)
+- Order list filtered by logged-in email across all four markets
+- Order detail: timeline stepper, cert PDF download, source download
+- Profile: name, WhatsApp number, delivery preference
+- `clientType: 'b2c'` stamped on new orders via payment-worker + admin-order-upload
+- Shared KV (`ORDERS_KV`) and R2 (`tatkowski-orders`) — no new infra
+- Brand-cohesive palette: warm gradient bg, tinted shadows, orange header accent strip, CSS timeline dots with pulse animation
+
+**Deferred (not shipped):**
+- Dark mode (drawer is light-only for v1)
+- B2B mode (invoices, statements, PO refs) — v2 layer
+- Reprint flow (+€10 hard-copy Revolut link)
+- 90-day R2 auto-purge worker (separate task)
+- Status push notifications (comes with WA AI workstream)
+- D1 migration (alongside SalesManager Pro)
+- IP-based rate limiting (email-only for v1)
+
+**Known limitations:**
+- Full KV scan on orders list (acceptable at current volume; D1 migration resolves at scale)
+- No multi-email merge / email change flow
+- Magic-link only injected by admin-order-upload.js and payment-worker — older orders without `clientEmail` field won't appear until next order action
