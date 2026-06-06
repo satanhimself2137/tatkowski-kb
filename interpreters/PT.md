@@ -1,6 +1,6 @@
 # Interpreters — Portugal (PT)
 
-Last updated: 05/06/2026
+Last updated: 06/06/2026
 
 Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 927 901 200, fluent Portuguese + Spanish). PT presence: certified translation operational via David's local lawyer network; interpreting capacity light.
 
@@ -29,9 +29,33 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 
 ---
 
+## French / Portuguese
+
+**Elda da Silva** *(applied — 06/06/2026)*
+- Languages: French ↔ Portuguese (translation + interpreting)
+- Email: eldadasilva1974@gmail.com
+- Location: Guimarães, Portugal
+- Rate: €35/hour + VAT
+- Availability: Part-time or full-time
+- Notes: Years of experience including court and legal interpreting. Strong legal and administrative background. CV on file. Portugal-based — priority candidate for in-person assignments in northern Portugal. Responded to Facebook post 06/06/26.
+
+---
+
+## Arabic / Turkish / English (Remote)
+
+**Hussein Husham** *(applied — 06/06/2026)*
+- Languages: Arabic (native), Turkish (fluent/native), English (professional)
+- Email: husseincad22@gmail.com
+- Location: Istanbul, Turkey (remote only — aligned to European time zones)
+- Rate: $16/hour (~€15) — open to discussion based on volume
+- Availability: Remote/OPI/VRI only. Flexible hours.
+- Notes: Active freelance interpreter with Focus Interpretation (California). Medical, legal, and community cases. Fully equipped home office, high-speed internet. CV on file. Responded to Facebook post 06/06/26. Rate confirmed in follow-up email same day.
+
+---
+
 ## To do
 
-- Source Portugal-resident interpreters via APT (Associação Portuguesa de Tradutores) and ProZ PT filter
-- Lisbon and Porto priorities
-- Languages of demand in Portugal: Ukrainian, Russian, Romanian, Mandarin, Bengali, Hindi (large diaspora communities)
+- Source Portugal-resident interpreters for Ukrainian, Hindi, Nepali — critical gaps per market research 06/06/26
+- Lisbon and Porto priorities for in-person coverage
 - Capture full details (names, emails, contacts) for Viviana and Veneta — David to dictate
+- Follow up with Elda da Silva when first French–Portuguese assignment arises
