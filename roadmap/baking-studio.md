@@ -1,6 +1,6 @@
 # ROADMAP — Document-baking studio + in-browser viewer
 
-**Status:** NOT STARTED — Phase 1 ready to start
+**Status:** IN PROGRESS — Phase 1
 **Owner:** Maciej
 **Last update:** 06/06/26 by Claude
 
@@ -40,16 +40,18 @@ Build the missing operator-side document studio inside SalesManager. Operator op
 - **06/06/26 — Scaling: always anchor scaled content in the content band (20-277mm)** — preserves aspect ratio, centred horizontally, top of scaled content at 20mm. Avoids partial overlaps.
 - **06/06/26 — No cert/signature baking** — translator includes Statement of Accuracy + date + signature on their own pages. We do not bake these. Decided by Maciej 06/06/26.
 - **06/06/26 — Standalone "manual intake" creates a kanban order with `source: 'manual'`** — flows through normal stages. Same flow will later serve `source: 'whatsapp_ai'`. Decided by Maciej 06/06/26.
-- **06/06/26 — File-count agnostic** — translator may return 1 PDF or 5 PDFs per job. Studio bakes each independently and stores all under the order ref. Decided by Maciej 06/06/26.
+- **06/06/26 — Always-scale to 85% on every page, no detection** — simpler, faster, visually near-identical. Quality assessed during test, detection added v1.5 if needed. Decided by Maciej 06/06/26.
+- **06/06/26 — Logo bundled in worker** — single deploy unit, no fetch latency. Decided by Maciej 06/06/26.
+- **06/06/26 — Footer text per market** — `Tatkowski Interpreting & Recruitment Limited · CRO 803790 · {market-domain}`. Domain swaps by `order.market`: tatkowski.com (IE) / .co.uk (UK) / .es (ES) / .pt (PT). CRO stays Irish across all (one legal entity). No market-specific legal text — translator handles cert language on their own pages. Decided by Maciej 06/06/26.
+- **06/06/26 — Drawer multi-domain entry points** — magic-link drawer served on `drawer.tatkowski.com`, `drawer.tatkowski.co.uk`, `drawer.tatkowski.es`, `drawer.tatkowski.pt`. `admin-order-upload.js` picks subdomain by `order.market`. Same Pages project + custom domains, no new deploy. Validation stays single-domain (`validate.tatkowski.com`) — third-party trust anchor. Decided by Maciej 06/06/26.
+- **06/06/26 — Drawer stays English-only for v1** — simple universal vocabulary, localisation deferred to v1.x if PT/ES retention drops. Decided by Maciej 06/06/26.
+- **06/06/26 — Manual intake: operator chooses starting status** — radio between Quoted (operator generates Revolut link after) and Paid (in-person / cash already collected). Decided by Maciej 06/06/26.
 
 ---
 
 ## Open questions
 
-- [ ] **Whitespace detection: implement, or always scale?** — Detecting ink in top/bottom 20mm bands requires rasterising each page to a small thumbnail and counting non-white pixels (sharp in worker is fine). Alternative: always scale to 85% — simpler, faster, visually near-identical for empty bands. Recommend always-scale for v1, add detection if visual QA flags it. Maciej to confirm.
-- [ ] **Logo source for bake worker** — bundled in worker (smaller, single deploy) or fetched from R2 each bake (lets us swap without redeploy). Recommend bundled for v1.
-- [ ] **Footer text exact wording** — proposed: `Tatkowski Interpreting & Recruitment Limited · CRO 803790 · tatkowski.com` on left, QR on right. Confirm or adjust.
-- [ ] **Manual intake: default starting status** — `quoted` (operator quotes then sends Revolut link) or `paid` (operator marks paid for in-person/cash before baking)? Recommend operator chooses at intake.
+[All Phase-1 questions resolved 06/06/26. Re-open if testing surfaces issues.]
 
 ---
 
@@ -61,13 +63,18 @@ Build the missing operator-side document studio inside SalesManager. Operator op
 
 ## Phase plan
 
-**Phase 1 — Bake engine (headless API)**
-- New endpoint `/api/admin-bake-document` on payment-worker (has pdf-lib + sharp already)
+**Phase 1 — Bake engine (headless API) + drawer multi-domain wiring**
+- Add deps to `workers/payment-worker/package.json`: `pdf-lib`, `qrcode`
+- Bundle logo PNG into worker (`workers/payment-worker/src/assets/logo.ts` exporting base64 or Uint8Array)
+- New endpoint `POST /api/admin-bake-document` on payment-worker
 - Accepts: order ref + uploaded PDF file(s) (multipart)
-- For each page: scale 85%, overlay header band (logo) + footer band (QR + text)
-- QR encodes `https://validate.tatkowski.com/{ref}`
+- Reads `order.market` from KV → picks domain for footer
+- For each page: scale content to 85% (centred, top-anchored at 20mm), overlay header band (logo) + footer band (CRO + market domain + QR)
+- QR encodes `https://validate.tatkowski.com/{ref}` (PNG embed via qrcode → pdf-lib)
 - Output saved to R2 at `orders/{ref}/baked-{originalfilename}.pdf`
 - Returns: array of baked file keys
+- Update `apps/sales/functions/api/admin-order-upload.js`: drawer subdomain picker by `order.market` (helper: `drawerHostFor(market)` → tatkowski.com/.co.uk/.es/.pt)
+- Manual operator steps (not Phase 1 code, list for Maciej): Cloudflare Pages → drawer project → add custom domains `drawer.tatkowski.co.uk`, `drawer.tatkowski.es`, `drawer.tatkowski.pt` + DNS records
 - Tested via curl with a sample translator PDF + a fake order ref
 - No UI yet
 
