@@ -1,7 +1,8 @@
 # To-Do - David Briceag (Regional Manager, Spain & Portugal)
-_Source of truth for David's tasks. Key items mirrored to KB. Updated 05/06/26._
+_Source of truth for David's tasks. Key items mirrored to KB. Updated 06/06/26._
 
 ## Now
+- [ ] **Drawer client portal is live — test it.** Go to https://drawer.tatkowski.com → enter your tatkowski.com email → check inbox for a 6-digit code → sign in. You'll see all orders linked to that email (none for you yet, that's expected). Confirm the flow works on both desktop and mobile. Report back: did the code arrive, did login work, anything that felt off. We're rolling this to clients next, so blind spots matter. (06/06/26)
 - [ ] Capture full details (full names, emails, contacts) for Viviana and Veneta — your PT certifying lawyers — and have your Claude commit them into interpreters/PT.md, replacing the PENDING-DETAILS placeholders. (tomorrow)
 
 ## Next
