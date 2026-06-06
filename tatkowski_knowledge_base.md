@@ -36,7 +36,7 @@
 **Status:** Normal
 **Registered:** 15 December 2025
 **Constitution signed:** 21 November 2025
-**B1 Annual Return: filed 4 June 2026** (deadline 15 June 2026)
+**B1 Annual Return: DRAFT SAVED IN CORE (not yet submitted as of 06/06/26).** ARD: 15 June 2026 (made-up-to date). Earliest submission: 7 days before ARD = Mon 9 June 2026 (per CRO first-annual-return rule). Filing deadline: ~10 August 2026 (ARD + 56 days). Open blocker: EEA residency flag in Director Details causing Section 137 bond validation error — Maciej is Ireland-resident, flag needs correcting before resubmit. Magda countersigns. NO financials attached (first return, 6-month return, none required).
 
 **Registered Address:** Apartment 32, The Green, Strand Street, Malahide, Dublin, K36 KV97, Ireland
 *(Constitution lists 26 Castle Grove, Swords Demesne, K67 AE03 — pre-move. B2 filed 2 Feb 2026, CRO updated.)*
@@ -146,15 +146,22 @@
 
 ### Phase 2: Interpreting (active in Ireland, planned elsewhere)
 
-**Pricing:**
-- First hour: EUR 120
-- Each additional hour: EUR 100
-- Medical/legal premium: +EUR 15 on top of hourly rate
-- B2B: round numbers, invoice-based
+**Pricing principle (locked 06/06/26):** Individual basis — quote per job because interpreter cost varies (Olga ~EUR 50/h+travel, ATII EUR 80+/h, Dominykas EUR 65/h+VAT, Fiverr remote EUR 27-40/h).
+- **B2C target margin: ~100%** on top of interpreter cost + travel
+- **B2B target margin: ~200%** on top of interpreter cost + travel
+- Round numbers only (no .99) on interpreting quotes
+- B2B: invoice-based (invoice number, PO ref, 30-day terms, bank transfer)
+- Quote total to client — never per-hour breakdown
 
-**Cost:** Olga Tarasova ~EUR 50/h + travel | ATII interpreters typically EUR 80+/h + EUR 30 travel | Dominykas EUR 65/h + 2h min + VAT (viable only for B2B EUR 200+)
+**Reference rates (historical anchors, NOT fixed pricing):**
+- B2C single hour avg quote: EUR 100-140 (Anderson EUR 100, Naas Arabic EUR 140)
+- B2B single hour avg quote: EUR 200-220 (Fyffes EUR 220 for 1h15m)
+- Cepaitis EUR 135 (B2C, Lithuanian, Dublin city)
 
-**Margin:** ~EUR 45-70 per job depending on length
+**Margin examples (verified):**
+- Anderson PT 1h15m remote: EUR 100 / Paul R EUR 27 / margin EUR 73 (~270% — strong B2B-style margin on a B2C job)
+- Fyffes UA 1h15m on-site: EUR 220 / Olga ~EUR 63-75 / margin ~EUR 145-157 (~200%, hits target)
+- Naas AR 2h: EUR 140 / cost EUR 120 / margin EUR 20 (thin — below target, accepted as one-off)
 
 ---
 
@@ -166,9 +173,7 @@
 | Certified translation (24h) | EUR 39.99/page |
 | Handwriting surcharge | +EUR 5.00/page |
 | Hard copy postage | +EUR 10 flat |
-| Interpreting — first hour | EUR 120 |
-| Interpreting — additional hour | EUR 100 |
-| Medical/legal premium | +EUR 15 |
+| Interpreting | Individual quote — B2C target ~100% margin on cost, B2B ~200% (see Section 3) |
 
 Cost ~EUR 7-12/page | Margin ~EUR 28-33/page
 
@@ -539,6 +544,7 @@ git push origin main --ipv4
 
 | Item | Owner | Notes |
 |---|---|---|
+| B1 Annual Return submission | Maciej | Draft saved in CORE. Earliest submission Mon 9 June (7 days before 15 June ARD). Resolve EEA residency flag in Director Details (causing Section 137 bond validation error — Maciej is Ireland-resident) before resubmit. Magda countersigns. Filing deadline ~10 August. |
 | BrightLocal UK campaign - DONE | Maciej | Resolved 2 June: replied to ticket 722747, updated .co.uk to 07752154028 + 24/7 hours; BrightLocal confirmed and queued. Campaign 971664 now Submitting to Sites (35 citations). |
 | BrightLocal PT campaign - DONE 05/06/26 | Maciej | Campaign 972979 (TATKOWSKI-PT-8500), 35 citations, $112, queued (data-accuracy stage). NAP +351 931 052 612 / tatkowski.pt / Portimao, service-area (address hidden), hours 24/7, PT description + services + logo submitted. tatkowski.pt deployed with matching number/hours (commit 715e21d) so pre-submission matched - no hold. |
 | Antkiewicz payment verification | Maciej | Delivered 3 June. Check Revolut for EUR 39.99 payment. |
@@ -586,7 +592,7 @@ git push origin main --ipv4
 | tatkowski.ie to tatkowski.co.uk direction pages | Once .ie purchased. |
 
 ### RECENTLY COMPLETED
-- B1 Annual Return filed 4 June 2026 (deadline 15 June) ���
+- Drawer v1 (client document portal) shipped 06/06/26 ✓
 - Fyffes EUR 220 paid 4 June 2026 (Weronika Michalak + Revolut confirmed) ✓
 - GitHub KB system live: https://github.com/satanhimself2137/tatkowski-kb ✓
 - GitHub CLI v2.93.0 installed, authed as satanhimself2137 ✓
@@ -621,7 +627,7 @@ git push origin main --ipv4
 - Cloudflare ~$32.50
 - Microsoft 365 Business Standard (auto-renewed 3 June)
 - GitHub Copilot Pro+ (live from 1 June)
-- Translator costs: Fiverr ~EUR 7-12/page; Emerson ~GBP 17-20/page; Vovka $12/page; Hassan $12/page
+- Translator costs: Fiverr ~EUR 7-12/page; Emerson ~GBP 17-20/page; Vovka $12/page; Hassan $5/page
 
 **Margin examples:**
 - Single page standard: EUR 39.99 / ~EUR 7-10 cost / margin ~EUR 30-33 (75-83%)
