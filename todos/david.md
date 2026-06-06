@@ -6,6 +6,7 @@ _Source of truth for David's tasks. Key items mirrored to KB. Updated 06/06/26._
 - [ ] Capture full details (full names, emails, contacts) for Viviana and Veneta — your PT certifying lawyers — and have your Claude commit them into interpreters/PT.md, replacing the PENDING-DETAILS placeholders. (tomorrow)
 
 ## Next
+- [ ] **Community outreach — PT/ES social posting.** Post in Portuguese business groups, minority community groups (e.g. Ukrainians in Portugal, expat communities), and local business groups (e.g. Lisbon business networks) to raise awareness of Tatkowski's services. Target Facebook groups, WhatsApp communities, LinkedIn local groups, and any relevant forums. Lead with interpreting + certified translation for immigrants, HR, healthcare, legal. PT market priority, ES secondary. (06/06/26)
 - [ ] PT/ES localised service pages (with Maciej) - currently redirected to English.
 
 ## On Hold
