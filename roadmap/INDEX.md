@@ -10,17 +10,16 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Status | Owner | Last update | File |
 |---|---|---|---|---|
-| (none currently active) | | | | |
+| Document-baking studio + viewer | NOT STARTED | Maciej | 06/06/26 | [baking-studio.md](baking-studio.md) |
 
 ## Queued (next up)
 
 | Workstream | Notes |
 |---|---|
-| Chatwoot on Hetzner | Gating prerequisite for WA AI + escalation. ~half-day build, EUR 4.51/mo. Roadmap not yet created. |
-| Document-baking studio | Separate role; ingests PDF/JPG/PNG/DOCX, bakes QR + logo, handles WA-arrived docs. Roadmap not yet created. |
+| Interpreting intake widget | Scope locked 06/06/26. SmartQuote equivalent for lead product. Public form on 4 sites + internal B2B log form. Manual quoting (per-job cost variance). [interpreting-intake.md](interpreting-intake.md) |
+| Chatwoot on Hetzner | Scope locked 06/06/26. Self-hosted, EUR 4.51/mo, gating prerequisite for WA AI. Queued behind interpreting intake (revenue first). [chatwoot.md](chatwoot.md) |
 | WhatsApp AI intake (tatkowski.ai) | Depends on Chatwoot + Meta permanent token + UK/ES WABA numbers. Roadmap not yet created. |
-| Interpreting intake (SalesManager) | No SmartQuote equivalent for lead product. Roadmap not yet created. |
-| B2B invoicing mode (SalesManager / Drawer v2) | Deferred from drawer v1. Triggers when client #5 or Fyffes hits monthly invoicing. Roadmap not yet created. |
+| B2B invoicing mode (SalesManager / Drawer v2) | DEFERRED — only 1 B2B client. Revisit when client #5 or Fyffes hits monthly invoicing. Roadmap not yet created. |
 | D1 migration | Architecture move, lands alongside Pro layers. Roadmap not yet created. |
 | 90-day R2 auto-purge worker | Cron Trigger over `orders/` prefix. Small build. Roadmap not yet created. |
 
