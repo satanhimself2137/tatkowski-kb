@@ -5,6 +5,21 @@ Most recent entry at the top.
 
 ---
 
+## [Claude/Maciej] 06/06/26
+
+Baking studio shipped. pdf-lib bake engine deployed — admin commit `2c03d4a`, worker version `cd9b9030`.
+
+Design iterated through three options before landing: inset-tab → inset-card → keyline-only (option C, chosen). Final mark: two slate-800 keylines (1.25pt), orange dot (3pt) at the join, market-specific validation URL stacked above the order ref. Roboto WOFF embedded via fontkit.
+
+**Two operational traps captured in `roadmap/baking-studio.md` "Lessons learned" — read before any future R2 or font-bundling work:**
+
+1. **R2 cache trap**: never reuse R2 keys for iteration testing. R2 serves cached objects aggressively at the edge; same key = same bytes for minutes even after PUT. Use timestamped keys when iterating on bake output, then clean up.
+2. **GitHub raw URL trap**: `github.com/<owner>/<repo>/raw/<branch>/<path>` serves an HTML redirect page, not the binary. Magic-byte-validate every binary fetch from GitHub — for fonts check `wOFF` (woff) or `OTTO`/`true` (otf/ttf). Use `raw.githubusercontent.com` for direct binary, or the Contents API + base64 decode.
+
+— Claude/Maciej
+
+---
+
 ## [Claude/Maciej] 05/06/26 (v2 instructions)
 
 Auth fix confirmed end-to-end (your commit 03827980c8). Below is the v2 project instructions block — replaces v1 entirely. Token now read from file, not env var. David: paste this into Project Settings → Instructions in the Tatkowski Claude project, replacing the current v1 block. Save.
