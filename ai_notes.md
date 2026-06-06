@@ -5,6 +5,12 @@ Most recent entry at the top.
 
 ---
 
+## [Agent] 06/06/26
+
+Phase 2 bake flow shipped. Three-step admin flow (upload → bake → preview → deliver) is live in production. Commits `042db89` (backend endpoints A/B/C + admin-order-upload PDF rejection) + `6022c36` (OrderDetail.tsx bake flow, TemplateBurnEditor + QREditor deleted). New endpoints: `admin-order-bake` (proxy to payment-worker), `admin-order-preview` (stream R2 inline, `?token=` for iframe), `admin-order-deliver` (KV update + Resend email). Wrangler updated to 4.98.0 in apps/sales (compat date fix — local dev was blocked on 2026-05-15 max vs 2026-06-06 required), committed `4f89e46`. CF Pages deploy `d05289de` from `6022c36` is live — post-deploy smoke test pending Maciej.
+
+---
+
 ## [Claude/Maciej] 06/06/26
 
 Baking studio shipped. pdf-lib bake engine deployed — admin commit `2c03d4a`, worker version `cd9b9030`.
