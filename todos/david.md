@@ -2,11 +2,11 @@
 _Source of truth for David's tasks. Key items mirrored to KB. Updated 06/06/26._
 
 ## Now
-- [ ] **Drawer client portal is live — test it.** Go to https://drawer.tatkowski.com → enter your tatkowski.com email → check inbox for a 6-digit code → sign in. You'll see all orders linked to that email (none for you yet, that's expected). Confirm the flow works on both desktop and mobile. Report back: did the code arrive, did login work, anything that felt off. We're rolling this to clients next, so blind spots matter. (06/06/26)
-- [ ] Capture full details (full names, emails, contacts) for Viviana and Veneta — your PT certifying lawyers — and have your Claude commit them into interpreters/PT.md, replacing the PENDING-DETAILS placeholders. (tomorrow)
+- [x] 06/06 - Drawer portal tested — works perfectly on desktop and mobile. Code arrived, login clean. Confirmed by David.
+- [x] 06/06 - Veneta Dobreva: venetadobreva.adv@gmail.com / +351 961 138 359. Viviana: +351 933 029 651 / email pending. Both committed to interpreters/PT.md.
 
 ## Next
-- [ ] **Community outreach — PT/ES social posting.** Post in Portuguese business groups, minority community groups (e.g. Ukrainians in Portugal, expat communities), and local business groups (e.g. Lisbon business networks) to raise awareness of Tatkowski's services. Target Facebook groups, WhatsApp communities, LinkedIn local groups, and any relevant forums. Lead with interpreting + certified translation for immigrants, HR, healthcare, legal. PT market priority, ES secondary. (06/06/26)
+- [x] 06/06 - Community outreach started — PT Facebook interpreter groups. Continuing. - [ ] **Community outreach — PT/ES social posting (ongoing).** Post in Portuguese business groups, minority community groups (e.g. Ukrainians in Portugal, expat communities), and local business groups (e.g. Lisbon business networks) to raise awareness of Tatkowski's services. Target Facebook groups, WhatsApp communities, LinkedIn local groups, and any relevant forums. Lead with interpreting + certified translation for immigrants, HR, healthcare, legal. PT market priority, ES secondary. (06/06/26)
 - [ ] PT/ES localised service pages (with Maciej) - currently redirected to English.
 
 ## On Hold
