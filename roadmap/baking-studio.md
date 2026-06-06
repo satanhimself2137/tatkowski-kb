@@ -1,6 +1,6 @@
 # ROADMAP — Document-baking studio + in-browser viewer
 
-**Status:** IN PROGRESS — Phase 1
+**Status:** IN PROGRESS — Phase 1 shipped, smoke test pending
 **Owner:** Maciej
 **Last update:** 06/06/26 by Claude
 
@@ -57,7 +57,31 @@ Build the missing operator-side document studio inside SalesManager. Operator op
 
 ## Build log
 
-[Empty — Phase 1 prompt pending.]
+### 06/06/26 — Claude (via Copilot/Sonnet 4.6) — Phase 1: bake engine + drawer multi-domain
+
+Shipped the full Phase 1 bake engine. New `bake.ts` module in `workers/payment-worker/src/` exports `drawerHostFor`, `footerDomainFor`, and `bakeDocument`. The bake function loads a source PDF with pdf-lib, embeds each page as a form XObject scaled to 85% (always-scale, no detection — locked decision), draws 20mm header band (logo centred) and 20mm footer band (company strip + per-market domain + QR code). QR uses `qrcode.create()` vector approach instead of `toBuffer()` because `canvas` native addon is unavailable in Cloudflare Workers; result is vector-clean and correct. Brand orange #ff6a1a accent lines between bands and content. Added `POST /api/admin-bake-document` to payment-worker with KV session auth + ADMIN_TOKEN fallback, multipart input, per-order market lookup, R2 write at `orders/{ref}/baked-{filename}.pdf`. Updated `admin-order-upload.js` with `drawerHostFor()` helper — drawer URL and magic-link URL now pick the correct market subdomain (drawer.tatkowski.co.uk, drawer.tatkowski.es, drawer.tatkowski.pt) instead of hardcoded tatkowski.com. Logo bundled from `apps/ie/public/tatkowski INTERPRETING AND REC.png` (filename has spaces, not underscores — KB spec was wrong but Copilot found it via glob).
+
+Preemptive add: `sales.tatkowski.com` added to ALLOWED_ORIGINS in payment-worker for Phase 2 (UI calls bake endpoint from SalesManager). Fine.
+
+TypeScript: 23 → 21 pre-existing errors after fix. Copilot introduced 2 `instanceof File` errors (same pattern as existing line 205), fixed with `typeof` guard. Zero new errors from Phase 1 work. Pre-existing errors NOT cleaned up (out of Phase 1 scope) — flag for separate cleanup pass.
+
+**Files touched:**
+- workers/payment-worker/src/bake.ts (created, 8.4KB)
+- workers/payment-worker/src/assets/logo.ts (generated, 166KB base64)
+- workers/payment-worker/src/index.ts (CORS + Env + auth helper + bake endpoint + route)
+- workers/payment-worker/package.json (pdf-lib, qrcode, @types/qrcode)
+- apps/sales/functions/api/admin-order-upload.js (drawerHostFor + URL rewiring)
+- scripts/bundle-logo.mjs (created — logo regeneration utility)
+
+**Commits:**
+- 4752ee5 — feat(baking): Phase 1 -- bake engine + drawer multi-domain wiring
+
+**Manual steps still required (Maciej):**
+- Add custom domains `drawer.tatkowski.co.uk`, `drawer.tatkowski.es`, `drawer.tatkowski.pt` to drawer Cloudflare Pages project + DNS records. Code is in place; domains don't resolve until done.
+- Cleanup task (separate): 21 pre-existing TS errors in payment-worker (`instanceof File` pattern lines 204/206/299/317/622-813/1318 + webpush.ts). Not Phase 1's scope but should be picked up.
+- Cleanup task: `apps/sales/fix.js` scratch file causes Astro check noise. Delete if not needed.
+
+**Next:** Smoke test bake engine with a real translated PDF (curl command in Phase 1 plan above). Phase 2 studio UI proceeds once smoke test passes.
 
 ---
 
