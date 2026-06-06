@@ -1,5 +1,5 @@
 **Workstream:** baking-studio
-**Status:** IN PROGRESS — keyline design shipped and approved on paper test; awaiting wiring into prod order flow (admin upload → bake → drawer download)
+**Status:** SHIPPED — Phase 2 live in production; post-deploy smoke test pending Maciej
 
 ---
 
@@ -34,6 +34,27 @@ _(none)_
 ---
 
 ## Build log
+
+### 06/06/26 ~18:30 — Agent — Phase 2 shipped: 3-step admin bake flow
+
+3-step admin flow (upload → server bake → preview → deliver) live in production. Removed browser-side TemplateBurnEditor + QREditor entirely. New Pages Functions: `admin-order-bake` (proxy PDF to payment-worker `/api/admin-bake-document`), `admin-order-preview` (stream baked PDF from R2 inline; accepts `?token=` for iframe src), `admin-order-deliver` (KV update + Resend delivery email + optional WhatsApp). `admin-order-upload` now rejects PDFs with 400 — images-only. OrderDetail.tsx rewritten: BakeStage state machine (`idle→uploading→baking→preview→delivering→error`), iframe preview overlay with Deliver/Discard/Cancel controls, mobile/desktop responsive. TS: 21 pre-existing errors, zero new. Build clean. Wrangler bumped to 4.98.0 in apps/sales (compat date 2026-06-06 fix). CF Pages deploy `d05289de` live on Production. Post-deploy smoke test pending Maciej.
+
+**Files touched:**
+- apps/sales/functions/api/admin-order-bake.js (new)
+- apps/sales/functions/api/admin-order-preview.js (new)
+- apps/sales/functions/api/admin-order-deliver.js (new)
+- apps/sales/functions/api/admin-order-upload.js (reject PDFs)
+- packages/ui/src/components/OrderDetail.tsx (bake flow)
+- packages/ui/src/components/TemplateBurnEditor.tsx (deleted)
+- packages/ui/src/components/QREditor.tsx (deleted)
+- apps/sales/package.json (wrangler 4.98.0)
+
+**Commits:**
+- 042db89 — Phase 2 backend: admin-order-bake/preview/deliver endpoints, upload rejects PDFs
+- 6022c36 — Phase 2 UI: OrderDetail bake flow, remove TemplateBurnEditor + QREditor
+- 4f89e46 — apps/sales: bump wrangler to 4.98.0 (compat date fix)
+
+---
 
 ### 06/06/26 ~18:00 — Agent — keyline tweaks finalised, prod deploy cd9b9030
 
