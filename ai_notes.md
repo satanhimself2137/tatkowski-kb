@@ -8,54 +8,54 @@ Most recent entry at the top.
 
 ## [Claude/Maciej] 06/06/26 (evening)
 
-Three things landed tonight â€” design system push, Phase 3 implementation order, B2B direction for David's side.
+Three things landed tonight — design system push, Phase 3 implementation order, B2B direction for David's side.
 
-### Tonight's design system work â€” Phase 3 prep
+### Tonight's design system work — Phase 3 prep
 
 Three Claude Design briefs delivered and rendered today (full outputs at `D:\\tatkowski-interpreting-recruitment\\docs\\Tatkowski Design System\\`):
 
-1. **SmartQuote redesign v1** â€” fix step 2.5 mobile thumb-zone gap, anchored scroll, drawer focus model
-2. **Customer journey + notifications** â€” full lifecycle status Ã— channel decision matrix, email templates, drawer-state designs, microcopy library across all touchpoints. Outputs live in `deliverables/`.
-3. **SmartQuote v2 â†’ v3 iteration** â€” collapse 5 states to 3 (Upload Â· Analysing Â· Review + Confirm), system-preference-first theming, both light + dark across all four surfaces (Modal Desktop/Mobile, Drawer Desktop/Mobile) = 24 panels. EditableRow helper for inline-edit fields on merged screen. Motion appendix for pay-tap â†’ Revolut redirect.
+1. **SmartQuote redesign v1** — fix step 2.5 mobile thumb-zone gap, anchored scroll, drawer focus model
+2. **Customer journey + notifications** — full lifecycle status × channel decision matrix, email templates, drawer-state designs, microcopy library across all touchpoints. Outputs live in `deliverables/`.
+3. **SmartQuote v2 → v3 iteration** — collapse 5 states to 3 (Upload · Analysing · Review + Confirm), system-preference-first theming, both light + dark across all four surfaces (Modal Desktop/Mobile, Drawer Desktop/Mobile) = 24 panels. EditableRow helper for inline-edit fields on merged screen. Motion appendix for pay-tap → Revolut redirect.
 
 V3 files are the implementation target: `smartquote-{shells,specs,states}-v3.jsx` + `app-v3.jsx` + `SmartQuote v3.html`. v2 files preserved alongside as history (ignore for build).
 
 Two follow-up iterations sent to Claude Design tonight to clean up v3:
-- v3.0 introduced a redrawn static dotted pattern in the spec â€” pulled in a follow-up. Real `DottedPattern.tsx` runs page-wide via `BaseLayout.astro` and doesn't need design-system representation; design system is silent on background, page provides it at integration time.
+- v3.0 introduced a redrawn static dotted pattern in the spec — pulled in a follow-up. Real `DottedPattern.tsx` runs page-wide via `BaseLayout.astro` and doesn't need design-system representation; design system is silent on background, page provides it at integration time.
 - PDF/PPTX exports have z-layering bugs (modal panels render at same z-level as homepage hero, content bleeds through). JSX is clean; only the export pipeline is broken. Bug filed with Anthropic Labs.
 
-### Phase 3 implementation order â€” locked for tomorrow's fresh chat
+### Phase 3 implementation order — locked for tomorrow's fresh chat
 
-1. **Fix `issues_log.md #001`** â€” Revolut webhook not updating KV after successful payment. Test order TIR-IE-2026-0027 paid via Revolut on mobile, KV stayed `awaiting_payment / unpaid`. Worker handler at `workers/payment-worker/src/index.ts:575`. Likely webhook URL/secret/signature config in Revolut Business â†’ Developer settings, signature verification failing, or wrong event type subscribed. **BLOCKER** for any new customer-journey emails firing on `paid` status.
-2. **Customer journey backend** â€” template engine, transition email sends, drawer status timeline. Design output ready in `deliverables/`.
-3. **SmartQuote v3 frontend** â€” refactor of `SmartQuoteForm.astro` + `SmartQuoteDrawer.astro` from v3 JSX spec.
+1. **Fix `issues_log.md #001`** — Revolut webhook not updating KV after successful payment. Test order TIR-IE-2026-0027 paid via Revolut on mobile, KV stayed `awaiting_payment / unpaid`. Worker handler at `workers/payment-worker/src/index.ts:575`. Likely webhook URL/secret/signature config in Revolut Business → Developer settings, signature verification failing, or wrong event type subscribed. **BLOCKER** for any new customer-journey emails firing on `paid` status.
+2. **Customer journey backend** — template engine, transition email sends, drawer status timeline. Design output ready in `deliverables/`.
+3. **SmartQuote v3 frontend** — refactor of `SmartQuoteForm.astro` + `SmartQuoteDrawer.astro` from v3 JSX spec.
 
 Other open blockers carrying over: #002 Revolut checkout window can't reopen, #003 SalesManager `/notifications` page service-worker redirect crash on iOS/Android, #004 superseded by SmartQuote v3.
 
-### David's side â€” B2B outreach push, cash from PT inside 7 days
+### David's side — B2B outreach push, cash from PT inside 7 days
 
 David's Claude:
 
-The PT FB / expat community outreach is solid groundwork for slow-burn B2C translation leads but it won't bring cash this week. Business is asking for revenue out of PT inside the next 7 days. Pivot the focus to **B2B interpreting** â€” in-person Algarve + Lisbon (David is in PortimÃ£o, big locality advantage), remote where the IE-side pool can serve PT-EN through Paul or Olga relay.
+The PT FB / expat community outreach is solid groundwork for slow-burn B2C translation leads but it won't bring cash this week. Business is asking for revenue out of PT inside the next 7 days. Pivot the focus to **B2B interpreting** — in-person Algarve + Lisbon (David is in Portimão, big locality advantage), remote where the IE-side pool can serve PT-EN through Paul or Olga relay.
 
 **Target categories, priority order:**
 
-1. **Immigration lawyers / advogados de imigraÃ§Ã£o** â€” Lisbon, Porto, Faro. Heavy foreign-client load (Ukrainian, Brazilian, post-Brexit Brit retirees, US D7 applicants). Need translation (flow) + interpreting (consultations, SEF appointments, court). Sources: Google Maps `advogado imigraÃ§Ã£o + city`, OAB directory `ordemadvogados.pt` by city.
-2. **NotÃ¡rios / cartÃ³rios** in property-heavy zones â€” Algarve, Cascais, Lisbon centre. Foreign property purchases = certified translation of docs + interpreter at signing. Walk-in introduction works â€” old-school relationship businesses.
-3. **Private healthcare clinics in Algarve** serving British/Dutch/German retirees â€” HPA Grupo, LusÃ­adas, CUF Algarve. Occupational health + patient consultations. Email + LinkedIn HR contacts.
-4. **Real estate agencies** in foreigner-heavy zones â€” Cascais, Estoril, Lagos, Tavira. Idealista top-rated, Engel & VÃ¶lkers, Sotheby's PT, RE/MAX local franchises. They lose deals when language breaks; same-day interpreting saves transactions. Direct intro to broker owner.
-5. **D7 / Golden visa consultancies** â€” onboard 20+ foreign families monthly each. Every one needs translated birth/marriage certs + SEF interpreter.
+1. **Immigration lawyers / advogados de imigração** — Lisbon, Porto, Faro. Heavy foreign-client load (Ukrainian, Brazilian, post-Brexit Brit retirees, US D7 applicants). Need translation (flow) + interpreting (consultations, SEF appointments, court). Sources: Google Maps `advogado imigração + city`, OAB directory `ordemadvogados.pt` by city.
+2. **Notários / cartórios** in property-heavy zones — Algarve, Cascais, Lisbon centre. Foreign property purchases = certified translation of docs + interpreter at signing. Walk-in introduction works — old-school relationship businesses.
+3. **Private healthcare clinics in Algarve** serving British/Dutch/German retirees — HPA Grupo, Lusíadas, CUF Algarve. Occupational health + patient consultations. Email + LinkedIn HR contacts.
+4. **Real estate agencies** in foreigner-heavy zones — Cascais, Estoril, Lagos, Tavira. Idealista top-rated, Engel & VÃ¶lkers, Sotheby's PT, RE/MAX local franchises. They lose deals when language breaks; same-day interpreting saves transactions. Direct intro to broker owner.
+5. **D7 / Golden visa consultancies** — onboard 20+ foreign families monthly each. Every one needs translated birth/marriage certs + SEF interpreter.
 
 **Channels for this week:**
 
 - **LinkedIn direct outreach**: 15 messages/day, targeting HR managers / managing partners / clinical directors. Plain Portuguese. One-line value + one-line credential (Irish-registered EU agency) + one-line ask (15-min call this week). Maintain a tracking file of who was contacted.
 - **Cold email** via firm contact forms / general inboxes. Same structure. Track which targets have direct emails vs gatekeeper forms.
-- **Walk-ins for PortimÃ£o + Algarve notaries and law firms** â€” David is local, hand-delivered intro card + 30-second pitch lands differently than a cold email. Tuesday or Wednesday morning ideal.
-- **WhatsApp Business catalog** on `931 052 612` â€” set up product catalog (InterpretaÃ§Ã£o presencial Algarve, TraduÃ§Ã£o certificada 24h, InterpretaÃ§Ã£o remota Zoom/Teams) so recipients of David's card land in a structured chat, not a blank one.
+- **Walk-ins for Portimão + Algarve notaries and law firms** — David is local, hand-delivered intro card + 30-second pitch lands differently than a cold email. Tuesday or Wednesday morning ideal.
+- **WhatsApp Business catalog** on `931 052 612` — set up product catalog (Interpretação presencial Algarve, Tradução certificada 24h, Interpretação remota Zoom/Teams) so recipients of David's card land in a structured chat, not a blank one.
 
 **B2B pitch shape (Portuguese):**
 
-> OlÃ¡ [name], sou David Briceag da Tatkowski Interpreting & Recruitment â€” agÃªncia de traduÃ§Ã£o certificada e interpretaÃ§Ã£o registada na UE (Irlanda), com cobertura em Portugal. Atendemos escritÃ³rios de advocacia, cartÃ³rios, clÃ­nicas e consultorias com traduÃ§Ã£o certificada same-day e intÃ©rpretes presenciais e remotos em inglÃªs, polaco, ucraniano, russo, espanhol e mais. Tem 10 minutos esta semana para uma chamada curta? Posso enviar tabela de preÃ§os para fluxo regular.
+> Olá [name], sou David Briceag da Tatkowski Interpreting & Recruitment — agência de tradução certificada e interpretação registada na UE (Irlanda), com cobertura em Portugal. Atendemos escritórios de advocacia, cartórios, clínicas e consultorias com tradução certificada same-day e intÃ©rpretes presenciais e remotos em inglês, polaco, ucraniano, russo, espanhol e mais. Tem 10 minutos esta semana para uma chamada curta? Posso enviar tabela de preços para fluxo regular.
 
 **B2B rates** (round numbers, no .99 to corporates):
 - Interpreting: â‚¬150 first hour, â‚¬50 per additional 30 min, travel at cost
