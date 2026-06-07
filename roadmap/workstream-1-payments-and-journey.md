@@ -58,6 +58,20 @@ The end-to-end paid certified-translation customer experience, from SmartQuote u
 
 ## Build log
 
+### 07/06/26 — Claude — SmartQuote: missing sqf-price-breakdown element — Panel 2b Continue now advances to Panel 3 (item: SmartQuote flow)
+
+Root cause: `#sqf-price-breakdown-{iid}` HTML element was dropped from the Panel 3 summary card during the v3 rebuild (`13770df`). `fillStep3ReviewData()` calls `priceBreakdownEl.textContent = bd` at line 2951 without a null guard — `priceBreakdownEl` was null — throwing a silent TypeError inside the click handler that killed execution before `setStep(3)` could run. Panel 3 never advanced; the button appeared broken.
+
+Fix: added `<div id={\`sqf-price-breakdown-\${instanceId}\`} class="sqf-price-breakdown"></div>` after the total-row in the summary card HTML. The element has existing CSS (0.8rem faded text below the total) and renders the breakdown string, e.g. "2 pages × €39.99 = €79.98".
+
+Verified on the IE dev server: fresh load → simulate manual fallback → click Continue → Panel 3 appears with correct price, breakdown, and turnaround. IE build clean.
+
+**Files touched:**
+- `packages/ui/src/components/SmartQuoteForm.astro` — +1 line: add sqf-price-breakdown div to Panel 3 summary card
+
+**Commits:**
+- 32aed3c — fix(SmartQuoteForm): add missing sqf-price-breakdown element to Panel 3
+
 ### 07/06/26 — Claude — payment-worker CORS fix: localhost dev origins + defensive LLaVA parsing (item: SmartQuote flow — UNBLOCKED for dev)
 
 Root cause: `ALLOWED_ORIGINS` in `workers/payment-worker/src/index.ts` never included any `localhost:*` origins. Every `/api/analyse-document` fetch from a dev server was silently blocked by CORS — caught as a network error → `anyAnalysisFailed=true` → `showManualFallback()`. The failure was always there but became prominent after `13770df` moved the manual fallback from Panel 3 into the dedicated Panel 2 (AI step), where it now shows front-and-centre instead of inline in the review step.
