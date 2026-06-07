@@ -44,6 +44,13 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #009 [LEGAL] ES/PT terms.astro full localisation pending; PT has factual market bugs -- 07/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: `apps/es/src/pages/terms.astro` and `apps/pt/src/pages/terms.astro` are entirely in English as of commit c2572b7 (reverted from the Frankenstein state left by 36541d1 where only §3 and §11 were translated). The full files need translation to Castilian Spanish and European Portuguese respectively, with legal review, before either market should be advertised as locally-compliant. Additionally, PT terms.astro carries factual bugs that must be fixed during localisation: §2 references GBP (should be EUR), §12 governs by the laws of England and Wales (should be Portuguese law), and §7 / late-payment clauses likely reference the UK Late Payment of Commercial Debts (Interest) Act 1998 — must be replaced with EU Directive 2011/7/EU.
+- Context: PT/ES are not yet active markets (David runs PT B2B outreach but no transacting customers yet). Acceptable to keep English-only T&Cs in the interim, but should be resolved before any paid customer journey is published on those subdomains, and definitely before any GBP/English-law text reaches a Portuguese customer.
+- Resolution: (open)
+- Recurrence: 1
+
 ## #008 [TECH] SmartQuote → Revolut order-creation: ensure merchant_order_ext_ref always set -- 07/06/26 -- OPEN
 - Logged by: Claude
 - Symptom: After #005 fix, the payment-worker rejects ORDER_COMPLETED webhooks without a `TIR-` `merchant_order_ext_ref` (they go to operator notification instead of creating an order). If the SmartQuote → Revolut order-creation path ever fails to set the ref on an order, legitimate customer payments will route to "unattributed" alerts instead of paid orders.
