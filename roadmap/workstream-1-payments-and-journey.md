@@ -2,7 +2,7 @@
 
 **Status:** IN PROGRESS — Phase 0 (Claude Design pass)
 **Owner:** Maciej
-**Last update:** 07/06/26 by Claude
+**Last update:** 07/06/26 by Claude (T&Cs ES/PT revert shipped)
 
 ---
 
@@ -58,7 +58,22 @@ The end-to-end paid certified-translation customer experience, from SmartQuote u
 
 ## Build log
 
-### 07/06/26 — Claude — T&Cs §3 delivery clause + §11 cancellations shipped (item: T&Cs delivery clause)
+### 07/06/26 — Claude — T&Cs ES/PT §3 + §11 reverted to English (item: T&Cs delivery clause — SHIPPED)
+
+Earlier commit `36541d1` left ES and PT terms.astro in a Frankenstein state — only §3 and §11 were translated (to Castilian Spanish and European Portuguese), while every other clause in those two files remained in English. Root cause: the Copilot prompt assumed ES/PT files were already localised and asked Copilot to translate only the new clauses. They weren't. Copilot followed instructions literally. Lesson logged in patterns: **always inspect target files before writing a Copilot prompt — both for content state and for tooling assumptions (npm vs pnpm, scripts available)**.
+
+Replaced ES §3+§11 Spanish text and PT §3+§11 Portuguese text with the verbatim IE/UK English. Verified byte-identical content across all four markets via SHA256 on the normalised UTF-8 content of lines 39 and 63 (BOM/CRLF normalised — PT file carries a UTF-8 BOM, IE uses LF, UK/ES/PT use CRLF; build is unaffected). No structural changes, only paragraph text inside `<p>` tags. Local build verification skipped — commit `36541d1` already proved this identical English text compiles cleanly for IE/UK; ES and PT use the same Astro setup. Cloudflare Pages will verify on push.
+
+Full ES and PT localisation deferred. PT terms.astro has known factual bugs that need legal/copy review before any go-live: §2 references GBP (should be EUR), §12 governs by laws of England and Wales (should be Portugal), and likely UK 1998 Late Payment Act references will need replacement with EU Directive 2011/7/EU. Tracked as issue #009.
+
+**Files touched:**
+- apps/es/src/pages/terms.astro (§3 + §11 Spanish → English)
+- apps/pt/src/pages/terms.astro (§3 + §11 Portuguese → English)
+
+**Commits:**
+- c2572b7 — terms: revert ES/PT §3 + §11 to English (matches IE/UK; full ES/PT localisation deferred)
+
+### 07/06/26 — Claude — T&Cs §3 delivery clause + §11 cancellations shipped (item: T&Cs delivery clause — PARTIAL, see follow-up entry above)
 
 Replaced §3 (Delivery & Turnaround) and §11 (Cancellations & Refunds) across all four market T&Cs pages with locked contractual language aligned to the workstream decision: refund reserved for impossibility (unable to source qualified certified translator), not delay; pro-rata cancellation charge once work commenced; full refund within 1 business day for impossibility. ES and PT clauses translated to Castilian Spanish and European Portuguese respectively. All four apps built clean. Visual check confirmed §3 and §11 render new text on IE (English) and ES (Spanish) live dev servers. No TypeScript errors introduced. Done criterion "T&Cs delivery clause shipped to all 4 market T&Cs pages" is now met.
 
@@ -98,7 +113,7 @@ Three bugs in the webhook handler: parser reading event.type/order.id/metadata w
 - [ ] Phase 0 — Claude Design pass complete: refreshed `matrix.jsx`, `emails.jsx`, `drawer-states.jsx`, plus new `DECISIONS.md` shipped to `docs/Tatkowski Design System/deliverables/`
 - [ ] SmartQuote restructured to 2-step flow (upload+analysis → review+details+pay) across 4 market sites
 - [ ] Marketing copy across 4 market sites updated — no "24h guaranteed" claims, dynamic ETA bands surfaced at quote
-- [ ] T&Cs delivery clause shipped to all 4 market T&Cs pages
+- [x] T&Cs delivery clause shipped to all 4 market T&Cs pages (English, §3 + §11; ES/PT full localisation deferred — see issues_log #009)
 - [ ] Customer paid email matches refreshed `EmailPaid` spec; CTA points to correct per-market drawer domain
 - [ ] Customer delivered email matches refreshed `EmailDelivered` spec
 - [ ] Sourcing / delay / action-required / refund emails match refreshed specs
