@@ -104,6 +104,26 @@ Four CSS/HTML fixes on top of the v3 rebuild:
 **Commits:**
 - 74d714a — fix(SmartQuote): stepper ring overlap, AI centering, dark-mode contrast, Panel 3 compact
 
+### 07/06/26 — Claude — SmartQuote stepper lines + light-mode card fix (item: SmartQuote flow — POLISH)
+
+Three commits of investigation + one final fix to make stepper lines visible and restore the orange card in light mode.
+
+**Root cause 1 — stepper lines invisible:** `contrast-enforcer.css` applies `opacity: 0 !important; visibility: hidden !important` to every `[aria-hidden="true"]` element. The two `.sqf-step-line` spans had `aria-hidden="true"`, so they were unconditionally hidden. The lines were rendering at the correct dimensions (2px × 64px, background rgba(255,255,255,0.45)) but invisible. Fix: replace `aria-hidden="true"` with `role="presentation"` on both line spans.
+
+**Root cause 2 — light mode turns card white:** `@media (prefers-color-scheme: light)` and `:global([data-theme="light"]) .sqf-root` were both overriding `.sqf-root { background: #ffffff; color: #0f172a }`. The base `.sqf-root` already had the orange gradient and `color: #fff` — the light-mode blocks were the entire problem. With the card white, all white text and white stepper lines became invisible simultaneously. User's correct diagnosis: "the modal background shouldn't change with theme." Fix: removed the entire `prefers-color-scheme: light` block (33 rules) and the `:global([data-theme="light"]) .sqf-root` block. Dark-theme child overrides retained (they fight global dark CSS interference).
+
+**Note — broader contrast-enforcer issue:** Many other `aria-hidden` decorative elements in SmartQuoteForm are also invisible (snake border SVG, corner brackets, upload icon, AI-check SVG). Same root cause. Not fixed here — out of scope for this polish pass. Tracked as something to address in a dedicated contrast-enforcer cleanup.
+
+**Line CSS also tightened:** height 3px→2px, opacity 0.85→0.45 (matches circle border opacity), overflow visible→hidden, border-radius 2px→99px, fill height `3px`→`100%`.
+
+**Files touched:**
+- `packages/ui/src/components/SmartQuoteForm.astro` — 2× `aria-hidden` → `role="presentation"` on step-line spans; removed light-mode CSS block; line CSS tweaks.
+
+**Commits:**
+- 5a76a0b — fix(SmartQuote): make stepper connector lines visible (height + opacity, pre-root-cause)
+- 40c8f79 — fix(SmartQuote): visible step connector lines + Panel 3 spacing (pre-root-cause)
+- 9a6d95d — fix(SmartQuote): always-orange card + visible stepper lines (root cause fixed)
+
 ### 07/06/26 — Claude — Tier A marketing copy fixes shipped (item: Marketing copy update — PARTIAL)
 
 Resolved three categories of T&Cs §3 alignment / data bugs across 4 market sites. Audit context: `todos/eta-copy-audit-20260607.md`.
