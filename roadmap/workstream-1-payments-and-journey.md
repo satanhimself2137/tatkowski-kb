@@ -58,6 +58,32 @@ The end-to-end paid certified-translation customer experience, from SmartQuote u
 
 ## Build log
 
+### 07/06/26 — Claude — Tier A marketing copy fixes shipped (item: Marketing copy update — PARTIAL)
+
+Resolved three categories of T&Cs §3 alignment / data bugs across 4 market sites. Audit context: `todos/eta-copy-audit-20260607.md`.
+
+**Fixes applied:**
+
+1. **Kill "guaranteed" from delivery time** — removed ` guaranteed` from `✓ 24-hour delivery guaranteed` in the Rush Service card across all 4 `european-languages.astro` files. "Same-Day" and "24h" copy is staying — operationally true for short docs, indexed in GSC. Only the literal word "guaranteed" attached to a delivery time was in conflict with T&Cs §3 (reasonable endeavours, no contractual guarantee of timing).
+
+2. **UK price data bug** — `apps/uk/src/pages/ukvi-translation-guide.astro` meta description had stale `£29.99/page`; corrected to locked `£39.99/page`.
+
+3. **48h→24h contradiction** — all 4 `european-languages.astro` files had FAQ answer "Standard delivery is 48 hours for certified translations. Rush service (24 hours) is available for…" — contradicts `certified-translation.astro` (24h standard) and the locked dynamic ETA decision. Rewrote to "Standard certified translation is delivered within 24 hours. Same-day translation is possible for urgent situations (availability-based, [market-price] per page)." Additionally, the Certified Translation card in UK/ES/PT also said "48-hour standard delivery" — aligned to 24-hour. IE was already correct.
+
+**Broader "kill 24h/Same-Day" rewrite rejected:** not in scope. "Same-Day" copy is staying because it is operationally true for short docs and indexed in GSC. The full rewrite (dynamic ETA bands surfaced at quote) is a later workstream task.
+
+**Additional instance noted (not fixed):** ES and PT `european-languages.astro` task spec listed ES pricing as "€49.99 ES standard / €64.99 ES urgent" — these are actually PT prices. Actual ES file: €29.99 standard / €39.99 urgent. Diff applied preserving prices as found in files. The task's pricing reference was transposed.
+
+**Files touched:**
+- apps/ie/src/pages/european-languages.astro
+- apps/uk/src/pages/european-languages.astro
+- apps/es/src/pages/european-languages.astro
+- apps/pt/src/pages/european-languages.astro
+- apps/uk/src/pages/ukvi-translation-guide.astro
+
+**Commits:**
+- d5c639c — marketing: align ETA copy with T&Cs §3 — remove "guaranteed" from delivery, fix UK price data bug, align european-languages 48h→24h
+
 ### 07/06/26 — Claude — T&Cs ES/PT §3 + §11 reverted to English (item: T&Cs delivery clause — SHIPPED)
 
 Earlier commit `36541d1` left ES and PT terms.astro in a Frankenstein state — only §3 and §11 were translated (to Castilian Spanish and European Portuguese), while every other clause in those two files remained in English. Root cause: the Copilot prompt assumed ES/PT files were already localised and asked Copilot to translate only the new clauses. They weren't. Copilot followed instructions literally. Lesson logged in patterns: **always inspect target files before writing a Copilot prompt — both for content state and for tooling assumptions (npm vs pnpm, scripts available)**.

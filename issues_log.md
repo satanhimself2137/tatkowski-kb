@@ -44,6 +44,13 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #010 [LEGAL] immigration-translation-ireland.astro:177 promises "full refund" for rejections — conflicts with T&Cs §11 -- 07/06/26 -- OPEN
+- Logged by: Code
+- Symptom: Line 177 of apps/ie/src/pages/immigration-translation-ireland.astro states "acceptance guaranteed for any rejection attributable to our work, or full refund". T&Cs §11 (live as of 07/06/26 across all 4 markets) reserves refund for impossibility — i.e. when we cannot source a qualified certified translator for the language pair. Rejections attributable to our error are addressed by the reissue clause ("we correct and reissue at no charge"), not refund. The marketing line promises an additional remedy that the T&Cs do not.
+- Context: Surfaced during the ETA copy audit (todos/eta-copy-audit-20260607.md). Not fixed in the Tier A commit (d5c639c) — needs a marketing+legal copy decision separately. Either tighten the marketing line to "reissue free" only, or amend T&Cs §11 to add a "remedy for our error" path. Pure documentation in this entry; no code change.
+- Resolution: (open)
+- Recurrence: 1
+
 ## #009 [LEGAL] ES/PT terms.astro full localisation pending; PT has factual market bugs -- 07/06/26 -- OPEN
 - Logged by: Claude
 - Symptom: `apps/es/src/pages/terms.astro` and `apps/pt/src/pages/terms.astro` are entirely in English as of commit c2572b7 (reverted from the Frankenstein state left by 36541d1 where only §3 and §11 were translated). The full files need translation to Castilian Spanish and European Portuguese respectively, with legal review, before either market should be advertised as locally-compliant. Additionally, PT terms.astro carries factual bugs that must be fixed during localisation: §2 references GBP (should be EUR), §12 governs by the laws of England and Wales (should be Portuguese law), and §7 / late-payment clauses likely reference the UK Late Payment of Commercial Debts (Interest) Act 1998 — must be replaced with EU Directive 2011/7/EU.
