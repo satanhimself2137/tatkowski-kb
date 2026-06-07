@@ -44,6 +44,34 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #008 [TECH] SmartQuote → Revolut order-creation: ensure merchant_order_ext_ref always set -- 07/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: After #005 fix, the payment-worker rejects ORDER_COMPLETED webhooks without a `TIR-` `merchant_order_ext_ref` (they go to operator notification instead of creating an order). If the SmartQuote → Revolut order-creation path ever fails to set the ref on an order, legitimate customer payments will route to "unattributed" alerts instead of paid orders.
+- Context: The legacy auto-create branch (which previously masked this) was removed 07/06/26. Need to audit `handleCreateOrder` and the SmartQuote frontend to confirm `merchant_order_data: { reference: orderRef }` is sent on every Revolut order create. Add a regression test if feasible.
+- Resolution: (open)
+- Recurrence: 1
+
+## #007 [TECH] payment-worker: RESEND_API_KEY not set in production secrets -- 07/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: `wrangler secret list --name payment-worker` returns only `REVOLUT_SECRET_KEY`, `REVOLUT_WEBHOOK_SECRET`, and the VAPID keys. `RESEND_API_KEY` is missing, so `sendOrderConfirmationEmail` and `sendCustomerConfirmationEmail` silently no-op on every paid order (both guard with `if (!env.RESEND_API_KEY) return;`). Customers receive no payment-confirmation email today.
+- Context: Resend setup locked 07/06/26 uses a single verified domain `tatkowski.com` on free tier with subaddress senders (`orders@`, `auth@`, `salesmanager@`). The API key from Resend has not been pushed to the payment-worker. Fix: `wrangler secret put RESEND_API_KEY --name payment-worker` once the live key is in hand.
+- Resolution: (open)
+- Recurrence: 1
+
+## #006 [TECH] payment-worker ENVIRONMENT var is "development" in production -- 07/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: `npx wrangler deploy --dry-run` on `workers/payment-worker` shows `Vars: ENVIRONMENT: "development"` despite the worker being the live production handler.
+- Context: Cosmetic, no behavioural impact found in current code (no branches on `env.ENVIRONMENT`), but misleading and could bite future code that does branch on it. Set `[vars] ENVIRONMENT = "production"` in `wrangler.toml` and redeploy.
+- Resolution: (open)
+- Recurrence: 1
+
+## #005 [TECH] Webhook auto-created ghost PAID order from refunded Revolut payment -- 07/06/26 -- RESOLVED
+- Logged by: Maciej
+- Symptom: TIR-IE-2026-0029 appeared in SalesManager as PAID (€44.99) with "Unknown" name/email/document and no source file. Note: "Auto-created via SmartQuote. Revolut Order ID: 6a24753c-b495-a265-b679-730cce659ac7". Maciej had refunded the underlying €44.99 payment the day before (Jun 6 8:27 PM); SalesManager had no knowledge of the refund.
+- Context: Two independent bugs in `workers/payment-worker/src/index.ts handlePaymentWebhook`: (a) legacy auto-create branch fired on any `ORDER_COMPLETED` webhook whose `merchant_order_ext_ref` did not match an existing `TIR-` order, blindly creating a new PAID order from whatever Revolut API returned — including a real but unattributed €44.99 charge with no metadata; (b) handler only listened for `ORDER_COMPLETED`, so the matching `ORDER_REFUNDED` event from Jun 6 went unhandled and SalesManager never saw the refund. Today's retry of the original `ORDER_COMPLETED` (delivery presumably failed yesterday) created the ghost order.
+- Resolution: `workers/payment-worker/src/index.ts` rewritten in commit `5af0ab0` (worker version `0f00de9e-a03b-49ad-a3fd-affee0d521a0`): (1) Legacy auto-create path removed entirely — unattributed `ORDER_COMPLETED` events now fire an operator notification instead of creating an order. (2) `ORDER_REFUNDED` handler added: fetches `refunded_amount` from Revolut API, writes `refundedAt` + `refundAmount` to the SM order; flips `status` to `refunded` only on full refund AND prior `paid` status (delivered orders keep their status, gain refund metadata). Notifies operator either way. (3) 500ms retry on TIR- lookup miss to absorb the race where webhook arrives before SM order is written. (4) Refund fallback scans `orders:index` (first 200) by `revolutOrderId` for orders missing TIR- ext_ref on the refund event. New `notifyOperatorPing` helper bypasses notif-prefs for critical alerts (refunds, unattributed payments). TIR-IE-2026-0029 archived by Maciej before deploy. Three follow-on issues flagged: #006 #007 #008.
+- Recurrence: 1
+
 ## #004 [TECH] SmartQuote step 2.5 modal has giant empty space on mobile -- 06/06/26 -- OPEN
 - Logged by: Maciej
 - Symptom: On mobile (iOS Safari confirmed, likely all narrow viewports), the SmartQuote modal step 2.5 (Review — AI result + price, before payment) renders with a large blank vertical gap below the content. Cosmetic but breaks perceived quality at the moment of conversion.
