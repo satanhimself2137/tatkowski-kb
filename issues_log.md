@@ -93,11 +93,11 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 - Resolution: `workers/payment-worker/src/index.ts` rewritten in commit `5af0ab0` (worker version `0f00de9e-a03b-49ad-a3fd-affee0d521a0`): (1) Legacy auto-create path removed entirely — unattributed `ORDER_COMPLETED` events now fire an operator notification instead of creating an order. (2) `ORDER_REFUNDED` handler added: fetches `refunded_amount` from Revolut API, writes `refundedAt` + `refundAmount` to the SM order; flips `status` to `refunded` only on full refund AND prior `paid` status (delivered orders keep their status, gain refund metadata). Notifies operator either way. (3) 500ms retry on TIR- lookup miss to absorb the race where webhook arrives before SM order is written. (4) Refund fallback scans `orders:index` (first 200) by `revolutOrderId` for orders missing TIR- ext_ref on the refund event. New `notifyOperatorPing` helper bypasses notif-prefs for critical alerts (refunds, unattributed payments). TIR-IE-2026-0029 archived by Maciej before deploy. Three follow-on issues flagged: #006 #007 #008.
 - Recurrence: 1
 
-## #004 [TECH] SmartQuote step 2.5 modal has giant empty space on mobile -- 06/06/26 -- OPEN
+## #004 [TECH] SmartQuote step 2.5 modal has giant empty space on mobile -- 06/06/26 -- RESOLVED
 - Logged by: Maciej
 - Symptom: On mobile (iOS Safari confirmed, likely all narrow viewports), the SmartQuote modal step 2.5 (Review — AI result + price, before payment) renders with a large blank vertical gap below the content. Cosmetic but breaks perceived quality at the moment of conversion.
 - Context: `packages/ui/src/components/SmartQuoteForm.astro` around line 211. Pre-existing — carried over from earlier SmartQuote work. Surfaced again during Phase 2 baking-studio test on 06/06/26 when placing TIR-IE-2026-0027.
-- Resolution: (open)
+- Resolution: RESOLVED 07/06/26 by Claude -- Fixed in commit e76ae80 (07/06/26). Root cause: .sqf-root had overflow:hidden causing flex min-height:auto to resolve to 0, allowing content to clip instead of scroll. Fixed by mirroring mobile flex-containment chain to desktop — panel is now the scroll container. Dead JS refs to panelReview/panel3/reviewContinueBtn removed. iOS pay bar: bottom: env(safe-area-inset-bottom, 0). Max-height: 100dvh cap on shell.
 - Recurrence: 1
 
 ## #003 [TECH] SalesManager notifications page fails on mobile -- service worker redirect rejected -- 06/06/26 -- OPEN
