@@ -44,6 +44,13 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #012 [TECH] SmartQuote browse button / upload flow dead on all markets after e76ae80 -- 07/06/26 -- RESOLVED
+- Logged by: Claude
+- Symptom: Clicking "browse" or the drop zone on `/certified-translation` did nothing — no file picker opened. Affected all three instances (hero, main, drawer) on all four markets.
+- Context: `packages/ui/src/components/SmartQuoteForm.astro`. Commit e76ae80 removed `reviewContinueBtn`/`panelReview`/`confirmRecapEl` from variable declarations but left three init-time usages. In strict-mode ESM (Astro `<script>` without `is:inline`), accessing an undeclared var throws `ReferenceError`. The crash occurred during `_sqfInitAll` `forEach` callback before `dropzone.addEventListener("click", ...)` was reached, so no click handlers were ever attached. Pattern: removing a variable declaration without grepping all usage sites silently kills unrelated init code in the same callback.
+- Resolution: RESOLVED 07/06/26 by Claude — commit a8e7003. Removed the three crash sites: `if (reviewContinueBtn)` init block (~2598), `if (panelReview)` in `resetToStep1()`, `if (confirmRecapEl)` in `proceedManualBtn` handler. Verified: all three instances trigger `fileInput.click()` on dropzone click after clean page load. All four market builds clean.
+- Recurrence: 1
+
 ## #011 [TECH] shadow-accent token missing from tokens.css -- 07/06/26 -- OPEN
 - Logged by: Claude
 - Symptom: DS spec (ui_kits/website/site.css) specifies `box-shadow: var(--shadow-accent)` for `.btn-primary`, but `--shadow-accent` is not defined in `packages/ui/src/styles/tokens.css` or `global.css`. Commit e76ae80 (07/06/26) kept the existing inline rgba shadow rather than reference an undefined var, so the DS spec is not fully applied.

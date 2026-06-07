@@ -58,6 +58,16 @@ The end-to-end paid certified-translation customer experience, from SmartQuote u
 
 ## Build log
 
+### 07/06/26 — Claude — SmartQuote upload button hot-fix (item: SmartQuote flow — UNBLOCKED)
+
+Root cause: commit e76ae80 removed `reviewContinueBtn`/`panelReview`/`confirmRecapEl` from variable declarations but left three init-time usages in `_sqfInitAll`. In strict-mode ESM (Astro `<script>` without `is:inline` → Vite → ESM), accessing an undeclared variable at runtime throws `ReferenceError`. The crash happened BEFORE `dropzone.addEventListener("click", ...)` was reached, so the browse button (and the entire upload flow) was dead for all three instances (hero, main, drawer) on all four markets. `goToStep3` and `showReviewPanel` were already unreachable dead code — no user-visible regression from their remaining stale refs.
+
+**Files touched:**
+- `packages/ui/src/components/SmartQuoteForm.astro` — removed 3 crash sites (13 lines deleted)
+
+**Commits:**
+- a8e7003 — fix(SmartQuote): restore upload button file picker broken in e76ae80
+
 ### 07/06/26 — Claude — Tier A marketing copy fixes shipped (item: Marketing copy update — PARTIAL)
 
 Resolved three categories of T&Cs §3 alignment / data bugs across 4 market sites. Audit context: `todos/eta-copy-audit-20260607.md`.
