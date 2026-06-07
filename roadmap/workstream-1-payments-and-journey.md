@@ -132,6 +132,33 @@ Three bugs in the webhook handler: parser reading event.type/order.id/metadata w
 - cd74c43 — remove /api/admin/test-order
 - 6a46902 — issues_log update
 
+### 07/06/26 — Claude — Plan B Commit 2: SmartQuote v3 + shared layout/hero cleanup
+
+Merged Steps 2+2.5+3 into a single "Review+Pay" panel in SmartQuoteForm.astro. Step indicator collapsed from 3-step to 2-step. Added WhatsApp opt-in checkbox with conditional phone field (country prefix auto-set by market prop). Sticky Pay bar. Summary card (doc type, pages, languages, handwriting surcharge, total, ETA). Inline contact validation in pay handler (name + email checked before manual-page fallback). Intake API contact step moved into pay handler click. Light+dark theme support via `@media (prefers-color-scheme)` + `:global([data-theme])` overrides.
+
+BaseLayout: default titles across all 4 markets — removed 🏆 emoji, replaced "Same-Day" with "24h". Meta description updated to remove "Same-day delivery" language.
+
+LangHero: removed `↔` character content from `.lh-pair-arrow` div (card hidden via CSS anyway); removed emoji from WhatsApp and Certified Translation CTA buttons.
+
+CtaCluster: removed emoji from WhatsApp, Email, Phone buttons.
+
+**Root cause of build delay:** smart/curly single quotes (U+2018/U+2019) written instead of ASCII straight quotes in `{market === 'uk' ? '+44' : ...}` Astro template expression on line 259. esbuild rejects them. Also: `</script>` closing tag was accidentally dropped by a Python binary replacement and had to be re-appended. Both issues fixed before commit.
+
+Note: LangHero `eyebrowLang` prop values (e.g. "Polski ↔ English") still contain `↔` — these are passed per-page, not from the shared component. Updating page-level prop values is a separate task.
+
+SmartQuoteDrawer.astro imports SmartQuoteForm directly — v3 changes flow through without separate Drawer edits. Done criterion for "SmartQuote restructured to 2-step flow" is met.
+
+**Files touched:**
+- `packages/ui/src/components/SmartQuoteForm.astro`
+- `packages/ui/src/layouts/BaseLayout.astro`
+- `packages/ui/src/components/LangHero.astro`
+- `packages/ui/src/components/CtaCluster.astro`
+
+**Commits:**
+- 736bf69 — feat(ui): SmartQuote v3 + shared layout/hero cleanup
+
+---
+
 ### 07/06/26 — Claude — Plan B Commit 1: design system relocation + ETA helpers + token wiring
 
 Phase 0 deliverables (matrix.jsx, emails.jsx, drawer-states.jsx, DECISIONS.md) shipped by Claude Design into `docs/Tatkowski Design System/deliverables/` in the previous session. Commit 1 of Plan B moves the entire DS tree to its permanent location in the live package, wires DS tokens into the CSS pipeline, and ports the ETA helper functions to TypeScript.
@@ -167,7 +194,7 @@ Phase 0 deliverables (matrix.jsx, emails.jsx, drawer-states.jsx, DECISIONS.md) s
 ## Done criteria
 
 - [x] Phase 0 — Claude Design pass complete: refreshed `matrix.jsx`, `emails.jsx`, `drawer-states.jsx`, plus new `DECISIONS.md` shipped to `packages/ui/src/design-system/deliverables/` (formerly `docs/Tatkowski Design System/deliverables/` — relocated in f6af76b)
-- [ ] SmartQuote restructured to 2-step flow (upload+analysis → review+details+pay) across 4 market sites
+- [x] SmartQuote restructured to 2-step flow (upload+analysis → review+details+pay) across 4 market sites
 - [ ] Marketing copy across 4 market sites updated — no "24h guaranteed" claims, dynamic ETA bands surfaced at quote
 - [x] T&Cs delivery clause shipped to all 4 market T&Cs pages (English, §3 + §11; ES/PT full localisation deferred — see issues_log #009)
 - [ ] Customer paid email matches refreshed `EmailPaid` spec; CTA points to correct per-market drawer domain
