@@ -58,6 +58,24 @@ The end-to-end paid certified-translation customer experience, from SmartQuote u
 
 ## Build log
 
+### 07/06/26 — Claude — SmartQuote v3 rebuild: 1/AI/3 stepper + Panel 3 spec alignment (item: SmartQuote flow restructure — SHIPPED)
+
+Stepper rebuilt to three circles `1 / AI / 3` per amendment. AI step is non-clickable (system-controlled). Text "AI" by default, swaps to a checkmark when done.
+
+Panel 2 promoted from a transient `<div class="sqf-loading">` overlay to a real `sqf-panel--ai` with two sub-states: 2a auto-analysis (existing checklist animation) and 2b manual fallback (warning notice + page input + Continue). Manual fallback no longer lives inline inside Panel 3 — relocated entirely to Panel 2 as the amendment required.
+
+Panel 3 rebuilt against `packages/ui/src/design-system/deliverables/SmartQuoteStep2.jsx`. New review header: eyebrow "We analysed your document" + title "Looks good — here's what we'll certify." + Analysed badge top-right. Compressed summary card (Document, Pages, Languages, Handwriting, Total + Turnaround). "Something off? Adjust" disclosure collapsed by default. Customer details (name, email, WhatsApp opt-in toggle). Sticky Pay button.
+
+Removed leftover dispute mechanism (button + panel + confirm + flag) — only routed to re-upload, not WhatsApp; per amendment note, removed since "it doesn't currently do anything useful." Re-upload shortcut at the top of Panel 3 still provides the safety valve.
+
+Same-class crash refs from e76ae80 pre-empted: removed `showReviewPanel`, `updateStep3PriceManual`, and bare references to `step3TotalEl`/`step3BreakdownEl`/`step2AiSummary`/`summaryDocEl`/`summaryPagesEl`/`summaryPriceEl`/`analysisNotice`/`manualFallback`/`manualPageRow`/`manualPagesS3`/`disputeBtn`/`disputePanel`/`disputeNote`/`flagBtn`/`disputeConfirm`/`midDots`. Verified clean init across all three instances (hero, main, drawer) on the IE dev server; all 4 market builds clean.
+
+**Files touched:**
+- `packages/ui/src/components/SmartQuoteForm.astro` — stepper HTML+CSS, Panel 2 markup, Panel 3 review-head + summary structure, JS setStep / _updateIndicator / showManualFallback / manualContinueBtn wiring, removal of dead refs (235 insertions, 336 deletions).
+
+**Commits:**
+- 13770df — ui(SmartQuote): rebuild against v3 spec — 3-state stepper (1/AI/3), compressed summary + Adjust + sticky Pay, manual fallback relocated to Panel 2
+
 ### 07/06/26 — Claude — SmartQuote upload button hot-fix (item: SmartQuote flow — UNBLOCKED)
 
 Root cause: commit e76ae80 removed `reviewContinueBtn`/`panelReview`/`confirmRecapEl` from variable declarations but left three init-time usages in `_sqfInitAll`. In strict-mode ESM (Astro `<script>` without `is:inline` → Vite → ESM), accessing an undeclared variable at runtime throws `ReferenceError`. The crash happened BEFORE `dropzone.addEventListener("click", ...)` was reached, so the browse button (and the entire upload flow) was dead for all three instances (hero, main, drawer) on all four markets. `goToStep3` and `showReviewPanel` were already unreachable dead code — no user-visible regression from their remaining stale refs.
