@@ -58,6 +58,20 @@ The end-to-end paid certified-translation customer experience, from SmartQuote u
 
 ## Build log
 
+### 07/06/26 — Claude — payment-worker CORS fix: localhost dev origins + defensive LLaVA parsing (item: SmartQuote flow — UNBLOCKED for dev)
+
+Root cause: `ALLOWED_ORIGINS` in `workers/payment-worker/src/index.ts` never included any `localhost:*` origins. Every `/api/analyse-document` fetch from a dev server was silently blocked by CORS — caught as a network error → `anyAnalysisFailed=true` → `showManualFallback()`. The failure was always there but became prominent after `13770df` moved the manual fallback from Panel 3 into the dedicated Panel 2 (AI step), where it now shows front-and-centre instead of inline in the review step.
+
+Added `http://localhost:4321–4325` and `http://localhost:4444` to `ALLOWED_ORIGINS`. Also made LLaVA response parsing defensive: `raw?.description ?? raw?.response` with an explicit throw if both are empty, so any model-shape change logs a clear error in `wrangler tail` rather than a cryptic TypeError.
+
+Worker deployed (version `1eeb605b`). Production CORS unchanged.
+
+**Files touched:**
+- `workers/payment-worker/src/index.ts` — ALLOWED_ORIGINS + analysePageWithLLaVA response guard
+
+**Commits:**
+- 67d0fec — fix(payment-worker): add localhost CORS origins + defensive LLaVA response parsing
+
 ### 07/06/26 — Claude — SmartQuote v3 rebuild: 1/AI/3 stepper + Panel 3 spec alignment (item: SmartQuote flow restructure — SHIPPED)
 
 Stepper rebuilt to three circles `1 / AI / 3` per amendment. AI step is non-clickable (system-controlled). Text "AI" by default, swaps to a checkmark when done.
