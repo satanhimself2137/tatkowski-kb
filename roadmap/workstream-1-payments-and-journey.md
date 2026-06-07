@@ -58,6 +58,23 @@ The end-to-end paid certified-translation customer experience, from SmartQuote u
 
 ## Build log
 
+### 07/06/26 — Claude — SmartQuote: pinned scroll top + hover guard (item: SmartQuote flow)
+
+Root cause 1: `.sqf-root:hover { transform: translateY(-6px) }` with spring cubic-bezier `(0.34, 1.56, 0.64, 1)` on `.sqf-root`. On touch devices, `:hover` is sticky after a tap — card bounced up/down by 6px with spring overshoot on every interaction.
+
+Root cause 2: `root.scrollIntoView({ behavior:"smooth", block:"start" })` called on each `_goToStep`. Each call recalculates from current DOM state, so mid-animation height values produce slightly different scroll targets. Combined with smooth scroll, the card top drifted between steps.
+
+Fix:
+- `rootAbsY = root.getBoundingClientRect().top + window.scrollY` computed once at init (absolute Y of root in document — constant regardless of form height changes)
+- `_goToStep` replaced `scrollIntoView` with `window.scrollTo({ top: rootAbsY, behavior: dist > 100 ? 'smooth' : 'instant' })` — pinned to exact same Y every time
+- `@media (hover: hover)` wraps both `.sqf-root:hover` and `.sqf-root:hover .sqf-snake-head` — lift/brighten only applies to pointer devices
+
+**Files touched:**
+- `packages/ui/src/components/SmartQuoteForm.astro` — rootAbsY init, scrollTo replacement, hover media guards
+
+**Commits:**
+- 73b259e — fix(SmartQuote): pin scroll top between steps + guard hover lift to pointer devices
+
 ### 07/06/26 — Claude — SmartQuote: Panel 3 fits one mobile viewport (390×844) — hide hero copy on step 3 (item: SmartQuote flow)
 
 Root cause 1: `.sqf-panel--review` compact CSS block in the scoped `<style>` was silently dropped by Astro's CSS transformer (compound selectors with `--` in class names). Panel 3 rendered with full-size spacing = 968px, 124px over 844px viewport.
