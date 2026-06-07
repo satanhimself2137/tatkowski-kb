@@ -16,7 +16,7 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 **Viviana** *(active — David-side PT certifying lawyer)*
 - Role: Portuguese lawyer who certifies translations David produces locally
 - Phone: +351 933 029 651
-- Email: PENDING — David to update
+- Email: vivianafeitor13@gmail.com
 - Notes: David's current PT certification channel.
 
 **Veneta Dobreva** *(active — David-side PT certifying lawyer)*
