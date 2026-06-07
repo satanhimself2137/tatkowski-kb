@@ -385,7 +385,20 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 | Dominykas | LT/RU to EN | ATII, Dublin. dom@dawmuz.com. EUR 65/h + 2h min + VAT. Viable only for B2B EUR 200+. |
 | Diana Barbolovici Sabou | RO/ES to EN | Navan. CV reviewed May 2026. Backup option. |
 
-**Key gap:** No standing interpreters for ES/PT. David sourcing.
+**Key gap:** No standing interpreters for ES/PT. David sourcing actively.
+
+### PT Interpreter Roster (David — sourced 06/06/26)
+| Name | Pairs | Location | Rate | Notes |
+|---|---|---|---|---|
+| Elda da Silva | FR ↔ PT (translation + interpreting) | Guimarães, Portugal | €35/h + VAT | Legal/court background. Part-time/ad hoc. eldadasilva1974@gmail.com. CV on file. |
+| Hussein Husham | AR (native), TR (fluent), EN (professional) | Istanbul — remote only | ~€15/h | Active with Focus Interpretation California. OPI/VRI equipped. husseincad22@gmail.com. CV on file. |
+| Inna Ogando | RU (native) ↔ PT / EN | Lisboa, Portugal | €20–50/h | No formal cert — strong practical fluency. Taught PT conversation. Ad hoc. inogando@gmail.com. |
+
+### PT Certifying Lawyers (David)
+| Name | Contact | Notes |
+|---|---|---|
+| Veneta Dobreva | venetadobreva.adv@gmail.com / +351 961 138 359 | Active PT certification channel |
+| Viviana | +351 933 029 651 / email pending | Active PT certification channel |
 
 
 ---
@@ -563,6 +576,8 @@ git push origin main --ipv4
 | GBP verification - ROUTED 05/06/26 | Maciej | IE profile now service-area; ticket routed to verification team via chat w/ Vishwanath. Case 3-6482000040927. ETA 24-48h. Do NOT edit profile until verified. |
 | Rebuild /polish-translation/ and /ukrainian-translation/ to Gen3 | Maciej | Highest GSC impact (pos 38-41, 1,400+ imps each). |
 | Rebuild ES/PT localised service pages | David/Maciej | Currently redirected to English. Wrong long-term. |
+| PT interpreter sourcing — Facebook outreach | David | Active. Posts live in PT/UA/RU/EN. 3 applicants received 06/06/26. Critical gaps remaining: Ukrainian↔PT/EN in-person, Hindi↔EN, Nepali↔EN. |
+| Viviana full email address | David | Phone captured (+351 933 029 651). Email still pending. |
 | GSC geo-targeting — DEAD TASK | — | Google deprecated International/country Targeting Sept 2022; the setting no longer exists. IE targeting now via hreflang (en-IE), ccTLD signals, content + local citations. ACTION instead: verify hreflang on tatkowski.com in code. |
 | SayMore audit fixes | Maciej | INIS to ISD; address line; delete Swords + Corballis service areas; Eircode space K36 KV97. |
 | Flag emoji restoration | Maciej | european-languages.astro files across UK/ES/PT (last loose end of UTF-8 fix). |
@@ -777,7 +792,7 @@ Current milestone: Translation business to self-managing (WhatsApp AI handles in
 ---
 
 *End of knowledge base v5.1*
-*Updated: Claude session 04 June 2026 — Fyffes paid, B1 filed, GitHub KB system live, David PT numbers confirmed*
+*Updated: Claude/David session 07 June 2026 — PT interpreter roster seeded (Elda, Hussein, Inna), PT lawyer details captured, FB outreach active, PT market research roadmap opened*
 *Next update: after any significant order, market launch, team change, or operational decision.*
 
 
