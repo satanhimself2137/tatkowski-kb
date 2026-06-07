@@ -73,3 +73,13 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 - Rate: €20–50/hour (varies by job type, complexity, and travel)
 - Availability: Part-time / ad hoc
 - Notes: No formal translation qualification. Strong practical fluency — uses Portuguese and English daily in professional and personal contexts. Previously taught Portuguese conversation online. Considered for Russian ↔ English ↔ Portuguese interpreting and translation. Responded to Facebook post 06/06/26.
+
+## Russian / English (Porto)
+
+**Asel** *(applied — 07/06/2026)*
+- Languages: Russian, English
+- Email: aselsmell@gmail.com
+- Location: Porto, Portugal
+- Rate: €20/hour
+- Availability: Part-time / ad hoc
+- Notes: Responded to Facebook outreach post 07/06/26. Clean profile, Porto-based. Rate accepted without negotiation.
