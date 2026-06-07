@@ -44,6 +44,13 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #011 [TECH] shadow-accent token missing from tokens.css -- 07/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: DS spec (ui_kits/website/site.css) specifies `box-shadow: var(--shadow-accent)` for `.btn-primary`, but `--shadow-accent` is not defined in `packages/ui/src/styles/tokens.css` or `global.css`. Commit e76ae80 (07/06/26) kept the existing inline rgba shadow rather than reference an undefined var, so the DS spec is not fully applied.
+- Context: Surfaced during Commit 2.5 button-gradient fix. Token should be added to tokens.css as part of a dedicated token-cleanup task alongside the known `--accent: #ff6a3d` override bug (~line 1098 of global.css).
+- Resolution: (open)
+- Recurrence: 1
+
 ## #010 [LEGAL] immigration-translation-ireland.astro:177 promises "full refund" for rejections — conflicts with T&Cs §11 -- 07/06/26 -- OPEN
 - Logged by: Code
 - Symptom: Line 177 of apps/ie/src/pages/immigration-translation-ireland.astro states "acceptance guaranteed for any rejection attributable to our work, or full refund". T&Cs §11 (live as of 07/06/26 across all 4 markets) reserves refund for impossibility — i.e. when we cannot source a qualified certified translator for the language pair. Rejections attributable to our error are addressed by the reissue clause ("we correct and reissue at no charge"), not refund. The marketing line promises an additional remedy that the T&Cs do not.

@@ -189,6 +189,36 @@ Phase 0 deliverables (matrix.jsx, emails.jsx, drawer-states.jsx, DECISIONS.md) s
 **Commits:**
 - f6af76b — design-system: relocate docs/Tatkowski Design System -> packages/ui/src/design-system + wire tokens, port ETA helpers, update CLAUDE.md
 
+### 07/06/26 — Claude — Commit 2.5: SmartQuote overflow fix + v3 visual rebuild (header, hero, buttons)
+
+**Bug fix — SmartQuote drawer overflows viewport on desktop + mobile (Review+Pay step):**
+
+Root cause: `.sqf-root` had `overflow: hidden` which effectively made its flex `min-height: auto` resolve to 0, allowing content to clip rather than scroll. Fixed by mirroring the mobile flex-containment chain to desktop: form-wrap → sqf-root → active panel is now the scroll container (not the wrapper). Removed dead JS refs to `panelReview`, `panel3`, `reviewContinueBtn`, `confirmRecapEl` (all returned null in v3 HTML — leftover from 3-step structure). Pay bar: `bottom: env(safe-area-inset-bottom, 0)` for iOS safe area. `setStep()` loop trimmed from 3-panel to 2-panel.
+
+**Structural rebuild — packages/ui only (no per-market pages touched):**
+
+1. **Header** — `position: fixed` → `position: sticky; top: 0`, `background: color-mix(in srgb, var(--bg) 88%, transparent)`, `backdrop-filter: blur(12px)`, `border-bottom: 1px solid var(--divider)`, `--header-height: 72px` (was 80px). z-index kept at 100 (mobile menu at 55, SmartQuote shell at 50 — reducing to DS spec's 50 would break stacking). Dark-mode `:global` override removed (color-mix auto-adapts via `--bg`). Removed `padding-top: var(--header-offset, 80px)` from `<main>` in BaseLayout — sticky header is in document flow, no offset needed.
+2. **Hero shell** — `.hero` now uses `padding: var(--space-xxl, 6rem) 0 var(--space-xl, 4rem)` and `background: radial-gradient(ellipse 60% 50% at 50% 0%, var(--accent-tint, #fff1ec), transparent 70%)`. `.hero-inner { max-width: 860px; margin: 0 auto; }` added. Removed duplicate hero media query. DottedPattern untouched.
+3. **Buttons** — `.btn-primary` gradient start corrected from `#ff6a3d` → `#ff6a1a` (canonical brand orange matching `--brand` token). Box-shadow rgba values updated to match.
+4. **Footer** — assessed against DS spec (`ui_kits/website/index.html`). DS spec has a minimal template (logo + tagline + legal text only). Current footer is a SUPERSET with nav columns and review badge — production additions that cannot be removed without SEO/UX regression. Classified as restyle drift, NOT rebuild. No changes made — flagged to Maciej inline.
+5. **localStorage key** — `'theme'` → `'tk-theme'` across FabTheme.astro, Header.astro (mobile toggle), NavigationBar.astro, BaseLayout.astro inline init script. One-time UX break for existing theme persistence — acceptable.
+
+**Build verification:** all 4 markets clean — IE 52pp, UK 47pp, ES 45pp, PT 38pp. Screenshots: 1440px light/dark + 390px light/dark, all clean.
+
+**Files touched:**
+- `packages/ui/src/components/SmartQuoteDrawer.astro`
+- `packages/ui/src/components/SmartQuoteForm.astro`
+- `packages/ui/src/components/Header.astro`
+- `packages/ui/src/components/FabTheme.astro`
+- `packages/ui/src/components/NavigationBar.astro`
+- `packages/ui/src/layouts/BaseLayout.astro`
+- `packages/ui/src/styles/button-system.css`
+- `packages/ui/src/styles/global.css`
+- `.claude/launch.json` (new — preview server config)
+
+**Commits:**
+- e76ae80 — ui: finish v3 visual rebuild (sticky header + theme toggle, hero shell, button gradients, footer) + fix SmartQuote modal overflow
+
 ---
 
 ## Done criteria
