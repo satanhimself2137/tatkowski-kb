@@ -58,6 +58,19 @@ The end-to-end paid certified-translation customer experience, from SmartQuote u
 
 ## Build log
 
+### 07/06/26 — Claude — T&Cs §3 delivery clause + §11 cancellations shipped (item: T&Cs delivery clause)
+
+Replaced §3 (Delivery & Turnaround) and §11 (Cancellations & Refunds) across all four market T&Cs pages with locked contractual language aligned to the workstream decision: refund reserved for impossibility (unable to source qualified certified translator), not delay; pro-rata cancellation charge once work commenced; full refund within 1 business day for impossibility. ES and PT clauses translated to Castilian Spanish and European Portuguese respectively. All four apps built clean. Visual check confirmed §3 and §11 render new text on IE (English) and ES (Spanish) live dev servers. No TypeScript errors introduced. Done criterion "T&Cs delivery clause shipped to all 4 market T&Cs pages" is now met.
+
+**Files touched:**
+- apps/ie/src/pages/terms.astro
+- apps/uk/src/pages/terms.astro
+- apps/es/src/pages/terms.astro
+- apps/pt/src/pages/terms.astro
+
+**Commits:**
+- 36541d1 — terms: align §3 delivery + §11 cancellations across IE/UK/ES/PT
+
 ### 07/06/26 — Claude — Phase 0 kickoff (planning)
 
 Drafted scope, mapped current code reality against design system specs, identified gaps. Confirmed via code reading: customer paid email exists in `finishWebhook` but uses legacy green-gradient template (`sendCustomerConfirmationEmail` at line 1220 of `workers/payment-worker/src/index.ts`), not the calmer `EmailPaid` spec. CTA links to `sales.tatkowski.com/order/...` — probably wrong, should be per-market `drawer.tatkowski.{tld}/o/...`. Resend setup verified: 1 verified domain (`tatkowski.com`), 100% deliverability over last 30 days, well within free tier. Locked decisions on sender split, dynamic ETA, T&Cs framing, SmartQuote restructure, per-market subdomain split for drawer + sales. Drafted Claude Design brief for new chat to produce refreshed `matrix.jsx` / `emails.jsx` / `drawer-states.jsx` + new `DECISIONS.md` in `docs/Tatkowski Design System/deliverables/`. No code touched.
