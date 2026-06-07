@@ -132,11 +132,41 @@ Three bugs in the webhook handler: parser reading event.type/order.id/metadata w
 - cd74c43 — remove /api/admin/test-order
 - 6a46902 — issues_log update
 
+### 07/06/26 — Claude — Plan B Commit 1: design system relocation + ETA helpers + token wiring
+
+Phase 0 deliverables (matrix.jsx, emails.jsx, drawer-states.jsx, DECISIONS.md) shipped by Claude Design into `docs/Tatkowski Design System/deliverables/` in the previous session. Commit 1 of Plan B moves the entire DS tree to its permanent location in the live package, wires DS tokens into the CSS pipeline, and ports the ETA helper functions to TypeScript.
+
+**Work done:**
+
+1. **DS folder relocation** — `docs/Tatkowski Design System/` moved to `packages/ui/src/design-system/` using PowerShell `Move-Item` (fallback: `git mv` blocked by Windows Permission Denied on directory rename — likely Explorer holding a handle). Git detected renames by content similarity for all previously-tracked files. Obsolete `docs/Tatkowski Design System doc baker/` snapshot and `.zip` removed.
+
+2. **Token pipeline wired** — `@import url('../design-system/styles.css')` added as the first line of `packages/ui/src/styles/global.css`. DS tokens load first; live `tokens.css` loads second and wins on any shared variable (no conflicts; DS adds new tokens `--accent-tint`, `--success`, `--warning`, `--danger`, `--info`, `--whatsapp`, `--focus-ring` that live tokens.css doesn't define).
+
+3. **ETA helpers ported** — `packages/ui/src/utils/eta.ts` created with `etaBandForPages(pages)` and `formatExpectedReady(paidAt, pages, locale?)` TypeScript exports, faithfully porting the canonical implementations from `deliverables/emails.jsx`.
+
+4. **CLAUDE.md updated** — Design system section appended: token pipeline diagram, known `--accent` inconsistency in global.css, ETA helper import path, and note that DS files are reference-only (not for direct production import).
+
+5. **Build verification** — `npm run build:ie` passes (52 pages, 0 errors). IE/UK `terms.astro` WIP remained unstaged throughout.
+
+**Known inconsistency reported inline (existing, not introduced):** `global.css` has a second `:root` block (~line 1098) setting `--accent: #ff6a3d`, overriding the correct `#ff6a1a` from `tokens.css`. Pre-existing live bug, not a DS conflict. Needs a dedicated fix.
+
+**Files touched:**
+- `packages/ui/src/design-system/` (entire tree — new)
+- `packages/ui/src/utils/eta.ts` (new)
+- `packages/ui/src/styles/global.css` (1 line added)
+- `CLAUDE.md` (design system section appended)
+- `docs/Tatkowski Design System/` (removed — relocated)
+- `docs/Tatkowski Design System doc baker/` (removed — obsolete snapshot)
+- `docs/Tatkowski Design System doc baker.zip` (removed)
+
+**Commits:**
+- f6af76b — design-system: relocate docs/Tatkowski Design System -> packages/ui/src/design-system + wire tokens, port ETA helpers, update CLAUDE.md
+
 ---
 
 ## Done criteria
 
-- [ ] Phase 0 — Claude Design pass complete: refreshed `matrix.jsx`, `emails.jsx`, `drawer-states.jsx`, plus new `DECISIONS.md` shipped to `docs/Tatkowski Design System/deliverables/`
+- [x] Phase 0 — Claude Design pass complete: refreshed `matrix.jsx`, `emails.jsx`, `drawer-states.jsx`, plus new `DECISIONS.md` shipped to `packages/ui/src/design-system/deliverables/` (formerly `docs/Tatkowski Design System/deliverables/` — relocated in f6af76b)
 - [ ] SmartQuote restructured to 2-step flow (upload+analysis → review+details+pay) across 4 market sites
 - [ ] Marketing copy across 4 market sites updated — no "24h guaranteed" claims, dynamic ETA bands surfaced at quote
 - [x] T&Cs delivery clause shipped to all 4 market T&Cs pages (English, §3 + §11; ES/PT full localisation deferred — see issues_log #009)
