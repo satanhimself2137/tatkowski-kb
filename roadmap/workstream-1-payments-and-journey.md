@@ -86,6 +86,24 @@ Root cause: commit e76ae80 removed `reviewContinueBtn`/`panelReview`/`confirmRec
 **Commits:**
 - a8e7003 — fix(SmartQuote): restore upload button file picker broken in e76ae80
 
+### 07/06/26 — Claude — SmartQuote visual polish: stepper ring, AI centering, dark-mode contrast, Panel 3 compact (item: SmartQuote flow restructure — POLISH)
+
+Four CSS/HTML fixes on top of the v3 rebuild:
+
+1. **Stepper ring overlap** — `sqf-step-ring` keyframe max scale reduced from 2.2→1.5. The expanding `::after` ring on the active circle was visually bleeding into adjacent circles at the original scale; 1.5× stays well within the line gap.
+
+2. **"AI" text centering** — `letter-spacing: 0.5px` on `.sqf-step-ai-text` was adding trailing space after the last glyph, shifting "AI" visually rightward inside the circle. Set to `letter-spacing: 0`.
+
+3. **Dark mode contrast** — Added comprehensive `:global([data-theme="dark"]) .sqf-root` child overrides for inputs, labels, summary card, review head, details eyebrow, WA opt-in, phone prefix, pay bar, adjust note, notice variants, and AI manual notice. Root cause: the `prefers-color-scheme: light` media query was resetting these to dark-text values; when OS is dark but site toggle is dark, the `:global` dark theme rule restored the root gradient but NOT the child element palette. Key overrides use `!important` to win against global theme selectors.
+
+4. **Panel 3 compact** — Added `.sqf-panel--review` class to Panel 3 div, with scoped compression: review eyebrow and details eyebrow hidden (`display:none !important`), summary card padding halved, row height reduced, field spacing tightened, pay button height and font reduced. Panel now fits nav-to-viewport without scrolling on mobile and desktop drawer.
+
+**Files touched:**
+- `packages/ui/src/components/SmartQuoteForm.astro` — HTML: `sqf-panel--review` class on Panel 3 div. CSS: ring animation, AI text, dark theme overrides block (~35 rules), panel compact block (~15 rules).
+
+**Commits:**
+- 74d714a — fix(SmartQuote): stepper ring overlap, AI centering, dark-mode contrast, Panel 3 compact
+
 ### 07/06/26 — Claude — Tier A marketing copy fixes shipped (item: Marketing copy update — PARTIAL)
 
 Resolved three categories of T&Cs §3 alignment / data bugs across 4 market sites. Audit context: `todos/eta-copy-audit-20260607.md`.
