@@ -398,7 +398,7 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 | Name | Contact | Notes |
 |---|---|---|
 | Veneta Dobreva | venetadobreva.adv@gmail.com / +351 961 138 359 | Active PT certification channel |
-| Viviana | +351 933 029 651 / email pending | Active PT certification channel |
+| Viviana Feitor | vivianafeitor13@gmail.com / +351 933 029 651 | Active PT certification channel |
 
 
 ---
