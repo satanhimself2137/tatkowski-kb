@@ -58,6 +58,28 @@ The end-to-end paid certified-translation customer experience, from SmartQuote u
 
 ## Build log
 
+### 07/06/26 — Claude — SmartQuote: Panel 3 fits one mobile viewport (390×844) — hide hero copy on step 3 (item: SmartQuote flow)
+
+Root cause 1: `.sqf-panel--review` compact CSS block in the scoped `<style>` was silently dropped by Astro's CSS transformer (compound selectors with `--` in class names). Panel 3 rendered with full-size spacing = 968px, 124px over 844px viewport.
+
+Root cause 2: `.sqf-polling-state { display: flex }` (author specificity 0,1,0) overrides UA `[hidden] { display: none }` — a hidden payment-polling element was contributing 51px of phantom height.
+
+Root cause 3: hero copy (title + subtitle + AI badge = ~148px) sits above panel 3 in the root; `root.scrollIntoView()` scrolled root to y=0 but panel 3 still started at y=259, bottom at y=924.
+
+Fix:
+- Added compact panel-3 CSS to `<style is:global>` (bypasses Astro scoper) — panel height drops from 968px to 665px
+- Added `.sqf-polling-state[hidden] { display: none !important; }` — eliminates 51px phantom
+- JS: set `root.dataset.step = '1'` on init and `root.dataset.step = String(n)` in `_goToStep`
+- CSS: `[data-sqf-instance][data-step="3"] .sqf-title, .sqf-subtitle, .sqf-ai-badge { display: none }` — hides hero copy on step 3, panel starts at y=168, bottom at y=834
+
+Verified at 390×844: stepper, summary card, both form fields, WhatsApp opt-in, Pay button, lock text all visible without scroll. Build clean.
+
+**Files touched:**
+- `packages/ui/src/components/SmartQuoteForm.astro` — compact CSS in is:global, polling hidden fix, data-step JS tracking, hide-header CSS rule
+
+**Commits:**
+- 15c061b — fix(SmartQuote): Panel 3 fits one mobile viewport — hide hero copy on step 3
+
 ### 07/06/26 — Claude — SmartQuote: missing sqf-price-breakdown element — Panel 2b Continue now advances to Panel 3 (item: SmartQuote flow)
 
 Root cause: `#sqf-price-breakdown-{iid}` HTML element was dropped from the Panel 3 summary card during the v3 rebuild (`13770df`). `fillStep3ReviewData()` calls `priceBreakdownEl.textContent = bd` at line 2951 without a null guard — `priceBreakdownEl` was null — throwing a silent TypeError inside the click handler that killed execution before `setStep(3)` could run. Panel 3 never advanced; the button appeared broken.
