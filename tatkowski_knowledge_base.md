@@ -393,6 +393,7 @@ CV received from kishor_gyawali@hotmail.com (22 May 2026) — unactioned. File f
 | Elda da Silva | FR ↔ PT (translation + interpreting) | Guimarães, Portugal | €35/h + VAT | Legal/court background. Part-time/ad hoc. eldadasilva1974@gmail.com. CV on file. |
 | Hussein Husham | AR (native), TR (fluent), EN (professional) | Istanbul — remote only | ~€15/h | Active with Focus Interpretation California. OPI/VRI equipped. husseincad22@gmail.com. CV on file. |
 | Inna Ogando | RU (native) ↔ PT / EN | Lisboa, Portugal | €20–50/h | No formal cert — strong practical fluency. Taught PT conversation. Ad hoc. inogando@gmail.com. |
+| Asel | RU ↔ EN | Porto, Portugal | €20/h | Ad hoc. aselsmell@gmail.com. Responded to FB post 07/06/26. |
 
 ### PT Certifying Lawyers (David)
 | Name | Contact | Notes |
@@ -792,7 +793,7 @@ Current milestone: Translation business to self-managing (WhatsApp AI handles in
 ---
 
 *End of knowledge base v5.1*
-*Updated: Claude/David session 07 June 2026 — PT interpreter roster seeded (Elda, Hussein, Inna), PT lawyer details captured, FB outreach active, PT market research roadmap opened*
+*Updated: Claude/David session 07 June 2026 — PT roster: Elda, Hussein, Inna, Asel added. Viviana full details captured. FB outreach active across 10+ groups. PT market research roadmap opened.*
 *Next update: after any significant order, market launch, team change, or operational decision.*
 
 
