@@ -63,3 +63,13 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 - Lisbon and Porto priorities for in-person coverage
 - Capture full details (names, emails, contacts) for Viviana and Veneta — David to dictate
 - Follow up with Elda da Silva when first French–Portuguese assignment arises
+
+## Russian / English / Portuguese
+
+**Inna Ogando** *(applied — 06/06/2026)*
+- Languages: Russian (native), Portuguese (fluent), English (fluent)
+- Email: inogando@gmail.com
+- Location: Lisboa, Portugal
+- Rate: €20–50/hour (varies by job type, complexity, and travel)
+- Availability: Part-time / ad hoc
+- Notes: No formal translation qualification. Strong practical fluency — uses Portuguese and English daily in professional and personal contexts. Previously taught Portuguese conversation online. Considered for Russian ↔ English ↔ Portuguese interpreting and translation. Responded to Facebook post 06/06/26.
