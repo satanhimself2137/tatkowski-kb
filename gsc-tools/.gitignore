@@ -1,0 +1,19 @@
+# Credentials and data — never commit
+.env
+*.key
+*-key.json
+
+# Data dumps stay local
+data/
+
+# Node
+node_modules/
+package-lock.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

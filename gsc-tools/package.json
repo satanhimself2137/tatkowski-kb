@@ -1,0 +1,17 @@
+{
+  "name": "tatkowski-gsc",
+  "version": "1.0.0",
+  "description": "Pull all GSC data across 4 markets for SEO analysis",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "auth-init": "node src/auth-init.js",
+    "test": "node src/test.js",
+    "pull": "node src/pull.js",
+    "export": "node src/export.js"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0",
+    "dotenv": "^16.4.5"
+  }
+}
