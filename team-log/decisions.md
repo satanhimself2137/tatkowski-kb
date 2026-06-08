@@ -32,6 +32,12 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-08 16:02 UTC — Phase 5 end-to-end test of the team-log write pipeline (run 2)
+
+**Decided by:** Maciej
+**Source:** https://claude.ai/chat/f2f6e248-f956-4fd2-900e-b78842eec7a7
+**Detail:** Test entry from the watcher to verify KB_LOG block extraction, Worker POST, and append to team-log/decisions.md. Pipeline is append-only from here — I can't edit a prior test entry, only add a new one. If you need an edit test, that has to go through desktop Claude with direct repo access.
+
 ### 2026-06-08 15:51 UTC — Worker write path smoke test
 
 **Decided by:** Maciej
