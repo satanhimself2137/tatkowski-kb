@@ -32,6 +32,11 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-08 21:17 UTC — kb-write append magda/ie-prospects.md
+
+**Source:** https://claude.ai/chat/99abe138-b6cc-4912-9ca0-1005cb4d3107
+**Detail:** smoke test of KB_WRITE capability — commit: 77694d5
+
 ### 2026-06-08 16:25 UTC — Phase 5 end-to-end test of the team-log write pipeline
 
 **Decided by:** Maciej
