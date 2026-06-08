@@ -12,6 +12,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 |---|---|---|---|---|
 | Payments & customer journey | IN PROGRESS — Phase 0 (Claude Design pass) | Maciej | 07/06/26 | [workstream-1-payments-and-journey.md](workstream-1-payments-and-journey.md) |
 | Portugal market research | In progress | David (via Claude) | 06/06/26 | [portugal-market-research.md](portugal-market-research.md) |
+| WA ↔ Claude watcher | IN PROGRESS — Phase 2 v0.2 SHIPPED, Worker KB proxy live; v0.3 polish + team-log integration next | Maciej | 08/06/26 | [wa-watcher.md](wa-watcher.md) |
 | Team log (decisions + ideas KB writes from watcher) | IN PROGRESS — Phase 0 (scope locked) | Maciej | 08/06/26 | [team-log.md](team-log.md) |
 
 ## Queued (next up)
@@ -19,7 +20,6 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 | Workstream | Notes |
 |---|---|
 | Interpreting intake widget | Scope locked 06/06/26. SmartQuote equivalent for lead product. Public form on 4 sites + internal B2B log form. Manual quoting (per-job cost variance). [interpreting-intake.md](interpreting-intake.md) |
-| WA ↔ Claude watcher | Scope locked 08/06/26. Local watcher pipes new TEAM ONE messages into a rotating claude.ai chat for real-time team support. Adaptive polling, default-silence judgement, Opus 4.7 medium. v1 = TEAM ONE only, weekly chat rotation. [wa-watcher.md](wa-watcher.md) |
 | Chatwoot on Hetzner | Scope locked 06/06/26. Self-hosted, EUR 4.51/mo, gating prerequisite for WA AI. Queued behind interpreting intake (revenue first). [chatwoot.md](chatwoot.md) |
 | WhatsApp AI intake (tatkowski.ai) | Depends on Chatwoot + Meta permanent token + UK/ES WABA numbers. Roadmap not yet created. |
 | B2B invoicing mode (SalesManager / Drawer v2) | DEFERRED — only 1 B2B client. Revisit when client #5 or Fyffes hits monthly invoicing. Roadmap not yet created. |
