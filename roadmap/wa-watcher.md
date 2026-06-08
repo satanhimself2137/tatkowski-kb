@@ -1,6 +1,6 @@
 # ROADMAP — WhatsApp ↔ Claude Watcher
 
-**Status:** PHASE 1 COMPLETE — receiver loop working end-to-end (baileys, attribution OK)
+**Status:** PHASE 2 v0.1 SHIPPED — full pipeline live (WA → batch → claude.ai → reply → WA_SEND extraction → forward to WA)
 **Owner:** Maciej
 **Last update:** 08/06/26 by Claude/Maciej
 
@@ -175,3 +175,53 @@ After fix: `Maciej (UK): lol elo elo 320` arrives clean. Verified end-to-end.
 - Budget warning
 
 **Phase 2 (Chrome driver) and Phase 3 (routing + system prompt) not started.**
+
+---
+
+## Phase 2 v0.1 build log — 08/06/26 (playwright + auto-bootstrap)
+
+**Architecture pivot:** Original spec called this a "Chrome MCP driver" — that's wrong. Chrome MCP is the user's Claude session's tool, not the watcher's. A 24/7 unattended watcher must drive its own browser. Replaced with **playwright** running its own persistent Chromium profile under `D:\tatkowski-whatsapp\watcher\claude-session\`.
+
+**Files added:**
+- `seed.md` — priming message pasted into every new watcher chat. Sets role, default-to-silence rules, when-to-respond criteria, `WA_SEND_START / WA_SEND_END` delimiter format, memory rule (do NOT write memory from watcher batches), WhatsApp tone reminder.
+- `claude-driver.js` — playwright wrapper. Methods: `init()`, `ensureLoggedIn()`, `ensureWatcherChat()`, `createNewWatcherChat()`, `sendBatch()`, `extractWaSends()`, `close()`. Persistent context so login survives restart. Currently `headless: false` for visibility during v0.1 iteration; flip to headless once stable.
+
+**Files changed:**
+- `package.json` — added `playwright ^1.x`.
+- `config.js` — added `PROJECT_URL`, `CLAUDE_SESSION_DIR`, `SEED_PATH`. Slash-command constants `CTRL_PREFIX='/'`, `CTRL_STOP='/watcher stop'`, `CTRL_GO='/watcher go'`, `CTRL_STATUS='/watcher status'`.
+- `index.js` — wires `ClaudeDriver` into the lifecycle. Shared state ref passed to driver (was a divergence bug that surfaced on first run — driver mutated its own copy, index didn't see URL updates). Batches queue on a `driverReadyPromise` instead of dropping when driver still booting. Slash-command dispatch: `/watcher stop|go|status|chat <url>|rotate`. Sends `WA_SEND_*` blocks back to TEAM ONE via `sock.sendMessage(cfg.TEAM_ONE_ID, { text })`.
+
+**End-to-end verified:**
+- baileys ready in ~3s
+- playwright launches Chromium, claude.ai session detected (login skipped on persistent profile)
+- watcher navigates to project URL, finds composer, pastes seed, waits for `/chat/<uuid>` URL change
+- chat URL persisted to `state.json`
+- fast-path trigger `claude test ping` arrived, was paste into watcher chat, reply read (selector `data-test-render-count` matched, 135 chars), Claude correctly chose silence per seed rules
+- driver remains live across batches; subsequent batches reuse the same chat
+
+**Slash commands (Maciej UK only):**
+- `/watcher stop` — pause
+- `/watcher go` — resume
+- `/watcher status` — log current state (active flag, last seen, buffer size, chat URL)
+- `/watcher chat <https://claude.ai/chat/...>` — bind to an existing chat manually
+- `/watcher rotate` — clear bound chat URL, force new chat on next batch
+
+**Account-switch gotcha:** First run picked Maciej's free Google sub-account instead of his Max account. Persistent context now remembers the Max selection after one manual switch. If watcher logs ever show "could not find new-chat composer on project page", account drift is the first thing to check.
+
+**Diagnostic detours:**
+- Initial `_readLastAssistantText` returned 0 chars — selector list too narrow. Broadened to six candidates with per-match logging. `data-test-render-count` is the current winner for claude.ai.
+- `_renameCurrentChat` v1 was broken: `getByRole('heading').first()` matched something outside the chat title (probably content), keyboard.type fell through into the composer, the new name got sent as a chat message. Disabled in v0.1. Replaced with a `_diagnoseHeader()` call that dumps every clickable element in `<header>` so v0.2 can write a precise selector.
+
+**Phase 2 NOT YET DONE (deferred to v0.2):**
+- Proper chat-title rename (currently logs `MANUAL RENAME NEEDED` + header DOM diagnostic; user renames in claude.ai sidebar manually)
+- Weekly auto-rotation (Monday 00:00 IE/PT) — `/watcher rotate` works manually
+- Headless mode (currently `headless: false` for visual debugging)
+- `WA_SEND_*` round-trip not yet verified with a real outbound reply — seed correctly biases toward silence, need a clear "respond" prompt to confirm the forward path
+
+**Confirmed still pending from Phase 1:**
+- 48h unattended-run stability
+- Pino `level: 50` decryption-fail spam (cosmetic)
+- Log rotation
+- Budget warning
+
+**Phase 3 (routing semantics — judgement quality, multi-chat-targeting, DM watching) not started.**
