@@ -1,6 +1,6 @@
 # ROADMAP — team-log (decisions + ideas KB writes from watcher)
 
-**Status:** IN PROGRESS — Phase 0 (scope locked)
+**Status:** SHIPPED
 **Owner:** Maciej
 **Last update:** 08/06/26 by Claude/Maciej
 
@@ -112,4 +112,28 @@ Roadmap drafted and indexed. Scope, decisions, build plan locked. Ready for Phas
 
 ## Post-ship summary
 
-[To be filled when Status = SHIPPED.]
+Shipped 08/06/26 in a single session. Full pipeline runs WhatsApp → baileys → claude.ai watcher chat → `KB_LOG_START/END` block → watcher extractor → Worker `POST /kb-log` → GitHub Contents API → commit on `main`, end-to-end in under 12 seconds.
+
+**What shipped:**
+- Worker `POST /kb-log` endpoint at `kb.tatkowski.com/kb-log`, same auth surface as reads, append-only commits with `[Claude/Watcher] log:<type> - <summary> - DD/MM/YY` attribution, in-memory rate limit 20 writes/hour per isolate, retry on transient upstream failures.
+- Watcher `extractKbLogs()` + `_parseKbLogBlock()` in `claude-driver.js`, `postKbLog()` helper in `index.js`, full lifecycle logging to `watcher.log`.
+- `team-log/decisions.md` + `team-log/ideas.md` scaffolds with format documentation in-file.
+- Seed updates: canonical fetchable URL list now includes both team-log files with `?key=…&v=2`, plus "when to emit KB_LOG" (write rule, default-silence) and "consult the log" (read rule, judgement-based) sections.
+- Dashboard applet: Rotate button (full-width, with confirm), Open KB repo button.
+- Self-cleaning watcher: `start-watcher.ps1` now kills stale watcher node processes (filtered by command line containing the watcher path, so unrelated node processes are safe) and orphan playwright Chromium processes before launching; `stop-watcher.ps1` cleans the same on shutdown. `claude-driver.js` and `wa-web-driver.js` each close all but their active tab at init and a `context.on('page')` handler closes any future stray pages. Tab-pile and zombie-process bugs eliminated.
+
+**End-to-end verification (chat `0aa5046e-…`):**
+- Positive: "claude log this: phase 5 end-to-end test of the team-log write pipeline" → batch fired 16:25:09, `KB_LOG written` 16:25:21, commit `a9aed424` on `team-log/decisions.md`, "logged" forwarded to TEAM ONE.
+- Negative: "claude what's the weather in dublin" → 271-char reply, `WA_SEND` forwarded, **zero** `KB_LOG` entries. Default-to-silence for KB writes confirmed working.
+
+**What got learned along the way:**
+- `web_fetch` on claude.ai only accepts URLs that appeared verbatim in user-typed text or prior search/fetch results. Templated URL patterns (e.g. `roadmap/<name>.md`) get refused with `PERMISSIONS_ERROR`. Workaround: seed exposes a canonical literal URL list of known files; anything outside the list routes to desktop Claude.
+- Cloudflare edge caches 401 responses unless the Worker explicitly sets `Cache-Control: no-store`. First fetch without auth poisoned the cache for subsequent authed fetches — added `no-store` to every non-200 response.
+- The bare `?key=…` URL was getting hit by the cached 401 above; adding a `&v=2` cache-buster gave a fresh cache key. Now harmless given `no-store`, but kept in seed URLs as belt-and-braces.
+- Playwright's persistent context restores every tab from the previous session, so after a few rotates the tab pile becomes about:blank spam. Cleanup at init (close all but active page) + `context.on('page')` handler for future popups solved it. Same fix applied to both `claude-driver.js` and `wa-web-driver.js`.
+- Initial process cleanup used `StartTime < 2min` as the zombie signature, which would have killed any long-running node process (e.g. `npm run dev` on the monorepo). Tightened to CIM `CommandLine LIKE *tatkowski-whatsapp\watcher\index.js*` so only our own processes are touched.
+
+**What got cut from v1:**
+- Carry-over seed injection on chat rotation. Original design had the watcher pre-load past decisions/ideas into each new chat's seed; replaced with "fetch from canonical URLs on demand" because the URLs are in the seed already and `web_fetch` works. Lighter, no special rotation logic.
+- D1/KV-backed rate limit storage. In-memory per-isolate counter is loose but sufficient given real write rates.
+- Categorisation beyond `decision | idea`. Tags can come later if usage actually demands them; better to start narrow than to ship a sprawl of half-used buckets.
