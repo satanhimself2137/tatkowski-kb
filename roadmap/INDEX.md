@@ -12,8 +12,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 |---|---|---|---|---|
 | Payments & customer journey | IN PROGRESS — Phase 0 (Claude Design pass) | Maciej | 07/06/26 | [workstream-1-payments-and-journey.md](workstream-1-payments-and-journey.md) |
 | Portugal market research | In progress | David (via Claude) | 06/06/26 | [portugal-market-research.md](portugal-market-research.md) |
-| WA ↔ Claude watcher | IN PROGRESS — Phase 2 v0.2 SHIPPED, Worker KB proxy live; v0.3 polish + team-log integration next | Maciej | 08/06/26 | [wa-watcher.md](wa-watcher.md) |
-| Team log (decisions + ideas KB writes from watcher) | IN PROGRESS — Phase 0 (scope locked) | Maciej | 08/06/26 | [team-log.md](team-log.md) |
+| WA ↔ Claude watcher | IN PROGRESS — Phase 2 v0.2 SHIPPED, Worker KB proxy + team-log writes live; v0.3 polish next | Maciej | 08/06/26 | [wa-watcher.md](wa-watcher.md) |
 
 ## Queued (next up)
 
@@ -32,6 +31,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 |---|---|---|
 | Document-baking studio + viewer | 06/06/26 | [baking-studio.md](baking-studio.md) |
 | Drawer v1 — client document portal | 06/06/26 | [drawer.md](drawer.md) |
+| Team log (decisions + ideas KB writes from watcher) | 08/06/26 | [team-log.md](team-log.md) |
 
 ## Templates & meta
 
