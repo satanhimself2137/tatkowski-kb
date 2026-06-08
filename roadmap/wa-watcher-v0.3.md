@@ -1,6 +1,6 @@
 # ROADMAP — wa-watcher v0.3 (images + batch coalescing)
 
-**Status:** IN PROGRESS — Phase 1 SHIPPED, Phase 2 next
+**Status:** SHIPPED
 **Owner:** Maciej
 **Last update:** 08/06/26 by Claude/Maciej
 
@@ -113,4 +113,33 @@ Coalescing logic landed in `index.js` (no driver-level changes needed). Buffer +
 
 ## Post-ship summary
 
-[To be filled when Status = SHIPPED.]
+Shipped 08/06/26 in the same session as team-log. All five phases landed end-to-end. Both image triggers (caption + reply-to) verified live in TEAM ONE; batch coalescing verified across multiple bursts; cache survives watcher restarts (repopulates from `tmp/img/` directory).
+
+**What shipped:**
+- `image-cache.js` — Map<msgId, {path, mime, ts, caption}>, file storage at `tmp/img/<msgId>.<ext>`, 24h TTL + 200-entry cap, cleanup on boot deletes files older than TTL, repopulates Map from disk on startup so reply-to survives restarts.
+- `index.js` message handler: detects type='image', downloads bytes via baileys `downloadMediaMessage`, always saves to cache (so reply-to later can find it); detects reply-to via `contextInfo.stanzaId` and looks up cached image; attaches imagePath/imageMime to batch entries when caption-trigger or reply-to-trigger fires.
+- `prompt.js` — image marker now distinguishes `[IMAGE:filename attached]` (uploaded) from `[IMAGE not attached - caption did not mention claude]` (seen but not uploaded). Reply-to context appended to messages as `(reply-to msg <id>)`.
+- `claude-driver.js` — new `_uploadImages(paths)` method. Tries direct `input[type="file"]` setInputFiles first (works even when hidden via Playwright trick), falls back to clicking attach-button candidates if no input found, then setInputFiles. Defensive preview-detection chain falls back to 3s wait if no selector matches.
+- `sendBatch(promptText, opts)` extended with `opts.imagePaths` array — uploads before typing prompt.
+- `index.js` processPending() — collects `imagePath` from batch messages and passes through to driver.
+- Batch coalescing (Phase 1, already shipped earlier this session): `pendingMessages`/`isDriverBusy`/`processPending()` ensures concurrent inbound messages buffer instead of colliding on the composer.
+- Seed updated with an "Images" section explaining how the watcher Claude should interpret `[IMAGE:filename attached]` vs `[IMAGE not attached]` markers, plus reply-to semantics.
+
+**End-to-end verification (chat `8d6abe01-…`, 17:11–17:15 UTC):**
+- **Caption trigger positive:** Tatkowski logo image with caption "claude what's in this image" → `image cached`, batch fired with `images: 1`, `setInputFiles complete`, Claude described logo. Maciej corrected a Jatkowski→Tatkowski misread (vision-model OCR quirk on script signature, not a pipeline issue).
+- **Reply-to positive:** Polish birth certificate image sent bare → cached. Maciej replied to it with "claude whats that" → `reply-to image attached`, batch fired with `images: 1`, Claude returned full structured description of the document (form type, name, dates, parents, issuer).
+- **Reply-to cache miss graceful:** Maciej's "Tatkowski not Jatkowski" correction was a reply-to the logo image, but the logo was in the OLD watcher chat's cache, not the post-rotate one → `reply-to: referenced image not in cache`, batch fired text-only, Claude apologised based on the text without trying to re-view the image.
+- **Image-without-caption silent:** image arrived bare at 17:14:06 with no caption. Cached (`image cached`) but no upload — `images: 0` on the subsequent unrelated batch.
+- **Cache survives restart:** `image-cache init, repopulated: 2, deleted: 0` on boot.
+- **Coalescing (verified earlier in session):** 3 rapid `claude ...` messages while drivers busy → pairwise buffer + drain, zero composer collisions.
+
+**Known minor issues, post-ship:**
+- Upload preview selector didn't match any of the 5 candidates we tried → fell back to fixed 3s wait. Upload still succeeded reliably. Worth refining once we observe the actual preview DOM during a session; trivial to add a real selector when known.
+- Vision-model misread on cursive logo signature (Jatkowski/Tatkowski). Not in scope to fix — that's a Claude image-reading quirk. Workaround: humans can correct in TEAM ONE and Claude will update.
+
+**What got cut:**
+- Multi-image batches in one prompt — supported by `setInputFiles([paths])` but not exercised live. Code passes an array so a future batch with N>1 image messages would upload all of them; not yet tested.
+- Resize/compress before upload — claude.ai handles raw bytes fine; no need for client-side preprocessing.
+- Voice notes, video, documents (PDFs). Image-only as planned.
+
+This workstream eliminates the last big "watcher can't see what TEAM ONE sees" gap. Text + images both flow now. The team can ask Claude about screenshots, contracts, IDs, paperwork, photos — whatever — without leaving WhatsApp.
