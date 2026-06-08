@@ -1,6 +1,6 @@
 # ROADMAP — wa-watcher v0.3 (images + batch coalescing)
 
-**Status:** IN PROGRESS — Phase 0 (scope locked)
+**Status:** IN PROGRESS — Phase 1 SHIPPED, Phase 2 next
 **Owner:** Maciej
 **Last update:** 08/06/26 by Claude/Maciej
 
@@ -44,6 +44,24 @@ Two features bolted onto the existing v0.2-shipped watcher. Image forwarding so 
 - [ ] **Where does Playwright `setInputFiles` target on claude.ai's composer?** Selector unknown — needs inspection during build. Expect a hidden `<input type="file">` near the composer; fallback is `page.setInputFiles('input[type=file]', path)` with the first match. Resolve in Phase 2 with a DOM diagnostic if naive selector fails.
 - [ ] **Does the watcher chat composer accept files when the chat is in a project?** Claude.ai project chats may have different upload affordances than regular chats. Verify in Phase 2.
 - [ ] **What happens to the image cache across watcher restarts?** v0.3 default: cache persists on disk (`tmp/img/`), the in-memory Map repopulates by scanning the directory and using filename = msg-id. Acceptable. If Maciej wants cache wiped on every restart, flip a flag.
+
+---
+
+## Build log
+
+### 08/06/26 — Claude/Maciej — Phase 1: batch coalescing SHIPPED
+
+Coalescing logic landed in `index.js` (no driver-level changes needed). Buffer + busy flag at module scope; batcher callback appends to `pendingMessages` and short-circuits if `isDriverBusy`; `processPending()` drains the buffer in a while-loop with soft cap at `FORCE_FIRE_COUNT`. Reason promotion (fast_path > force_fire > debounce) ensures merged batches keep highest-priority signal. Earliest `prev_check_ts` wins in coalesce window so gap calc reflects oldest message.
+
+**Files touched:**
+- `index.js` — added `pendingMessages`, `pendingReason`, `pendingPrevCheckTs`, `isDriverBusy`; added `upgradeReason()` and `processPending()`; refactored batcher callback to enqueue instead of fire directly.
+
+**Verification (chat `0aa5046e-…`, 16:50–16:55 UTC):**
+- 3 sequential `claude ...` messages spaced ~5s apart → each buffered correctly during prior in-flight, drained pairwise. Log shows `coalesce: driver busy, buffered` (1) → `coalesce: draining next batch` → `batch fire` for each. Zero composer collisions, zero parallel sends.
+- 3-burst with longer first prompt (haiku) → same pattern; reply latency still ~5-7s so merge-into-one path didn't fire, but the buffer mechanism captured every in-flight arrival correctly.
+- Pairwise serialization is the natural outcome when reply_latency ≈ inter_message_gap. True N-into-one merging will fire when reply latency exceeds inter-message gap (long reasoning, KB fetches, image analysis in Phase 2).
+
+**What this fixes:** the latent collision bug. Before this, two batches arriving close enough would both grab the composer and either send garbled prompts or miss replies. Now provably impossible — `isDriverBusy` is the single source of truth and the buffer is the only path for concurrent messages.
 
 ---
 
