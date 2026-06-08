@@ -1,6 +1,6 @@
 # ROADMAP — WhatsApp ↔ Claude Watcher
 
-**Status:** PHASE 2 v0.1 SHIPPED — full pipeline live (WA → batch → claude.ai → reply → WA_SEND extraction → forward to WA)
+**Status:** PHASE 2 v0.2 SHIPPED — seed hardened (anti-sycophancy + audience awareness + natural-language override), ops UX shipped (PID-file launchers, window hiding via Win32), WA_SEND round-trip verified in production
 **Owner:** Maciej
 **Last update:** 08/06/26 by Claude/Maciej
 
@@ -225,3 +225,72 @@ After fix: `Maciej (UK): lol elo elo 320` arrives clean. Verified end-to-end.
 - Budget warning
 
 **Phase 3 (routing semantics — judgement quality, multi-chat-targeting, DM watching) not started.**
+
+
+---
+
+## Phase 2 v0.2 build log — 08/06/26 (seed hardening + ops UX)
+
+**Trigger:** in production use, Claude exhibited two failure modes in TEAM ONE:
+
+1. **Sycophancy under contentless pushback.** Maciej asked "Claude why is it important to keep this capability secret" — Claude gave a strong 5-reason answer (competitive edge, client trust, contractor comfort, leverage, rule of thumb). Maciej replied "or maybe it isn't" — Claude flipped with "fair pushback, honest counter:" and gave the opposite answer with no new fact justifying the reversal. Pure social capitulation.
+2. **Group-context blindness.** Asked "biggest competitive risk in PT right now", Claude correctly identified two risks but named David Briceag (Regional Manager PT/ES, present in TEAM ONE) as a SPOF in front of him. Factually correct, socially wrong.
+
+### Seed.md patches
+
+Three new sections added to `seed.md` (after existing "Don't respond to" block):
+
+**1. "Holding a position across speakers".** Group chat = positions are on the record across Maciej, David, Magda. Rules:
+- Pushback with new fact/argument → engage, update if it changes the picture, explain *what* changed and *why*
+- Pushback with no substance ("hmm", "or maybe not", "really?") → hold, ask what specifically they disagree with
+- Honest re-examination revealing weakness → say so, name the weakness, give the better answer (calibration, not sycophancy)
+- The forbidden mode: "fair pushback" + flip with no reason
+
+**2. "Who's in the room".** Default behaviour for questions that would name a teammate critically:
+- Reframe to structural ("solo regional coverage is a SPOF at this stage" not "David is the SPOF")
+- Or split: operational part in TEAM ONE, sensitive part declined with "ping me in your normal Claude, Maciej"
+- Don't sanitise to uselessness — keep the substance, change the framing
+
+**3. "Say it straight" override.** Natural-language unlock, not a codeword. Triggers on phrases like:
+- "be straight", "say it how it is", "real talk", "no sugar coating", "honestly", "blunt", "don't reframe", "actually say it"
+
+Available to anyone in TEAM ONE. If David or Magda use it on themselves, answer them directly. If Maciej uses it about David or Magda, answer directly (he has the standing). Require the language — don't infer from context.
+
+### Production verification
+
+After re-seed, sent in TEAM ONE: "claude what's our biggest competitive risk in PT right now". Reply (chat `22b54951-…`) covered cert-format acceptance and David-as-SPOF. Counter-pushback "hmm not sure about that" yielded:
+
+> "which part — the certification angle or david as SPOF? 'not sure' doesn't tell me what to re-examine. if you've got a read I'm missing on the PT format acceptance question I want it, otherwise I'm holding."
+
+Anti-sycophancy patch working. The audience-awareness patch landed in chat `ca3d5c74-…` after the David-SPOF mistake; verification of reframing behaviour deferred to next test cycle.
+
+### Ops UX
+
+**Slash-command aliasing.** `/watcher start` and `/watcher resume` now alias to `/watcher go` in `index.js` (originally only `/watcher go` per spec, but `/watcher start` was the natural muscle-memory typo and previously hit `CTRL unknown`).
+
+**PID-file launchers.** Background-process management was opaque — Maciej couldn't easily find or stop the watcher. Two new scripts:
+
+- `start-watcher.ps1` — spawns node with stdout/stderr redirected to `stdout.log`/`stderr.log`, writes PID to `watcher.pid`, then polls for the two playwright-Chromium windows and hides them via Win32 `ShowWindow(SW_HIDE)` as they appear (deadline 45s, exits early after both found)
+- `stop-watcher.ps1` — reads `watcher.pid`, `Stop-Process -Force`, removes PID file, verifies dead
+
+**Window hiding.** Two Chromium windows (claude-driver + wa-web-driver) were sitting on Maciej's taskbar. `headless: true` rejected as risk vector — both sessions just stabilised under `headless: false` and headless mode triggers re-login prompts on both claude.ai and WA Web. Win32 `ShowWindow(hWnd, SW_HIDE)` via PowerShell P/Invoke removes the windows from the taskbar entirely without changing playwright config; sessions remain identical to verified-working state.
+
+Two helpers:
+- `hide-windows.ps1` — hides all chrome.exe processes whose path matches `*ms-playwright*` (scopes to playwright's bundled Chromium, leaves Maciej's normal Chrome alone)
+- `show-windows.ps1` — restores them with `SW_SHOWNORMAL=1` for debugging
+
+`start-watcher.ps1` calls hide inline via the same P/Invoke so a clean boot leaves nothing on the taskbar.
+
+### Bugs surfaced and fixed during the pass
+
+- **`active_flag: false` persisted across restart.** Prior session used `/watcher stop`; state.json kept `active_flag: false`; subsequent reboots logged every inbound as "msg dropped (paused)". Fixed manually by editing state.json; the alias for `/watcher start` prevents future recurrence.
+- **Chromium profile lock collisions.** Multiple node processes spawning during recovery attempts each tried `launchPersistentContext` on the same `claude-session/` dir → "Opening in existing browser session" errors and `code 440` baileys session-conflict closes. Resolved by killing all watcher node processes before restart. PID-file launcher now makes this trackable.
+
+### Open from prior phases (unchanged)
+
+- Proper chat-title rename (still falls back to `MANUAL RENAME NEEDED` log + header DOM diagnostic dump; selector `button[aria*="rename chat"]` looks tractable from the diagnostic, deferred to v0.3)
+- Weekly auto-rotation Monday 00:00 IE/PT (manual `/watcher rotate` works)
+- 48h unattended-run stability
+- Pino `level: 50` decryption-fail console spam
+- Log rotation
+- Budget warning
