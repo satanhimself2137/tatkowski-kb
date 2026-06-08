@@ -32,3 +32,32 @@ David uses `-By David`, Maciej `-By Maciej`. Commits auto-tag as `[Claude/<name>
 ## Rules
 - **One logical operation per command.** Never chain multiple `gh` calls with `;` - if one hangs it takes down the whole bridge. The helper exists so you don't hand-roll `gh` chains.
 - After significant updates, replace the project-file attachment in the Claude project so mobile sessions stay in sync.
+
+---
+
+## KB layout (what's where)
+
+Maintained manually — update when structure changes.
+
+**Root files:**
+- `tatkowski_knowledge_base.md` — main long-form KB (the canonical document)
+- `ai_comms.md` — agent communication patterns and conventions
+- `ai_notes.md` — operational notes for AI agents
+- `issues_log.md` — running log of issues encountered and resolved
+- `README.md` — this file
+
+**Directories:**
+- `gsc/` — Google Search Console data dumps and historical pulls
+- `gsc-tools/` — GSC puller source code (mirrored from `D:\tatkowski-gsc\`)
+- `interpreters/` — interpreter directory and rates
+- `magda/` — Magda-specific docs (`playbook.md`, `ie-prospects.md`)
+- `patterns/` — recurring patterns, templates, and conventions
+- `roadmap/` — workstream roadmaps. **Start at `roadmap/INDEX.md`** for the full list with status. Individual files: `_TEMPLATE.md`, plus one file per active/queued/shipped workstream.
+- `todos/` — per-person todo files. Currently: `todos/magda.md`. Other team members' actions sit inline in `tatkowski_knowledge_base.md` (PENDING ITEMS table) or in their owning roadmap files.
+- `tools/` — helper scripts. Currently: `kb.ps1`.
+
+**For discovery:**
+- "What workstreams are active?" → `roadmap/INDEX.md`
+- "What's the current state of X?" → fetch the relevant `roadmap/<name>.md`
+- "What do we know about Y?" → search `tatkowski_knowledge_base.md` (semantic) or fetch directly
+- "What are X's outstanding actions?" → `todos/X.md` if it exists, else the main KB PENDING ITEMS table
