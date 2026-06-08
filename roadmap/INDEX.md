@@ -12,6 +12,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 |---|---|---|---|---|
 | Payments & customer journey | IN PROGRESS — Phase 0 (Claude Design pass) | Maciej | 07/06/26 | [workstream-1-payments-and-journey.md](workstream-1-payments-and-journey.md) |
 | Portugal market research | In progress | David (via Claude) | 06/06/26 | [portugal-market-research.md](portugal-market-research.md) |
+| Team log (decisions + ideas KB writes from watcher) | IN PROGRESS — Phase 0 (scope locked) | Maciej | 08/06/26 | [team-log.md](team-log.md) |
 
 ## Queued (next up)
 
