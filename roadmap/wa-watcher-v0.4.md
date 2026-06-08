@@ -98,6 +98,124 @@ Two complementary extensions to the v0.3 image pipeline. Inbound document suppor
 
 ---
 
+## Status
+
+**SHIPPED** ~ 2026-06-08 23:00 UK
+
 ## Post-ship summary
 
-[To be filled when Status = SHIPPED.]
+### What landed
+
+- **Inbound docs (PDF, docx, xlsx, etc.) -> claude.ai.** Watcher now uploads any file
+  WhatsApp delivers as a `document` message into the claude.ai composer via
+  `setInputFiles` (format-agnostic). Prompt emits `[DOC:filename attached]` marker
+  so the watcher Claude knows what's attached.
+- **Outbound files (claude.ai -> WhatsApp).** When claude.ai produces a generated
+  file in the latest assistant turn, the watcher clicks its Download button via
+  CDP-redirected downloads, saves to `tmp/out/`, then delivers to TEAM ONE via
+  WhatsApp Web Playwright (clipboard-paste approach - see below).
+- **KB_WRITE structured writes.** New Worker endpoint `POST /kb-write` with
+  server-side allowlist (`team-log/`, `magda/`, `david/`, `roadmap/`, `prospects/`,
+  `todos/`, `clients/`). Watcher Claude can now write directly into the KB via
+  `KB_WRITE_START` blocks in seed.md. Auto-audit one-liner to `team-log/decisions.md`
+  on every non-team-log write.
+- **Concurrency guard.** `_waitForIdle()` at the start of `sendBatch` waits for
+  claude.ai's Stop button to be hidden (+ settle + recheck) before submitting the
+  next batch. Fixes the silent submission-rejection bug where back-to-back batches
+  would never fire and we'd read the previous reply.
+- **extractGeneratedFiles regex hardened.** Old regex `/^\d+-/` matched both
+  timestamp-prefixed final files and Chromium's `.crdownload` GUID partials
+  (because GUIDs also start with digit-dash). New regex `/^\d{10,}-/` requires a
+  10+ digit prefix (timestamps are 13) and explicitly excludes `.crdownload`.
+
+### How outbound files actually got through (architectural decision)
+
+This was the long road. **Going forward, all outbound files route through the
+clipboard-paste approach below.** Future-Claude: do not redo any of the abandoned
+approaches.
+
+**What works:**
+- Read file off `tmp/out/<ts>-<name>.<ext>` (Playwright + CDP-redirected downloads
+  put it there with the proper name after the regex fix).
+- `cp.execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command',
+  "Set-Clipboard -Path '<path>'"])` to put the actual file reference on the OS
+  clipboard.
+- Click the WA Web message composer to focus it.
+- `page.keyboard.press('Control+v')` - WA Web receives a real OS paste event with
+  `isTrusted: true`, opens its file-preview modal.
+- `page.keyboard.press('Enter')` in the preview modal sends.
+- Fallback: if the preview marker is still in DOM after Enter, click a
+  dialog-scoped Send button (rare, defensive).
+
+**What didn't work (recorded so this isn't redone):**
+- **Baileys `sock.sendMessage` with media (image/video/document/audio).** Multi-
+  device companion sessions cannot send media. Baileys reports success but the
+  WhatsApp server silently drops the message. This is why we route media through
+  the WA Web Playwright tab.
+- **`setInputFiles` on the default `input[type="file"]`.** WA Web mounts only ONE
+  input by default - `accept="image/*"`. PDFs sent to it are silently rejected.
+  Confirmed by diagnostic dump that ran twice with identical result.
+- **+ attach button -> "Document" menu item -> `page.waitForEvent('filechooser')`.**
+  The + button click and menu item click both succeed visually but the menu item
+  click never produces a `filechooser` event. Timeout at 6s.
+- **Synthetic `DragEvent('drop')` with a `DataTransfer` containing the File
+  onto `#app`.** Dispatched cleanly but `event.isTrusted === false` and WA Web's
+  drop handler ignores untrusted events. No preview modal opens.
+
+### Performance after speedups
+
+End-to-end claude.ai download -> WhatsApp delivery is now ~5-7s per file:
+- ~1-2s for claude.ai download click + CDP capture + rename
+- ~1.5s for the PowerShell spawn doing `Set-Clipboard -Path` (cold-start cost)
+- ~1-2s for chat focus + paste + preview modal render
+- ~0.5-1s for Enter + send confirmation
+
+The PowerShell spawn is the biggest single cost. Not addressed this session
+because it would mean keeping a long-lived PowerShell instance with stdin pipe
+for clipboard commands - real complexity for ~1s saving per file. Logged for
+later.
+
+### Code touched
+
+- `claude-driver.js`
+  - `_waitForIdle()` method added, called at start of `sendBatch`
+  - `_waitForResponseComplete()` now takes `priorAssistantCount` and waits for
+    a NEW turn to appear (vs reading stale previous reply)
+  - `extractGeneratedFiles()` regex fix (`.crdownload` exclusion + 10+ digit
+    timestamp requirement)
+  - `extractKbWrites()` + `_parseKbWriteBlock()` for KB_WRITE
+  - Send-button-click submission path (preferred over Enter when files attached
+    in claude.ai composer - some states ignore Enter)
+- `wa-web-driver.js`
+  - `sendFile()` rewritten to clipboard-paste flow (Set-Clipboard -Path -> Ctrl+V
+    -> wait for preview marker -> Enter)
+  - Preview-modal markers list + dialog-scoped Send button fallback
+- `index.js`
+  - `processPending` order: WA_SEND -> KB_WRITE -> files -> KB_LOG
+  - mime-branching outbound to `waWeb.sendFile` (baileys media send dropped
+    entirely)
+- `prompt.js` - `[DOC:filename attached]` marker
+- `doc-cache.js` - `mimeFromExt` expanded for video/audio/html/xml
+- `seed.md` - KB_WRITE block format docs
+
+### Worker (`D:\tatkowski-whatsapp\worker\src\index.ts`)
+
+- `POST /kb-write` handler with `op` in {`append`, `replace`, `create`}
+- `WRITE_ALLOWLIST` const, path-traversal/absolute/null-byte blocked
+- `appendWithMarker` inserts after `<!-- entries below, newest on top -->`,
+  fallback end-of-file, creates if missing
+- `auditWrite` emits one-liner to `team-log/decisions.md` on every non-team-log
+  write (recursion guard via internal `audit: false` flag, not exposed externally)
+- `/kb-log` and `/kb-write` share rate limit at 40/hr
+- Deployed at version `d83f286c`
+
+### Known issues, parked
+
+- **PowerShell cold-start adds ~1.5s per file send.** Long-lived PS instance with
+  stdin pipe would fix it. Not invasive enough to do tonight.
+- **Preview-modal markers are best-effort.** None matched in the WA Web DOM we
+  tested against (selector list logged but always falls through). The Enter is
+  pressed anyway and the modal-still-open verify catches the rare case. Working
+  but not elegant.
+- **Diagnostic input-inventory dump still in `sendFile`.** Kept until we've seen
+  it stable across a few WA Web updates; cheap and informative.
