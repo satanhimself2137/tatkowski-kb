@@ -31,3 +31,9 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 ---
 
 <!-- entries below, newest on top -->
+
+### 2026-06-08 15:51 UTC — Worker write path smoke test
+
+**Decided by:** Maciej
+**Detail:** Verifying POST /kb-log appends correctly to team-log/decisions.md from PowerShell.
+
