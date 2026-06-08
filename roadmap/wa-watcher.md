@@ -294,3 +294,57 @@ Two helpers:
 - Pino `level: 50` decryption-fail console spam
 - Log rotation
 - Budget warning
+
+
+---
+
+## Phase 2 v0.2 addendum — 08/06/26 (dashboard + live KB read)
+
+Two additions shipped after the initial v0.2 commit, same session.
+
+### Dashboard GUI
+
+Small PowerShell + WinForms control panel at `D:\tatkowski-whatsapp\watcher\watcher-dashboard.ps1`. Buttons: Start, Stop, Show windows, Hide windows, Tail log (opens streaming log in a new console window), Open watcher chat (routes via `rundll32 url.dll,FileProtocolHandler` so it hits the system default browser, not the running Chromium), Refresh status. Status panel auto-refreshes every 5s and shows: watcher PID + alive/dead, active/PAUSED flag, last-seen-message timestamp, current chat URL tail, count of playwright-chromium processes.
+
+Companion files:
+- `watcher-dashboard.vbs` — silent launcher via `wscript` so no PowerShell console flashes (passes `-Sta` for WinForms threading)
+- `install-shortcut.ps1` — one-shot Start Menu shortcut installer (Win → "Tatkowski" → right-click → Pin to taskbar)
+- `kill-dashboard.ps1` — kills any running dashboard PS process (used during the wait-bug fix)
+
+### Bugs surfaced and fixed during the dashboard build
+
+- **Em-dash encoding.** Strings with `—` got mangled to `?` sequences on write through DC's cp1252-default path, breaking PowerShell parse. Rewrote all dashboard strings ASCII-only.
+- **UI hang on `-Wait`.** First version used `Start-Process ... -Wait` inside button click handlers, which blocked the WinForms UI thread until the called script returned. Form locked up after the first click. Fixed by switching to fire-and-forget `Start-Process` (no `-Wait`) and scheduling a one-shot `Timer` for the post-action status refresh (30s after Start, 3s after Stop).
+- **Off-screen window restore.** The `--window-position=-32000,-32000` Chromium launch arg added as defence-in-depth alongside `SW_HIDE` meant `SW_SHOWNORMAL` on restore only flipped the visibility flag — window remained at -32000,-32000 (invisible). Removed the arg from `claude-driver.js`, and bulletproofed `show-windows.ps1` with `SetWindowPos` to (100,100) + (160,160) on restore so the window is always brought back into view regardless of launch position.
+- **about:blank tab proliferation.** While the dashboard was hung, clicks queued on "Open watcher chat" each fired `Start-Process <url>` after un-hang, which Windows routed to the running playwright Chromium → new about:blank tabs. Rerouted to `rundll32` system-default-browser path; the existing Chromium is now never the URL target.
+
+### Live KB read via web_fetch
+
+The watcher Claude now has a documented path to read fresh KB content directly from GitHub raw URLs, without waiting for project content sync to re-index:
+
+```
+https://raw.githubusercontent.com/satanhimself2137/tatkowski-kb/main/<path>
+```
+
+Seed updated with the pattern + worked examples (main KB, roadmap INDEX, specific workstream files, magda playbook, todos). Strategy clause added: prefer `project_knowledge_search` for fuzzy semantic queries; use `web_fetch` on raw URL for verbatim current contents (especially right after a known commit). KB write remains handoff-only — desktop Claude owns `kb.ps1`/`gh api`.
+
+End-to-end verified: watcher fetched commit `8da912d9` (this file, pre-addendum) immediately after the seed update and read back the Phase 2 v0.2 build log accurately.
+
+### Watcher chat URLs from this session
+
+For continuity if past-chat-search needs them later:
+- `e5a3827e-…` — pre-anti-sycophancy patch, where Claude folded on "or maybe it isn't"
+- `22b54951-…` — first patched chat, anti-sycophancy verified, audience-awareness mistake (David as SPOF in TEAM ONE) surfaced
+- `ca3d5c74-…` — first audience-aware chat
+- `d5481790-…` — interim, replaced after toolkit seed correction
+- `f181ec96-…` — toolkit-corrected, no-GitHub-MCP framing
+- `86d46f6a-…` — current, includes live KB raw-read pattern
+
+### Open items unchanged
+
+- Proper chat-title rename (header DOM diagnostic has the selector candidate `button[aria*="rename chat"]` — tractable for v0.3)
+- Weekly auto-rotation Monday 00:00 IE/PT (manual `/watcher rotate` works)
+- 48h unattended-run stability
+- Pino `level: 50` decryption-fail console spam
+- Log rotation
+- Budget warning
