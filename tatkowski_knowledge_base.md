@@ -1,9 +1,30 @@
 # TATKOWSKI INTERPRETING & RECRUITMENT LIMITED — COMPANY KNOWLEDGE BASE
-**Last updated: 05 June 2026**
-**Version: 5.4**
+**Last updated: 08 June 2026**
+**Version: 5.5**
 *Living company bible. Master copy on GitHub: https://github.com/satanhimself2137/tatkowski-kb — read/written by Claude via tools/kb.ps1 over gh api + Desktop Commander (stateless, no local clone). Project file auto-loads in Claude sessions; replace after significant updates.*
 
 **STALE-DATA RULE:** Financial figures, GSC data, order statuses, and outstanding payments are accurate as of the date above. When working more than 7 days after this date, treat anything marked "as of [date]" or "outstanding" as potentially changed — check live sources (email, Revolut, GSC) before acting.
+
+---
+
+## CURRENT STRATEGIC PRIORITY (locked 08/06/26)
+
+**B2B interpreting is Priority 1.** Target: €5–10k/month recurring revenue within weeks, not quarters. The translation side stays operational as the automated revenue floor; B2B interpreting is the lever that takes us off the floor.
+
+**Team:** three-person — Maciej (UK + product), David (PT, with Claude alongside), Magda (IE B2B outreach via Claude, in the same project). Artur is no longer part of the operational team.
+
+**Maciej's posture (08/06 → ~22/06):** dawn-to-dusk on the customer journey product (Workstream 1 post-Phase 0). Reachable for what genuinely matters, not available for pipeline work. David and Magda carry outreach with their respective Claude instances.
+
+**Why the urgency:** SEO grew the IE site from a December standstill (Maciej was learning SEO from scratch) to 50 clicks/28d today, an all-time record. Real floor being built (GBP unblock close, Insights at 100), but a slow floor — not a rocket. One Fyffes-class B2B interpreting contract is worth more recurring revenue than another six months of SEO work.
+
+**Operational rules for the sprint:**
+- Silent prospects: one polite nudge after 4 business days. Never more. No chasing.
+- FB sourcing (David): continues, hard credentials filter (no certificate / no proven background → polite decline, no roster entry).
+- FB service-offering posts (David): 2–4× per month, background channel only.
+- David's outreach rhythm: one sector per day end-to-end (Mon immigration lawyers, Tue notários with Algarve walk-ins, Wed healthcare, Thu real estate, Fri D7/Golden visa + weekly review). No fixed weekly volume targets — quality of approach beats volume.
+- Magda works through Claude in this project — say "hi it's Magda" in a new chat, Claude takes over. Source of truth: `magda/playbook.md` + `magda/ie-prospects.md` + `todos/magda.md`.
+
+Detail and rationale: see `ai_notes.md` 08/06/26 entry and `todos/david.md` + `magda/` directory.
 
 ---
 
