@@ -37,3 +37,5 @@ _(Empty)_
 | Corporate HR | 0 | 0 | 0 | 0 |
 | Visa consultancies | 0 | 0 | 0 | 0 |
 | **Total** | **0** | **0** | **0** | **0** |
+
+watcher KB_WRITE smoke test 08/06/26 - if you see this it works
