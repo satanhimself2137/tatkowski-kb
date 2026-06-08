@@ -1,7 +1,7 @@
 # ROADMAP — WhatsApp ↔ Claude Watcher
 
-**Status:** NOT STARTED — spec locked 08/06/26
-**Owner:** Maciej (build in next dedicated session)
+**Status:** PHASE 1 IN PROGRESS — code complete, awaiting QR scan
+**Owner:** Maciej
 **Last update:** 08/06/26 by Claude/Maciej
 
 ---
@@ -116,3 +116,24 @@ The watcher chat's system prompt sets a high bar so cost and noise stay low:
 ## Post-ship summary
 
 [To be filled when v1 ships.]
+
+---
+
+## Phase 1 build log — 08/06/26
+
+Scaffold at `D:\tatkowski-whatsapp\watcher\` (whatsapp-web.js 1.34.7, qrcode-terminal):
+- `config.js` — paths, identity map, TEAM_ONE_ID, MACIEJ_UK_LID, timing constants
+- `logger.js` — JSON-line append-only to `watcher.log` + console mirror
+- `state.js` — load/save `state.json` (last_seen_ts, active_flag, current_watcher_chat_url)
+- `identity.js` — LID → name resolver per spec
+- `batcher.js` — debounce / force-fire-at-50 / fast-path triggers (`claude` / `claude,` prefix + lone `?`). Unit tests 12/12 pass via `test-batcher.js`
+- `prompt.js` — structured prompt builder: UTC header, fire reason, gap-since-last-check, per-msg `[stamp] Name: body` lines with `[VIDEO]/[VOICE]/[IMAGE]/[DOC]` markers, no transcription attempt
+- `index.js` — `Client` with `LocalAuth({ dataPath: wa-session/ })`, headless puppeteer, TEAM ONE filter, `fromMe` loop guard, `WATCHER:STOP`/`WATCHER:GO` from Maciej UK LID only, heartbeat (1h), graceful SIGINT/SIGTERM with batcher flush
+
+Phase 1 deviation from spec: the roadmap mentions "1s idle tick" — whatsapp-web.js is event-driven, so no polling loop needed. The semantic outcome (fire on inbound activity) is preserved via the `message` event handler. Heartbeat covers liveness.
+
+Phase 1 NOT YET DONE:
+- QR scan (must be done by Maciej in a foreground terminal — DC can't drive interactive QR display): `cd D:\tatkowski-whatsapp\watcher; node index.js`. Scan once with WhatsApp → Linked Devices. Session persists under `wa-session/`. Kill with Ctrl+C, restart, verify no QR re-prompt.
+- 48h unattended run
+
+Phase 2 (Chrome driver) and Phase 3 (routing + system prompt) not started.
