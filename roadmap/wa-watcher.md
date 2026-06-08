@@ -348,3 +348,57 @@ For continuity if past-chat-search needs them later:
 - Pino `level: 50` decryption-fail console spam
 - Log rotation
 - Budget warning
+
+
+---
+
+## Phase 2 v0.2 addendum 2 — 08/06/26 (Cloudflare Worker KB proxy + auth)
+
+Replaces the raw.githubusercontent.com KB-read pattern. Worker fronts the KB with a shared-secret auth gate and authenticated upstream fetches.
+
+### What shipped
+
+- **Worker code at** `D:\tatkowski-whatsapp\worker\` (TypeScript, deployed via `wrangler deploy` as Worker `kb`)
+  - `wrangler.toml` — `name = "kb"`, vars `GITHUB_OWNER`, `GITHUB_REPO`, `DEFAULT_REF=main`
+  - `src/index.ts` — auth check (`?key=…` or `Authorization: Bearer …`) → GitHub Contents API call with `Accept: application/vnd.github.raw` + `Authorization: Bearer <GITHUB_TOKEN>` → up to 3 retries on 5xx/429 with 250/500/750ms backoff
+  - `package.json`, `tsconfig.json`, `.gitignore` — wrangler 4.x + @cloudflare/workers-types
+- **Secrets on the Worker** (set via `wrangler secret put`, never in repo):
+  - `GITHUB_TOKEN` — classic PAT, `repo` scope. Lifts upstream limit from 60/hr to 5000/hr and future-proofs flipping the KB repo private.
+  - `ACCESS_KEY` — `tat-kb-9472`. Shared secret required on every inbound request.
+- **Routes:** existing `kb.tatkowski.com` route + 1 other route, preserved across redeploy.
+
+### URL shape
+
+- Raw file: `https://kb.tatkowski.com/kb/<path>?key=tat-kb-9472`
+- Health: `https://kb.tatkowski.com/health` (no auth)
+- Alt auth: `Authorization: Bearer tat-kb-9472` header instead of `?key=`
+- Optional `&ref=<branch-or-sha>` to read a non-main ref
+
+### Verification
+
+- `/health` → 200 `ok`
+- `/kb/README.md` without key → 401 `unauthorized`
+- `/kb/README.md?key=tat-kb-9472` → 200, README content matches main
+- `/kb/README.md` with `Authorization: Bearer tat-kb-9472` → 200, same content
+- Bad key (`Bearer ghp_…` accidentally pasted) → 401, confirming key-vs-PAT separation works
+
+### Seed updated
+
+`D:\tatkowski-whatsapp\watcher\seed.md` patched:
+- All KB URLs swapped from `raw.githubusercontent.com/satanhimself2137/tatkowski-kb/main/<path>` to `https://kb.tatkowski.com/kb/<path>?key=tat-kb-9472`
+- Auth-required line added; 404/401 fallback rule explicit (401 = fix URL, don't fall back to memory)
+
+### Operational implications
+
+- Rate limit no longer 60/hr anonymous; 5000/hr authenticated via the Worker's PAT
+- If/when the KB repo flips private, only the Worker secret needs swapping — no client-side change
+- One PAT was leaked to chat during setup (visible in conversation logs) and rotated immediately; new PAT installed via `wrangler secret put GITHUB_TOKEN`
+
+### Open from prior phases (unchanged)
+
+- Proper chat-title rename (header DOM diagnostic has selector candidate `button[aria*="rename chat"]`)
+- Weekly auto-rotation Monday 00:00 IE/PT (manual `/watcher rotate` works)
+- 48h unattended-run stability
+- Pino `level: 50` decryption-fail console spam
+- Log rotation
+- Budget warning
