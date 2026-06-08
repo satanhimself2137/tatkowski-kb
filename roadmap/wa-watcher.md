@@ -1,6 +1,6 @@
 # ROADMAP — WhatsApp ↔ Claude Watcher
 
-**Status:** PHASE 1 IN PROGRESS — code complete, awaiting QR scan
+**Status:** PHASE 1 COMPLETE — receiver loop working end-to-end (baileys, attribution OK)
 **Owner:** Maciej
 **Last update:** 08/06/26 by Claude/Maciej
 
@@ -137,3 +137,41 @@ Phase 1 NOT YET DONE:
 - 48h unattended run
 
 Phase 2 (Chrome driver) and Phase 3 (routing + system prompt) not started.
+
+---
+
+## Phase 1 v0.2 build log — 08/06/26 (baileys pivot)
+
+**whatsapp-web.js abandoned.** First boot reached `ready` after ~5min sync, every subsequent boot stalled at `authenticated` indefinitely. Verified not a process/zombie/conflict issue. Library injects scripts into WA Web and waits for internal WhatsApp objects to appear; WA's web app changes break this regularly. Wrong tool for unattended operation. Removed.
+
+**Pivoted to `@whiskeysockets/baileys@6.7.16`.** Direct WebSocket protocol — no puppeteer, no Chromium, no WA Web modals. Install 91 packages in 13s vs 195 packages + Chromium in 50s. `client ready` in ~10–20s reliably.
+
+**Files changed:**
+- `package.json` — swapped deps
+- `index.js` — full rewrite around `makeWASocket`, `useMultiFileAuthState`, `messages.upsert`, auto-reconnect on non-loggedOut closes
+- `config.js` — added `MACIEJ_UK_PN: 447752154028@s.whatsapp.net` (phone-number form); identity map covers both LID and PN
+- `batcher.js`, `prompt.js`, `state.js`, `identity.js`, `logger.js`, `test-batcher.js` — unchanged. 12/12 tests still pass.
+
+**Diagnostic detours that wasted time:**
+- Suspected zombie node processes — wasn't it
+- Suspected pinned-WA-Web-tab conflict — wasn't it
+- Suspected Advanced Chat Privacy on TEAM ONE — wasn't it (left toggled off anyway, no functional reason to keep it on for a team group)
+
+**Actual attribution bug:** baileys emits two events per inbound LID-group message:
+1. Encrypted variant with full attribution on `msg.key.participant` + `msg.key.participantPn`, but `decrypt fails` ("No session found to decrypt message"). Filtered out as `type==='unknown' && !body`.
+2. Body-bearing variant arrives ~5–10s later with `msg.key.participant === undefined`, but **attribution sits on `msg.participant`** (top-level, not under `.key`). Fixed extraction to fall through `msg.key.participant || msg.participant || msg.key.participantPn`.
+
+After fix: `Maciej (UK): lol elo elo 320` arrives clean. Verified end-to-end.
+
+**Known leftover noise (non-blocking, defer):**
+- Baileys decryption-fail errors printed to console (level 50) on every inbound — pino logger at `warn` level surfaces them; can silence by passing a stricter logger or filtering pino transport. Cosmetic.
+- `executeInitQueries Timed Out` warning on connect — group metadata init handshake doesn't always complete. Doesn't affect message delivery. Investigate if it ever blocks anything in Phase 2.
+- 1s idle tick from spec not implemented — baileys is event-driven, no polling needed.
+
+**Phase 1 NOT YET DONE:**
+- 48h unattended-run stability test
+- Stop / resume signals (`WATCHER:STOP` / `WATCHER:GO`) end-to-end test
+- Log file rotation
+- Budget warning
+
+**Phase 2 (Chrome driver) and Phase 3 (routing + system prompt) not started.**
