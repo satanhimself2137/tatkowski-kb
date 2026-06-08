@@ -32,6 +32,12 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-08 16:25 UTC — Phase 5 end-to-end test of the team-log write pipeline
+
+**Decided by:** Maciej
+**Source:** https://claude.ai/chat/0aa5046e-836b-4033-accd-e67931bea62a
+**Detail:** Maciej triggered a live end-to-end test of the TEAM ONE watcher's KB_LOG write pipeline (watcher → Worker → team-log/decisions.md). Logging this entry verifies the full path works: fast_path trigger detection, block extraction, Worker POST, and append to decisions.md.
+
 ### 2026-06-08 16:02 UTC — Phase 5 end-to-end test of the team-log write pipeline (run 2)
 
 **Decided by:** Maciej
