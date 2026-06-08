@@ -6,6 +6,60 @@ Most recent entry at the top.
 ---
 
 
+## [Claude/Maciej] 08/06/26
+
+Strategic update for Claude/David — please read in full before David's next session.
+
+### The decision (08/06/26)
+
+B2B interpreting is **Priority 1** for the company effective today. Target: **€5–10k/month within weeks, not quarters**. Not SEO, not marketing campaigns, not translation acquisition — interpreting contracts. The translation side keeps running as the automated revenue floor; B2B interpreting is the lever that changes the company's altitude.
+
+### Why now
+
+SEO was effectively dead from December through spring while Maciej learned it from scratch. It's now real but slow — IE site crossed 50 clicks/28d today (an all-time record) with GBP unblock close and Insights at 100. Real floor, not a rocket. One Fyffes-class B2B interpreting contract = more recurring revenue than another six months of SEO work. The asymmetric upside lives in B2B.
+
+### Maciej's posture for the next 2 weeks
+
+Heads-down dawn-to-dusk on the customer journey product (Workstream 1 post-Phase 0). Reachable on anything that genuinely matters but not available for pipeline work. David and Magda carry outreach with Claude alongside them daily.
+
+### David's role — the operator note
+
+David's interpreter pipeline from Facebook sourcing (Ukrainian, Hindi, Nepali, Arabic, French roster across Lisbon and the Algarve) is the foundation that makes the B2B pitch credible. Five years of outreach instinct, applied. He is the operator running PT — not a junior to be micromanaged. Speak to him as the field commander he is. The structure below replaces the previous "15 messages/day" volume framing — Maciej corrected that volume targets are too stiff for how David works; give him a clear path and he walks it.
+
+### New daily rhythm for David's outreach (replaces 20/5/10 weekly targets)
+
+Pick one sector per day, walk it end to end with Claude:
+
+- **Mon — Immigration lawyers** (Lisbon → Porto → Faro). Google Maps + LinkedIn named-partner targeting. Claude drafts each first message tailored to the firm.
+- **Tue — Notários, Algarve.** Portimão walk-ins to the 3 closest offices (David's local advantage); LinkedIn for the rest. No pitch on the receptionist — ask for the office manager, hand a one-pager.
+- **Wed — Private healthcare.** HPA, Lusíadas Algarve, CUF Algarve. LinkedIn HR Director / Operations Manager. Compliance angle (informed consent in patient's language).
+- **Thu — Real estate.** Cascais, Estoril, Lagos, Tavira. Foreign-buyer agencies.
+- **Fri — D7 / Golden visa consultancies + 30-minute weekly review with Claude** (what got replies, what didn't, what to adjust next week).
+
+### Operating rules
+
+- **Silent prospects:** one polite Claude-drafted nudge after **4 business days**. Never more. We do not chase.
+- **FB sourcing posts:** continue, but hard credentials filter — no certificate / no verifiable professional background → polite decline, no roster entry. Unvetted FB interpreters are noise.
+- **FB service-offering posts:** 2–4× per month, background channel only, once the sourcing wave ages off the walls. Not the main play.
+
+### Team context David should know
+
+- **Magda** is now actively working IE B2B outreach via Claude in the same model Maciej outlined for David. She has her own playbook at `magda/playbook.md` and prospect tracker at `magda/ie-prospects.md`. Three-person team; Maciej / David / Magda.
+- **Artur** is no longer part of the operational team. Do not loop him in.
+- **WhatsApp send-only API:** updated 08/06/26 — `D:\tatkowski-whatsapp\bridge\quick-send.js`. Claude/Maciej sends via direct `require()` now (no bridge re-arm). David's Claude doesn't send WA — irrelevant for his Mac setup, just FYI.
+- **GSC pipeline:** fixed today (08/06). Was silently no-op'ing on the current month due to a `_progress.jsonl` bug. Source now in KB at `gsc-tools/`. CSVs refresh weekly to `gsc/`.
+
+### Recognition (Maciej's words, passed through)
+
+David — Maciej has been saying for five years before he registered this company that he wanted David in it. That's not framing for the team message; that's how long this seat was held for him. The interpreter pipeline he built in the last two months is exactly the kind of execution that justifies the wait.
+
+### What David's Claude should do next session
+
+When David opens a chat, default to: (a) read `todos/david.md` (rewritten today 08/06/26), (b) check which day of the week it is and load that day's sector plan, (c) start identifying the 5 prospects for the day from the relevant sources, (d) draft the first outreach message for the first prospect for David to review. End-to-end execution support, no over-explanation. He knows what to do — Claude removes friction.
+
+---
+
+
 ## [Claude/Maciej] 06/06/26 (evening)
 
 Three things landed tonight — design system push, Phase 3 implementation order, B2B direction for David's side.
