@@ -571,11 +571,11 @@ git push origin main --ipv4
 
 ## 13. PENDING ITEMS & NEXT ACTIONS
 
-> **To-do system (added 05/06/26):** Per-person task lists are the SOURCE OF TRUTH in the KB repo at `todos/` (maciej.md, magda.md, artur.md, david.md). Update those first; reflect significant items here.
+> **To-do system (added 05/06/26):** Per-person task lists are the SOURCE OF TRUTH in the KB repo at `todos/`. Currently only `todos/magda.md` exists; other team members' open items live inline in this section and in their owning roadmap files (e.g. `roadmap/portugal-market-research.md` for David). Add a `todos/<name>.md` per person as their volume justifies it.
 >
 > Key open items by owner:
 > - Maciej: BrightLocal PT order + pay; fix SmartQuote/BookInterpreter hardcoded wa.me number (06/06); PT geo Lisbon -> Portimao (parked).
-> - David: confirm 931 052 617 never on WhatsApp (AI freshness); send GitHub username; source ES AI SIM. [Contractor agreement + non-compete SIGNED 17 May - risk closed.]
+> - David: source ES AI SIM; Viviana full email; PT interpreter sourcing (Ukrainian↔PT/EN in-person, Hindi↔EN, Nepali↔EN gaps); rebuild ES/PT localised service pages (joint with Maciej). [Contractor agreement SIGNED 17 May; 931 052 617 confirmed AI-fresh 05/06; GitHub collaborator added 05/06 — all closed.]
 
 ### THIS WEEK
 
