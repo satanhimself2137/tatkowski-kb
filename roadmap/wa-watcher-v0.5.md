@@ -1,6 +1,6 @@
 # ROADMAP — wa-watcher v0.5 (chat hygiene + model controls + reply-to text fix)
 
-**Status:** NOT STARTED — scope locked, handed off to Claude Code (Sonnet 4.6)
+**Status:** PHASE 1 SHIPPED (reply-to text fix, 09/06/26) — Phases 2–6 in progress
 **Owner:** Maciej
 **Last update:** 09/06/26
 
@@ -202,7 +202,7 @@ Five additions on top of v0.4. Three close correctness/UX gaps (reply-to text fi
 
 ## Done criteria
 
-- [ ] Reply-to text from previous rotation shows quoted body + author inlined in prompt; ID-suffix line gone
+- [x] Reply-to text from previous rotation shows quoted body + author inlined in prompt; ID-suffix line gone
 - [ ] `/watcher help` returns command inventory to TEAM ONE within 2s
 - [ ] New rotations get titled within first 2–3 turns via `WATCHER_TITLE:` marker
 - [ ] Retrospective dry-run lists all candidate chats with proposed new titles
