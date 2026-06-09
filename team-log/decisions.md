@@ -32,6 +32,11 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-09 18:39 UTC — kb-write replace todos/magda.md
+
+**Source:** https://claude.ai/chat/6764f851-b210-45ee-bf2a-dc301875f100
+**Detail:** 09/06 update - strategy pivot logged (lawyers deprioritised → employers + hospitals), prospect roster built (18), template approved, 2 direct emails ready to send — commit: 547482d
+
 ### 2026-06-09 18:39 UTC — kb-write replace magda/ie-prospects.md
 
 **Source:** https://claude.ai/chat/6764f851-b210-45ee-bf2a-dc301875f100
