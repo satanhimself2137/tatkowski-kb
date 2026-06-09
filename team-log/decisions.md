@@ -32,6 +32,12 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-08 23:00 UTC — WA watcher v0.4 SHIPPED
+
+**Decided by:** Maciej + Claude
+**Source:** Build session in TEAM ONE / desktop Claude
+**Detail:** v0.4 closed out. Inbound documents (PDF/docx/xlsx) via format-agnostic `setInputFiles`. Outbound files from claude.ai → TEAM ONE via WA Web clipboard-paste (`Set-Clipboard -Path` → Playwright Ctrl+V). Five outbound approaches tried before clipboard-paste landed; baileys-as-companion silently drops media, default WA Web file input is `accept="image/*"` only, + menu filechooser never fires, synthetic DragEvent fails the `isTrusted` check. KB_WRITE endpoint live on Worker (`d83f286c`) with server-side allowlist. `_waitForIdle` concurrency guard added — fixes stale-reply read on back-to-back batches. `extractGeneratedFiles` regex hardened (`/^\d{10,}-/` + `.crdownload` exclusion). v0.5 next: chat renaming (retrospective + forward), model/effort/thinking selection from WhatsApp, `/help`, reply-to text fix (quoted body inlined into prompt, currently only opaque ID prefix).
+
 ### 2026-06-08 21:17 UTC — kb-write append magda/ie-prospects.md
 
 **Source:** https://claude.ai/chat/99abe138-b6cc-4912-9ca0-1005cb4d3107
