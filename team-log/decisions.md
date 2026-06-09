@@ -32,6 +32,12 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-09 19:14 UTC — IE competitor landscape mapped 09/06 — Translit + Translation.ie identified as Tier 1 incumbents we will hit in deals. Positioning vs them locked: speed + modern intake, not breadth or tender wins.
+
+**Decided by:** Maciej
+**Source:** https://claude.ai/chat/6764f851-b210-45ee-bf2a-dc301875f100
+**Detail:** Earlier framing assumed "no specific interpreting agency focused on IE". Wrong — Translit dominates public sector and likely has prior relationships with most hospitals on Magda''s list. Translation.ie is the second giant. Strategic implication: outreach pitch can''t be "do you need translation?" — must be "are you tired of waiting 3 days for a quote?" Don''t compete on tenders; win ad-hoc mid-sized speed-sensitive work and expand from there. Full breakdown lives at competitors-ie.md.
+
 ### 2026-06-09 19:14 UTC — kb-write create competitors-ie.md
 
 **Source:** https://claude.ai/chat/6764f851-b210-45ee-bf2a-dc301875f100
