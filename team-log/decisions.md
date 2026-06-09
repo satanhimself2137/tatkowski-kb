@@ -32,6 +32,12 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-09 18:39 UTC — IE B2B strategy pivot 09/06 — drop immigration lawyers as primary target, focus on large employers (food/dairy, pharma/medtech, logistics) + hospitals
+
+**Decided by:** Magda
+**Source:** https://claude.ai/chat/6764f851-b210-45ee-bf2a-dc301875f100
+**Detail:** Magda + Maciej agreed today that lawyers aren''t the strongest shot for recurring B2B revenue — referral pattern is ad-hoc and low-volume. Pivot to companies with multilingual workforces who have recurring HR translation needs (contracts, H&S docs, induction packs) plus on-site interpreter demand for HR meetings, disciplinary processes, return-to-work interviews. First roster: 18 prospects, with food/meat (Kepak, Dawn Meats, ABP, Greencore, Irish Country Meats, Sysco), dairy (Dairygold, Tirlán, Glanbia, Kerry), pharma/medtech (Pfizer, Abbott, Boston Scientific, Medtronic, J&J Janssen Cork, Baxter, Intel), and logistics (DHL).
+
 ### 2026-06-09 18:39 UTC — kb-write replace todos/magda.md
 
 **Source:** https://claude.ai/chat/6764f851-b210-45ee-bf2a-dc301875f100
