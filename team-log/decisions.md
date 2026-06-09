@@ -32,6 +32,11 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-09 19:14 UTC — kb-write create competitors-ie.md
+
+**Source:** https://claude.ai/chat/6764f851-b210-45ee-bf2a-dc301875f100
+**Detail:** IE competitor landscape - 2 incumbents (Translit, Translation.ie) + 3 mid-tier players. Our positioning vs them. — commit: e45b7d9
+
 ### 2026-06-09 18:39 UTC — IE B2B strategy pivot 09/06 — drop immigration lawyers as primary target, focus on large employers (food/dairy, pharma/medtech, logistics) + hospitals
 
 **Decided by:** Magda
