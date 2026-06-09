@@ -1,8 +1,8 @@
 # Interpreters — Portugal (PT)
 
-Last updated: 08/06/2026
+Last updated: 09/06/2026
 
-Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 927 901 200, fluent Portuguese + Spanish). PT presence: certified translation operational via David's local lawyer network; interpreting capacity light.
+Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 927 901 200, fluent Portuguese + Spanish). PT presence: certified translation operational via David's local lawyer network; interpreting capacity building.
 
 ---
 
@@ -25,7 +25,7 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 
 ## French / Portuguese
 
-**Elda da Silva** *(applied 06/06/2026)*
+**Elda da Silva** *(on board — 06/06/2026)*
 - Languages: French, Portuguese
 - Email: eldadasilva1974@gmail.com
 - Location: Guimarães
@@ -33,24 +33,24 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 - Availability: Part-time or full-time. In-person available (northern Portugal).
 - Notes: Legal and court interpreting background. CV on file.
 
-**Isabel Manso** *(applied 08/06/2026 — awaiting rate)*
+**Isabel Manso** *(accepted — reply drafted 09/06/2026)*
 - Languages: French (native), Portuguese (native), English
 - Email: isacmanso@gmail.com
 - Location: Porto
-- Rate: TBC — awaiting reply
-- Availability: TBC — awaiting reply on in-person
-- Notes: Degree in Modern Languages and Translation, Univ. Porto (2004). 20+ years freelance. CV on file.
+- Rate: €0.04/word translation | €20/hour interpreting
+- Availability: Remote or local area (Porto) only. No travel.
+- Notes: Degree in Modern Languages and Translation, Univ. Porto (2004). 20+ years freelance. CV on file. Rates confirmed by her 08/06/2026 — acceptance reply drafted, pending send.
 
-**Carla Fernandes** *(applied 08/06/2026 — awaiting rate)*
+**Carla Fernandes** *(pending — terms sent 09/06/2026)*
 - Languages: English, French, Italian, Portuguese. Certified PT translator (EN/FR/IT).
 - Email: carlaarfernandes@gmail.com
 - Phone: +351 965 467 826
 - Location: Braga area (Univ. Minho graduate)
-- Rate: TBC — awaiting reply
-- Availability: TBC — awaiting reply on in-person
-- Notes: APT member. Specialises in French–Portuguese legal translation. Internship at Paris legal translation agency. Works with law firms, notaries, courts. ~2 years full-time translation/interpreting. Business card PDF on file.
+- Rate: €30/hour offered (interpreting)
+- Availability: TBC — awaiting confirmation
+- Notes: APT member. Specialises in French–Portuguese legal translation. Internship at Paris legal translation agency. Works with law firms, notaries, courts. ~2 years full-time. Terms (ad hoc, no exclusivity, 14-day payment) sent 09/06/2026. Awaiting her agreement.
 
-**Silvana Gonçalves** *(applied 08/06/2026 — on board)*
+**Silvana Gonçalves** *(on board — 08/06/2026)*
 - Languages: French, Portuguese (bilingual)
 - Email: silvanafilipa12@gmail.com
 - Location: Braga
@@ -58,28 +58,28 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 - Availability: Remote only. Evenings + Saturdays.
 - Notes: No prior professional translation experience. Rate offered and accepted 08/06/2026.
 
-**Heather Tomlinson** *(applied 08/06/2026 — on board)*
+**Heather Tomlinson** *(on board — 08/06/2026)*
 - Languages: English (native), French (fluent)
 - Email: HeatherTomlinson@proton.me
 - Phone: +351 910 122 066 (Telegram) / +33 616 618 458 (WhatsApp + Telegram)
 - Location: Algarve
 - Rate: €50/hour translation | €60/hour interpreting
-- Availability: Flexible. In-person across Algarve TBC — awaiting confirmation.
-- Notes: 40+ years in comms, PR, international networking. Recent 120k-word health/wellness project including medical terminology. No formal translation degree. Welcomed on board 08/06/2026.
+- Availability: Flexible. In-person Algarve — to confirm.
+- Notes: 40+ years in comms, PR, international networking. Recent 120k-word health/wellness translation project. No formal translation degree. Welcomed on board 08/06/2026. In-person availability across Algarve still to confirm.
 
 ---
 
 ## Russian / Portuguese / English
 
-**Cristina Mestre** *(applied 08/06/2026 — on board)*
+**Cristina Mestre** *(on board — 08/06/2026)*
 - Languages: Russian (fluent), Portuguese (native)
-- Email: rucristinamestre922@gmail.com
+- Email: cristinamestre922@gmail.com
 - Location: Lisboa
 - Rate: €20/hour
-- Availability: Remote/telephone. In-person Lisboa TBC — awaiting confirmation.
-- Notes: Degree from Moscow State University. 12 years in Russia. AIMA interpreter (immigration). Currently translating RU–PT documents for a law firm in Portugal. Excellent profile. Welcomed on board 08/06/2026.
+- Availability: Remote/telephone. In-person Lisboa confirmed (occasional OK).
+- Notes: Degree from Moscow State University. 12 years in Russia. AIMA interpreter (immigration). Currently translating RU–PT documents for a law firm in Portugal. Excellent profile. Welcomed on board 08/06/2026. In-person confirmed 09/06/2026.
 
-**Inna Ogando** *(applied 06/06/2026)*
+**Inna Ogando** *(on board — 06/06/2026)*
 - Languages: Russian (native), Portuguese (fluent), English (fluent)
 - Email: inogando@gmail.com
 - Location: Lisboa
@@ -91,7 +91,7 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 
 ## Russian / English
 
-**Asel** *(applied 07/06/2026)*
+**Asel** *(on board — 07/06/2026)*
 - Languages: Russian, English
 - Email: aselsmell@gmail.com
 - Location: Porto
@@ -102,13 +102,13 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 
 ## Ukrainian / Portuguese
 
-**Liubov Tymruk** *(applied 07/06/2026 — awaiting rate)*
+**Liubov Tymruk** *(accepted — reply drafted 09/06/2026)*
 - Languages: Ukrainian, Portuguese
 - Email: lubwuk@gmail.com
 - Location: Lisboa (17 years in PT)
-- Rate: TBC — awaiting reply
+- Rate: €30/hour
 - Availability: Immediate. In-person TBC.
-- Notes: No formal translation training. PT proficiency exam 2019 (level unconfirmed, self-reports improved since). PT B2+ estimated.
+- Notes: No formal translation training. PT proficiency exam 2019 (level unconfirmed). PT B2+ estimated. Self-describes as beginner in professional interpreting — monitor first assignment. Rate confirmed by her 08/06/2026 — acceptance reply drafted, pending send.
 
 ---
 
@@ -152,11 +152,11 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 
 ## Arabic / Turkish / English (Remote)
 
-**Hussein Husham** *(applied 06/06/2026)*
+**Hussein Husham** *(on board — 06/06/2026)*
 - Languages: Arabic (native), Turkish (fluent), English (professional)
 - Email: husseincad22@gmail.com
 - Location: Istanbul (remote only)
-- Rate: /hour (~€15)
+- Rate: €15/hour
 - Availability: Remote/OPI/VRI only.
 - Notes: Active with Focus Interpretation (California). Medical, legal, community cases. CV on file.
 
@@ -164,14 +164,14 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 
 ## Urdu / English (Remote / Spain-based)
 
-**Muhammad Altaf** *(applied 07/06/2026 — awaiting rate)*
+**Muhammad Altaf** *(accepted — reply drafted 09/06/2026)*
 - Languages: Urdu (fluent), English (fluent)
 - Email: muhammadaltaf5213@gmail.com
 - Phone: +46 769 690 351
 - Location: Spain (willing to work remotely or travel to PT)
-- Rate: TBC — awaiting reply
+- Rate: €20/hour interpreting | €0.05–0.07/word translation (€3–5/page)
 - Availability: Flexible. Remote or travel.
-- Notes: MPhil Physics, MA English. No professional interpreting/translation experience stated. CV on file.
+- Notes: MPhil Physics, MA English. No professional interpreting/translation experience stated. Rates confirmed by him 08/06/2026 — acceptance reply drafted, pending send.
 
 ---
 
@@ -185,9 +185,31 @@ Portugal-specific roster. Market run by David Briceag (Regional Manager, +351 92
 
 ---
 
+## Status Summary (09/06/2026)
+
+| Name | Pair | Location | Rate | Status |
+|---|---|---|---|---|
+| Elda da Silva | FR↔PT | Guimarães | €35/h | On board |
+| Isabel Manso | FR↔PT | Porto | €0.04/word / €20/h | Accepted — reply to send |
+| Carla Fernandes | EN/FR/IT↔PT | Braga | €30/h offered | Pending her reply |
+| Silvana Gonçalves | FR↔PT | Braga | €25/h | On board |
+| Heather Tomlinson | EN↔FR | Algarve | €50–60/h | On board |
+| Cristina Mestre | RU↔PT | Lisboa | €20/h | On board |
+| Inna Ogando | RU↔PT/EN | Lisboa | €20–50/h | On board |
+| Asel | RU↔EN | Porto | €20/h | On board |
+| Liubov Tymruk | UA↔PT | Lisboa | €30/h | Accepted — reply to send |
+| Olga Skosarenko | UA/IT/EN↔PT | Ukraine (remote) | TBC | Awaiting rate |
+| Anita Dahal | NE/HI/EN↔PT | Portimão | TBC | Awaiting rate |
+| Ram Goraniya | GU/HI/EN↔PT | Lisboa | TBC | Awaiting rate |
+| Hussein Husham | AR/TR↔EN | Istanbul (remote) | €15/h | On board |
+| Muhammad Altaf | UR↔EN | Spain (remote) | €20/h interp / €0.05–0.07/word | Accepted — reply to send |
+
+---
+
 ## To Do
 
-- Confirm in-person availability: Heather Tomlinson, Cristina Mestre
-- Await rate replies: Isabel Manso, Carla Fernandes, Liubov Tymruk, Olga Skosarenko, Anita Dahal, Ram Goraniya, Muhammad Altaf
-- Add confirmed candidates to SalesManager once rates locked
-- Source Tradutores Jurados for Spain market (separate ES.md task)
+- **Send pending acceptance replies:** Isabel Manso, Liubov Tymruk, Muhammad Altaf
+- **Await Carla Fernandes reply** to terms email sent 09/06/2026
+- **Chase rate replies:** Olga Skosarenko, Anita Dahal, Ram Goraniya
+- **Confirm in-person:** Heather Tomlinson (Algarve coverage)
+- **Source Tradutores Jurados for Spain** (separate ES.md task)
