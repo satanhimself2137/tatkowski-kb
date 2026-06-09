@@ -32,6 +32,12 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-09 — WA watcher v0.5 SHIPPED
+
+**Decided by:** Maciej + Agent (Sonnet 4.6)
+**Source:** Build session (6-phase autonomous run)
+**Detail:** v0.5 shipped. Six phases: (1) reply-to text fix — quoted body + author inlined in prompt, ID-suffix line gone; (2) `/watcher help` command; (3) chat auto-rename on `WATCHER_TITLE:` marker (PUT `/chat_conversations/{uuid}`, confirmed after 5 diagnostic passes); (4) retrospective rename script (`scripts/rename-old-chats.js`, dry-run default, `--apply` commits); (5) model/effort/thinking controls — `/watcher model <name> [effort] [thinking-on|off]`, model via DOM picker, effort/thinking via API PUT settings → 202; (6) seed.md updated + `COMMANDS.md` operator reference written. Model change via API blocked (400), can only be set via DOM at conversation creation.
+
 ### 2026-06-08 23:00 UTC — WA watcher v0.4 SHIPPED
 
 **Decided by:** Maciej + Claude
