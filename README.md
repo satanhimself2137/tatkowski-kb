@@ -53,7 +53,7 @@ Maintained manually — update when structure changes.
 - `magda/` — Magda-specific docs (`playbook.md`, `ie-prospects.md`)
 - `patterns/` — recurring patterns, templates, and conventions
 - `roadmap/` — workstream roadmaps. **Start at `roadmap/INDEX.md`** for the full list with status. Individual files: `_TEMPLATE.md`, plus one file per active/queued/shipped workstream.
-- `todos/` — per-person todo files. Currently: `todos/magda.md`. Other team members' actions sit inline in `tatkowski_knowledge_base.md` (PENDING ITEMS table) or in their owning roadmap files.
+- `todos/` — per-person todo files. Current: `todos/magda.md` (Magda's actions), `todos/david.md` (David's actions). Other team members' actions sit inline in `tatkowski_knowledge_base.md` (PENDING ITEMS table) or in their owning roadmap files.
 - `tools/` — helper scripts. Currently: `kb.ps1`.
 
 **For discovery:**
