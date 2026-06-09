@@ -1870,6 +1870,7 @@ dim1,dim2,dim3,clicks,impressions,ctr,position
 2026-05-30,https://tatkowski.com/ukrainian-translator-dublin/,MOBILE,0,1,0,4
 2026-06-03,https://tatkowski.com/,DESKTOP,1,5,0.2,18.8
 2026-06-04,https://tatkowski.com/interpreting/,MOBILE,1,1,1,1
+2026-06-06,https://tatkowski.com/,DESKTOP,1,8,0.125,20.25
 2026-06-01,https://tatkowski.com/,DESKTOP,0,6,0,12.833333333333334
 2026-06-01,https://tatkowski.com/,MOBILE,0,3,0,3.6666666666666665
 2026-06-01,https://tatkowski.com/about/,DESKTOP,0,3,0,1
@@ -1920,3 +1921,10 @@ dim1,dim2,dim3,clicks,impressions,ctr,position
 2026-06-05,https://tatkowski.com/polish-translator-dublin/,MOBILE,0,2,0,11
 2026-06-05,https://tatkowski.com/ukrainian-translation/,DESKTOP,0,2,0,10.5
 2026-06-05,https://tatkowski.com/ukrainian-translator-dublin/,DESKTOP,0,1,0,8
+2026-06-06,https://tatkowski.com/contact/,DESKTOP,0,1,0,2
+2026-06-06,https://tatkowski.com/european-languages/,DESKTOP,0,1,0,52
+2026-06-06,https://tatkowski.com/interpreting/,MOBILE,0,1,0,10
+2026-06-06,https://tatkowski.com/irish-translation/,DESKTOP,0,1,0,19
+2026-06-06,https://tatkowski.com/polish-to-english-certified-translation/,DESKTOP,0,1,0,88
+2026-06-06,https://tatkowski.com/polish-translation/,DESKTOP,0,1,0,57
+2026-06-06,https://tatkowski.com/polish-translation/,MOBILE,0,2,0,49
