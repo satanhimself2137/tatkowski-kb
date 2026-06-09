@@ -5,6 +5,8 @@ _Source of truth for David's tasks. Key items mirrored to KB. Updated 08/06/26._
 B2B interpreting is Priority 1 for the company. Target: €5–10k/month within weeks, not quarters. Maciej is heads-down on the product for two weeks; David carries PT pipeline with Claude alongside him daily. The interpreter pipeline David built via Facebook sourcing (Ukrainian, Hindi, Nepali, Arabic, French roster across Lisbon and the Algarve) is the foundation that makes the B2B pitch credible — five years of outreach instinct paying off, now channelled at paying B2B sectors.
 
 ## Now (B2B push — daily sector walk)
+- [ ] 09/06 — **PT Google Business Profile — create, verify, assign.** After tonight's 7pm session with Magda, catch Maciej so you can do the GBP setup together end-to-end. Owns the PT local pack visibility lever — pairs with BrightLocal 972979 already running. Needs the 931 052 612 phone, Portimão NAP, and David's named verification (postcard or call-back, whichever GBP offers).
+
 - [ ] 08/06 — **B2B outreach push, PT.** Pick one sector each day and walk it end to end with Claude. Targets stay the same five sectors (immigration lawyers, notários, private healthcare, real estate, D7/Golden visa consultancies) — what changes is the structured daily rhythm below. No fixed weekly numbers; quality of approach beats volume.
 
   **Monday — Immigration lawyers (Lisbon → Porto → Faro).** Open Google Maps, search "advogados de imigração". Pick 5 firms. For each, find the named partner on LinkedIn (not the firm page). Tell Claude "I'm contacting [firm] for immigration translation+interpreting in [city]" — Claude drafts a tailored first message. Send via LinkedIn. Report back "sent to X" and Claude logs the touch.
