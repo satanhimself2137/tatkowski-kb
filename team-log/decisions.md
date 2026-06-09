@@ -32,6 +32,11 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-09 18:39 UTC — kb-write replace magda/ie-prospects.md
+
+**Source:** https://claude.ai/chat/6764f851-b210-45ee-bf2a-dc301875f100
+**Detail:** Initial IE B2B roster (09/06) - 17 employer prospects identified after strategy pivot from lawyers to big employers + hospitals. 2 direct emails ready, rest need LinkedIn lookup. — commit: 55496ae
+
 ### 2026-06-09 14:11 UTC — kb-write create test-full-access.md
 
 **Detail:** verify allowlist removed — commit: 587102d
