@@ -32,6 +32,10 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-09 14:11 UTC — kb-write create test-full-access.md
+
+**Detail:** verify allowlist removed — commit: 587102d
+
 ### 2026-06-09 — WA watcher v0.5 SHIPPED
 
 **Decided by:** Maciej + Agent (Sonnet 4.6)
