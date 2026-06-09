@@ -12,7 +12,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 |---|---|---|---|---|
 | Payments & customer journey | IN PROGRESS — Phase 0 (Claude Design pass) | Maciej | 07/06/26 | [workstream-1-payments-and-journey.md](workstream-1-payments-and-journey.md) |
 | Portugal market research | In progress | David (via Claude) | 06/06/26 | [portugal-market-research.md](portugal-market-research.md) |
-| WA ↔ Claude watcher | IN PROGRESS — Phase 2 v0.2 SHIPPED, Worker KB proxy + team-log + images + coalescing live | Maciej | 08/06/26 | [wa-watcher.md](wa-watcher.md) |
+| WA ↔ Claude watcher | IN PROGRESS — v0.4 SHIPPED, v0.5 scoping (chat renaming, model/effort selection, /help, reply-to text fix) | Maciej | 09/06/26 | [wa-watcher.md](wa-watcher.md) |
 
 ## Queued (next up)
 
@@ -33,6 +33,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 | Drawer v1 — client document portal | 06/06/26 | [drawer.md](drawer.md) |
 | Team log (decisions + ideas KB writes from watcher) | 08/06/26 | [team-log.md](team-log.md) |
 | WA watcher v0.3 (images + batch coalescing) | 08/06/26 | [wa-watcher-v0.3.md](wa-watcher-v0.3.md) |
+| WA watcher v0.4 (inbound docs + outbound files via clipboard-paste + KB_WRITE) | 08/06/26 | [wa-watcher-v0.4.md](wa-watcher-v0.4.md) |
 
 ## Templates & meta
 
