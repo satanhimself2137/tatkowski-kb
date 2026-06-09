@@ -32,6 +32,11 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-09 19:17 UTC — kb-write replace competitors-ie.md
+
+**Source:** https://claude.ai/chat/6764f851-b210-45ee-bf2a-dc301875f100
+**Detail:** Consolidated IE competitor file — interpreting-focused incumbents + translation-volume players + pricing intel + the scraper rig. Folds in the section formerly in tatkowski_knowledge_base.md Section 7. — commit: 2d24ab6
+
 ### 2026-06-09 19:14 UTC — IE competitor landscape mapped 09/06 — Translit + Translation.ie identified as Tier 1 incumbents we will hit in deals. Positioning vs them locked: speed + modern intake, not breadth or tender wins.
 
 **Decided by:** Maciej
