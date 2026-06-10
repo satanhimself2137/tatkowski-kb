@@ -51,11 +51,11 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 - Resolution: RESOLVED 07/06/26 by Claude — commit a8e7003. Removed the three crash sites: `if (reviewContinueBtn)` init block (~2598), `if (panelReview)` in `resetToStep1()`, `if (confirmRecapEl)` in `proceedManualBtn` handler. Verified: all three instances trigger `fileInput.click()` on dropzone click after clean page load. All four market builds clean.
 - Recurrence: 1
 
-## #011 [TECH] shadow-accent token missing from tokens.css -- 07/06/26 -- OPEN
+## #011 [TECH] shadow-accent token missing from tokens.css -- 07/06/26 -- RESOLVED
 - Logged by: Claude
 - Symptom: DS spec (ui_kits/website/site.css) specifies `box-shadow: var(--shadow-accent)` for `.btn-primary`, but `--shadow-accent` is not defined in `packages/ui/src/styles/tokens.css` or `global.css`. Commit e76ae80 (07/06/26) kept the existing inline rgba shadow rather than reference an undefined var, so the DS spec is not fully applied.
 - Context: Surfaced during Commit 2.5 button-gradient fix. Token should be added to tokens.css as part of a dedicated token-cleanup task alongside the known `--accent: #ff6a3d` override bug (~line 1098 of global.css).
-- Resolution: (open)
+- Resolution: RESOLVED 10/06/26 by Claude -- --shadow-accent resolves via DS import chain: global.css imports design-system/styles.css which imports tokens/spacing.css (L29). No tokens.css change needed.
 - Recurrence: 1
 
 ## #010 [LEGAL] immigration-translation-ireland.astro:177 promises "full refund" for rejections — conflicts with T&Cs §11 -- 07/06/26 -- OPEN
