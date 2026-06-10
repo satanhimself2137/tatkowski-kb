@@ -105,6 +105,16 @@ Corrective for Prompt 3 (commit 2351876). Deleted the `{recruitmentEnabled && (.
 
 **Commits:** bc7bb90
 
+### 10/06/26 — Claude (Code) — Round 2 DS audit + manifest
+
+Audited 9 Round 2 components delivered by the design session. Deleted 3 byte-identical unzip artefacts (`design-system/Tatkowski Design System/`, `src/Tatkowski Design System/`, `src/Tatkowski Design System.zip`). All components were already at their canonical DS tree positions as specified in DECISIONS-round2.md §7 — no moves needed. Wrote `ROUND2-MANIFEST.md` with per-component verdicts: 0 REJECT, 2 KEEP (FAQ, LanguageChipGrid), 7 KEEP-WITH-FIXES (ProcessTimeline, InclusionList, DocumentSampleCard, AuthorityBadgesRow, RelatedRail, StickyCta, GuideBlocks). Key fixes deferred to Phase 4 lift: StickyCta has 3 canonical hardcodes (`#ff6a1a` × 2, `#ff8c61` × 1) needing tokenization; GuideTOC mobile toggle CSS absent; RelatedRail ServiceCard import needs production path at lift time; minor a11y polish on 4 components. Token sweep: zero `ff6a3d` hits. All 4 market builds clean (IE 52pp, UK 47pp, ES 45pp, PT 38pp). Updated `.gitignore`: `/tmp/`, `.thumbnail`, `cf-pages-dashboard.png`. Phase 4 recommended lift order: (1) service-detail pages — `ProcessTimeline` + `FAQ` + `InclusionList` + `AuthorityBadgesRow`; (2) language-pair pages — `LanguageChipGrid` + `DocumentSampleCard` + `RelatedRail`; (3) authority guide pages — full `GuideBlocks` + `StickyCta`.
+
+**Files touched:** `packages/ui/src/design-system/components/**` (9 components × 3 files), `PROGRESS.md`, `ROUND2-MANIFEST.md`, `deliverables/DECISIONS-round2.md`, `deliverables/round-2/*`, `.gitignore`
+
+**Commits:** f7667cf
+
+---
+
 ### 10/06/26 — Claude (Code) — Phase 3 closeout: Option A homepage live
 
 Retired the `?panel=1` preview gate and made the IE homepage mount the interpreting panel unconditionally on load. Changes to `apps/ie/src/pages/index.astro`:
