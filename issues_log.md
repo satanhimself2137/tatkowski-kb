@@ -44,6 +44,20 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #015 [TECH] issues.ps1 throws "Format specifier was invalid" on every `log` action -- 10/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: `issues.ps1 log -Category X -Title Y ...` fails with `Error formatting a string: Format specifier was invalid..` and the error context points at `{0:D3}`. Reproduced with multiple input variants (colons stripped, simplified text). Blocks all new issue logging via the tool.
+- Context: Surfaced 10/06/26 during DS conformance workstream when trying to log issue #014. Format specifier `{0:D3}` is used inside the script to zero-pad the next issue ID — likely the next-ID lookup is returning a non-integer (empty string, or a parse failure on a recent entry's ID), causing the `-f` format to throw. Worked around by editing `issues_log.md` directly via `kb.ps1` read/write cycle.
+- Resolution: (open) — next time touched: read the script, locate the `{0:D3}` site, harden the ID parse (default to last-ID + 1, coerce to int, fall back to scan if parse fails).
+- Recurrence: 1
+
+## #014 [TECH] SmartQuote v3 modal body appears empty on /certified-translation -- 10/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: localhost:4322/certified-translation shows v3 modal header (SmartQuote™ title + × close button) and 2-dot stepper rendering correctly, but the modal body middle area appears empty — no step 1 content visible (file upload area, language selectors, browse link). Screenshot captured 10/06/26.
+- Context: Phase 2 SmartQuote DS modal refactor shipped 10/06/26 (commit 8532074) with 7/7 verification checks clean. Prompt 2 build log explicitly flagged: "Service worker cache flush required (sw.js unregistration) before new CSS loaded in preview — noted for future dev sessions (hard-reload or SW unregister)." Highly likely stale SW cache. Surfaced while reviewing the ?panel=1 index template preview gate (separate workstream item).
+- Resolution: (open) — first pass when revisited at end-of-workstream fix sweep: hard reload + Application > Service Workers > Unregister, retest. If body content reappears, mark resolved as SW cache. If reproduces after SW clear, bisect step 1 render path in `packages/ui/src/components/SmartQuoteForm.astro` (`.sqf-modal-body`, step 1 panel visibility).
+- Recurrence: 1
+
 ## #013 [TECH] index.astro missing #panel-mode div — mode-interpreting template never mounts -- 10/06/26 -- OPEN
 - Logged by: Claude
 - Symptom: `<template id="mode-interpreting">` in `apps/ie/src/pages/index.astro` is never cloned into the DOM. `mountInitial()` / `switchMode()` both start with `const root = document.getElementById('panel-mode'); if (!root) return;` — but no element with `id="panel-mode"` exists in the Astro markup. The comment `<!-- Root where active mode frames are mounted -->` is present at line ~39 but the actual `<div id="panel-mode" ...>` is absent.
