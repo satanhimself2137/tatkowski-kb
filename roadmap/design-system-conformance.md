@@ -142,6 +142,50 @@ Retired the `?panel=1` preview gate and made the IE homepage mount the interpret
 
 **Commits:** 3e47d7a
 
+### 10/06/26 — Claude (Code) — Phase 4a+b: DS component port + all 4 IE subpage refactors
+
+**Phase 4a — lifted 8 components from DS reference to production `packages/ui/src/components/`:**
+- `FAQ.astro` — vanilla DOM accordion (no React), CSS `grid-template-rows` 0fr→1fr animation. Note: backslash-escaped apostrophes (`\'`) in single-quoted Astro JSX prop strings cause esbuild `Unexpected "'"` — always use double-quoted strings for FAQ answers containing apostrophes.
+- `LanguageChipGrid.astro` — chip grid with `current` highlight, link + non-link variants
+- `ProcessTimeline.astro` — horizontal DS default, `@media(max-width:640px)` vertical switch, `--pt-count` CSS custom prop for spine sizing
+- `InclusionList.astro` — rgba tints kept as-is (no `--success-tint`/`--muted-tint` token added)
+- `DocumentSampleCard.astro` — `role="img"` + `aria-label` on placeholder div
+- `AuthorityBadgesRow.astro` — `aria-hidden="true"` on icon spans; `preset="ie"` gives 4 IE-specific authority badges
+- `ServiceCard.astro` (new) — required by RelatedRail; not previously in production components
+- `RelatedRail.astro` — `aria-labelledby={headingId}` with `Math.random()` slug; production ServiceCard import path
+
+**Phase 4b — 4 IE subpage refactors:**
+
+*Service-detail set (certified-translation, interpreting):*
+- Hero: `.hero` + `.hero-inner`, `.eyebrow` pill, `h1`, `.hero-sub`, `.hero-lead`, `.cta-cluster`
+- Trust bar: `.trust-bar` + `.trust-grid` + `.trust-item` with SVG icons (no emoji); `data-badge-rating`/`data-badge-count` spans preserved on interpreting
+- Process: `ol.process-list` → `<ProcessTimeline orientation="auto">`; interpreting had no process section so new `#process` section added
+- Inclusions: `<InclusionList included={[]} excluded={[]}>`
+- Authority badges: `<AuthorityBadgesRow preset="ie">`
+- FAQ: `.faq-grid` → `<FAQ items={[...]}>`. `interpreting.astro` faqItems uses `{ question, answer }` — mapped inline: `faqItems.map(f => ({ q: f.question, a: f.answer }))`
+
+*Language-pair set (polish-translation, ukrainian-translation):*
+- LangHero → DS hero idiom; `data-open-smartquote` + `data-quote-endpoint` preserved
+- `<LanguageChipGrid>` nav strip after hero
+- `<DocumentSampleCard>` grid section (5 doc types per page) added after documents section
+- Legacy hidden quote-form section (~160 lines each) → minimal SmartQuote CTA section
+- `<AuthorityBadgesRow preset="ie">` before FAQ
+- `.faq-grid` → `<FAQ>` component (6 items per page, plain-text answers from structuredData — no HTML links)
+- `<RelatedRail>` before closing page wrapper
+- ukrainian-translation.astro: fixed stray `</main>` + removed orphaned form `<script>` (form submit/drag-drop handler with no form to target)
+
+**All 4 market builds clean:** IE 52pp, UK 47pp, ES 45pp, PT 38pp
+
+**Files touched:**
+- `packages/ui/src/components/` — 8 new files
+- `apps/ie/src/pages/certified-translation.astro`
+- `apps/ie/src/pages/interpreting.astro`
+- `apps/ie/src/pages/polish-translation.astro`
+- `apps/ie/src/pages/ukrainian-translation.astro`
+- `docs/phase-4-progress.md` (new)
+
+**Commits:** 4b87fdc (Phase 4a+b service-detail), d136bd6 (Phase 4b language-pair)
+
 ---
 
 ## Done criteria
