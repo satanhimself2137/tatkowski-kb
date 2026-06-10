@@ -178,6 +178,59 @@ Key targets: Pestana Group, Tivoli Hotels (Minor group), Hilton Vilamoura, Vila 
 
 ---
 
+### 5. Police & Court Interpreting Market (Algarve focus)
+
+**Trigger:** David in conversation with a senior PSP/GNR contact in Algarve (10/06/26). Contact reports interpreter demand is constant, currently met by ad-hoc direct interpreter→police relationships, standard rate paid is €102/hr, no formal qualification required, captain interview coming.
+
+**Statutory rate framework**
+- Court/police interpreter rates in PT are published by APTRAD as €102.00–€204.00 per service, varying by duration and complexity.
+- €102 is the floor, not a captain-discretion rate. Upside exists at the €150–€204 band for longer or semi-complex assignments (statements, custody, anything feeding into criminal proceedings).
+- Per-word PT translation rates €0.04–€0.05/word, significantly below European average (€0.07–€0.20). PT is structurally under-priced — a quality/reliability play has room to charge above floor.
+
+**Legal framework**
+- Article 92 of Código de Processo Penal: court must appoint a qualified interpreter where party doesn't speak PT. Free to the suspect/witness.
+- Aligned with EU Directive 2010/64/EU (right to interpretation in criminal proceedings).
+- Portugal has NO national certification register or qualification framework for court/police interpreters (confirmed by APTRAD industry report). Each comarca maintains its own "Listagem de Tradutores e Intérpretes" via the Gabinete de Apoio à Presidência. This explains the "no qualification required" framing — it's not a feature, it's a quality gap in the system.
+
+**Police forces structure (Algarve)**
+- **PSP (Polícia de Segurança Pública)** — urban: Faro, Portimão, Albufeira, Loulé, Lagos, Olhão, Tavira. No internal interpreter team. **Target market.**
+- **GNR (Guarda Nacional Republicana)** — rural and N125/A22 highway. Military gendarmerie. No internal interpreter team. **Target market.**
+- **PJ (Polícia Judiciária)** — criminal investigation, Ministry of Justice. Has its OWN internal interpreter team at UCI (Unidade de Cooperação Internacional) in Lisbon. **Closed market — do not pitch.** Faro directorate: Avª Professor Doutor Adelino da Palma Carlos, nº 15, 8000-510 Faro.
+- SEF dissolved 2023, replaced by AIMA (administrative) + PSP/GNR (criminal/identification). Procedural reshuffle still settling; likely contributes to current interpreter demand spike.
+
+**Procurement framework**
+- Governed by Código dos Contratos Públicos (CCP).
+- Below €20k contract value → ajuste directo (direct award), lighter publication requirements. Per-booking interpreter fees fall well below this threshold — explains the relationship-driven, ad-hoc market structure.
+- Above €140k EU threshold → OJEU/TED publication required. No active national framework contract for police interpreting services identified.
+- Public contracts portal: base.gov.pt (10-year retention, machine-readable export via dados.gov.pt). Manual search needed by David — JS-driven UI not reachable via web fetch.
+
+**Competitive landscape**
+- No dominant national interpreter agency for police/court work in PT. Searched: nothing surfaces.
+- Major PT translation agencies (L10N, AP Portugal, Multilingues, Eurologos, Traducta) focus on commercial translation — they don't compete in this segment.
+- Closest international equivalents: thebigword (UK HMCTS), ISM Interprétariat (FR). PT has no analogue yet.
+- **Working hypothesis: no incumbent agency layer exists.** Requires further verification (see action items in todos/david.md).
+- Fragmentation pattern, not competitive moat pattern. First player to standardise wins by default if execution is good.
+
+**Cash-flow constraint**
+- Decreto-Lei 62/2013 (transposing EU Directive 2011/7/EU): 30-day standard payment, 60-day exceptional, statutory interest above (~8% over ECB rate).
+- Reality in PT public sector: 60–90 days routinely, sometimes longer. Enforcement patchy.
+- At €5k/month invoiced with 3-month float → €15k tied up in receivables. At €20k/month → €60k float.
+- Working capital is the actual scaling constraint, not interpreter sourcing.
+- Standard solution: invoice factoring via PT bank (CGD, BPI, Santander, Millennium BCP). 80–90% advance within days, 1–3% fee. CGD has specific public-sector factoring product.
+- Strategy: build factor fee into invoiced rate (€102 floor → €110–115 invoiced absorbs fee, still well within statutory band). Keep interpreter pay on time regardless of police payment timing.
+
+**Strategic posture (10/06/26)**
+- Algarve as proof point: 3–6 months consistent billable work with one or two stations, no incidents, audit-ready.
+- Then walk that case study into Lisbon courts and Porto police.
+- Parallel: get on Tribunal Judicial de Faro's Listagem de Tradutores e Intérpretes via Gabinete de Apoio à Presidência. Opens court work alongside police work.
+- Compete on agency layer (quality, SLAs, billing, on-call rota), not on price vs individual interpreters.
+- Long arc: when a national framework tender eventually exists, be the obvious bidder because we've been doing the work informally for 18+ months. Tenders are won by being the credible candidate when one finally drops — not by entering cold.
+
+**Viviana legal opinion pending**
+David's family-level contact Viviana (pending-details PT certifying lawyer, +351 933 029 651) being consulted for legal opinion on: certification framework liability, agency-of-record exposure in criminal proceedings, professional indemnity recommendations, and any PT-specific structuring around police/court interpreter dispatch. Output to be added to this section when received.
+
+---
+
 ## Done criteria
 
 - [ ] Language pair demand ranking complete and evidenced
