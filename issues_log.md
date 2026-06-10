@@ -44,6 +44,13 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #016 [TECH] Astro build fails on backslash-escaped apostrophe (\') inside single-quoted JSX prop -- 10/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: Astro build errors with `Unexpected "'" at <line>:<col>` when a single-quoted JSX prop value contains `\'` (e.g. `q: 'What you\'ll need'`). esbuild treats the backslash as literal and the next `'` closes the string. Surfaced in Phase 4 on `apps/ie/src/pages/certified-translation.astro:251:15` inside FAQ items array. Build went from clean → broken on one character change. Diagnosed by bisecting: full FAQ items array → empty → minimal → re-adding & only → re-adding em dash only → re-adding apostrophe.
+- Context: Standard pattern in JS/TS but Astro's JSX-expression parsing doesn't honour `\'` inside `'...'` strings. Switching the outer quote to double-quote (`q: "What you'll need"`) or using HTML entity (`&apos;` won't work in expression position) fixes it. Pattern bites whenever you author JS/TS object literals inside `.astro` files with apostrophes in copy.
+- Resolution: (open) — convention to adopt: always double-quote any prop value string in `.astro` files that contains an apostrophe. Optional fix-layer task: add an ESLint rule banning `\'` in `.astro` files OR a quick lint script that flags it. Defer to end-of-workstream sweep.
+- Recurrence: 1
+
 ## #015 [TECH] issues.ps1 throws "Format specifier was invalid" on every `log` action -- 10/06/26 -- OPEN
 - Logged by: Claude
 - Symptom: `issues.ps1 log -Category X -Title Y ...` fails with `Error formatting a string: Format specifier was invalid..` and the error context points at `{0:D3}`. Reproduced with multiple input variants (colons stripped, simplified text). Blocks all new issue logging via the tool.
