@@ -31,3 +31,10 @@ Append-only park of non-trivial ideas surfaced in TEAM ONE WhatsApp or Claude co
 ---
 
 <!-- entries below, newest on top -->
+
+### 2026-06-10 06:10 UTC — Trial Claude Fable 5 free window (9–22 June) on one real diagnosis task vs Opus 4.8 to decide if it earns a slot in our agent-prompt template before credits kick in
+
+**Surfaced by:** Maciej
+**Source:** https://claude.ai/chat/784d8f06-ddb6-4f2a-b453-f07e0aeae01d
+**Detail:** Fable 5 launched 9 June, free on Pro/Max/Team through 22 June then usage credits at API rates ($10/$50 per Mtok, 2x Opus 4.8). 1M context window, 90% prompt-cache discount. Strong on long-horizon agentic coding/knowledge work but expensive per token. Concrete trial: pick one hard real task (repo refactor, strategic SEO read, full GSC year analysis) and run it on Fable vs Opus 4.8 side-by-side this fortnight. Decision by 22 June: add Fable as the top tier in agent-prompt headers, or leave model strategy as Sonnet-default/Opus-diagnosis. Currently not in Copilot Chat.
+
