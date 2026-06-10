@@ -94,10 +94,11 @@ Detail and rationale: see `ai_notes.md` 08/06/26 entry and `todos/david.md` + `m
 - Fiverr account connected via invite.
 
 ### David Briceag — Regional Manager, Spain & Portugal
-- Numbers: +351 927 901 200 = personal (runs his current WhatsApp Business / sender line, NOT public). +351 931 052 612 = COMPANY Business WhatsApp = PUBLIC NAP for PT (citations/website/GBP), human-answered for corporate + interpreting clients. +351 931 052 617 = AI / Cloud API (translation intake via AI + Chatwoot port in SalesManager). | Email: contact@tatkowski.com (shared M365)
+- Numbers: +351 927 901 200 = personal (runs his current WhatsApp Business / sender line, NOT public). +351 931 052 612 = COMPANY Business WhatsApp = PUBLIC NAP for PT (citations/website/GBP), human-answered for corporate + interpreting clients. +351 931 052 617 = AI / Cloud API (translation intake via AI + Chatwoot port in SalesManager). | Email: david@tatkowski.com (individual M365 mailbox) + contact@tatkowski.com (shared M365)
 - PT address (for citations/NAP): Avenida São João de Deus, Edifício Príncipe Real, Lote 1, 1C, 8500-500 Portimão, Algarve
 - Commission-based contractor. Contractor Agreement + non-compete SIGNED - returned 17 May 2026 from davidjo9@hotmail.com ("David Briceag Signed Agreement May.pdf", single combined PDF, in contact@ mailbox). Risk closed.
 - Fiverr Pro: davidjo9@hotmail.com
+- Revolut Business access: David is an authorised user on the company Revolut Business account. Generates his own payment links for PT/ES B2C orders not processed through the webapp checkout. B2B interpreting stays invoice-based (no Revolut links to corporate).
 - David ADDED as tatkowski-kb repo collaborator (confirmed 05/06/26). His Claude can read+write the repo. GSC analysis guide sent via TEAM ONE 05/06/26 (gsc/HOW_TO.md).
 - PT WhatsApp AI number: 931 052 617 (fresh eSIM, confirmed by David 05/06/26 as the AI/Cloud API line). Handles translation intake via AI + Chatwoot port in SalesManager. Distinct from 931 052 612 (human company WhatsApp). NOTE: 612 vs 617 differ by one digit - do not conflate.
 
