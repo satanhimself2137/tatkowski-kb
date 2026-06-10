@@ -533,6 +533,22 @@ What this unlocks: David can act on the live business state from any chat (todos
 - Bump recurrence on repeat: `& "$env:TEMP\issues.ps1" bump -Id N`
 - Newest entries on top. Resolved entries stay — the trail is the value. ASCII `--` separators by design (encoding-safe).
 
+### Skills (claude.ai personal skills) — added 10/06/26
+
+Personal skills are user-level on claude.ai, available across ALL projects on the same account (so Magda gets Maciej's pack too — she signs in as Maciej). Trigger by description match. Source of truth lives on disk; uploaded copies on claude.ai are the runtime.
+
+**Source-of-truth locations (flat .md files, one skill per file):**
+- Maciej pack: `D:\tatkowski-kb\skills\` — 9 skills + README. Skills: archivist, client-comms, code-deploy, gsc, issues-log, kb, pricing-and-quotes, tatkowski-session-start, wa-watcher.
+- David pack: `D:\tatkowski-kb\skills-david\` — 7 skills + README. Skills: session-start, kb, client-comms, pricing-and-quotes, issues-log, pt-b2b-outreach, pt-interpreter-sourcing. Mac-adapted (Python + Contents API, no PowerShell/gh CLI). David's pricing-and-quotes includes the full strategic layer (supplier costs, margins, €150/hr B2B floor benchmarked on Fyffes) — no competitive-edge strip; he has full KB access anyway.
+
+**Upload flow (claude.ai):** Customize → Skills → + icon → Create skill → Upload a skill. Each .md uploaded individually. Platform wraps the flat file into a skill folder automatically; description string in the frontmatter drives auto-trigger.
+
+**Convention:** flat .md files at the pack root, no subfolders, no SKILL.md/folder duplication. Both packs follow this. (Previously had paired flat+folder structure — cleaned up 10/06/26.)
+
+**Sync model:** edit on disk → re-upload to claude.ai when changed. No git push required for skills to work (they're personal-account state, not repo state), but commit the on-disk pack to the KB repo for backup + cross-device access (especially David's pack — he downloads from there to upload to his Claude).
+
+**David's pack delivery (10/06/26):** Zipped at `D:\tatkowski-kb\skills-david.zip` (~23 KB). Email draft ready, sending from contact@ with attachment + step-by-step upload instructions + delete-after-upload note. Awaiting Maciej "send" confirmation.
+
 ---
 
 ## 12. KEY OPERATIONAL DECISIONS & PRINCIPLES
@@ -590,6 +606,7 @@ git push origin main --ipv4
 | David GitHub collaborator — DONE 05/06/26 | Maciej | David added as repo collaborator; his Claude can read+write KB + gsc/ data. |
 | Algerian enquiry follow-up | Maciej | Awaiting scans for package quote. |
 | Velnichuk name confirmation | Maciej | Awaiting English spelling for 3 names per Irish docs before Vovka assigned. |
+| Send David skills pack email | Maciej | Zip ready at `D:\tatkowski-kb\skills-david.zip` (~23 KB, 7 skills + README). Email draft staged 10/06/26 — recipient david@tatkowski.com, contains upload instructions (claude.ai/customize/skills → + → Create skill → Upload a skill) + delete-after-upload note. Awaiting Maciej "send" confirmation. |
 
 ### IN-FLIGHT
 
@@ -609,6 +626,9 @@ git push origin main --ipv4
 | David contractor agreement — DONE | David | Signed + returned 17 May 2026 (davidjo9@hotmail.com, combined PDF in contact@ mailbox). Operational risk closed 05/06/26. |
 | Marius Nicula contact share | Maciej | Share Marius details to civil ceremony client ~18 June (5 days before 23 June). |
 | ES app _routes.json silently failing | Maciej | Quote forms failing on ES. Fix before ES scales. |
+| Graph send-mail script | Maciej | NEW 10/06/26. Quick-win #1 from self-review. App registration in Entra w/ Mail.Send on contact@, `send-mail.ps1` wrapping Graph `/sendMail`. Removes copy-paste step from every outbound email — currently 100% of outbound goes through manual Outlook attach. ~30 min setup. |
+| `revolut.ps1` payment check script | Maciej | NEW 10/06/26. Quick-win #2 from self-review. Merchant API key already live (webhook uses it). Wraps `GET https://merchant.revolut.com/api/orders` for "is X paid yet" lookups + monthly tallies. Kills the "check Revolut for EUR X" todo class. Antkiewicz EUR 39.99 (delivered 3 June) is the live test case — 7 days unverified. |
+| Watcher scheduled digest | Maciej | NEW 10/06/26. Quick-win #3 from self-review. Task Scheduler trigger → watcher receives daily/weekly prompts → runs archivist audit, surfaces compliance dates <30 days out, unpaid orders, B1 status, pending chases. Converts system from Maciej-polled to self-surfacing. Dependency: ideally Revolut script first so digest can pull payment state. |
 
 ### COMPLIANCE / ADMIN
 
@@ -630,8 +650,12 @@ git push origin main --ipv4
 | EUIPO trademark filing for SmartQuote | Classes 42 and 35, before wider public branding. |
 | Offshore oil rig interpretation/recruitment | High-margin niche. Requires consistent monthly net profit baseline first. |
 | tatkowski.ie to tatkowski.co.uk direction pages | Once .ie purchased. |
+| **New skills to write (Maciej pack)** — added 10/06/26 from self-review | (1) `interpreting-runbook` — IE/UK end-to-end: booking → interpreter lock (pre-payment) → 5-day contact rule → day-of → invoice → chase EOD 2nd business day. Highest priority — interpreting is Priority 1 and has no codified runbook. (2) `finance-ops` — invoice numbering, PO refs, 30-day terms, Revolut reconciliation, margin table, monthly close. (3) `compliance-calendar` — B1, FCR 31 Oct 2026, ICO, CT1 Sept 2027, GBP states, home-office licence, mobile contract. One source for "what's due in 30 days". Pairs with watcher digest. (4) `magda-session` — fires on her self-identification, loads `magda/playbook.md` + `todos/magda.md`, enforces Magda-mode (warm, IE B2B scope only, route everything else to Maciej). Moves Magda-handling from project instructions into skills. (5) `b2b-pipeline-ie` — Magda does outreach, but the corporate pipeline itself (Fyffes-class targets, Medmark, follow-up cadence, anchor-pricing discipline) has no codified playbook. David got pt-b2b-outreach; the home market didn't. |
+| Claude Code trial (vs Copilot for in-repo work) | Added 10/06/26 from self-review. Whole operating system is Claude-native — skills, KB, project context. Claude Code reads same skills, takes a CLAUDE.md (copilot-instructions.md ports almost verbatim), and current plan-first/READ-gate prompt scaffolding becomes mostly redundant. Trial one workstream head-to-head — SmartQuote v3 modal refactor is the natural candidate — before committing to next big agent prompt. |
+| Claude in Chrome for browser grunt work | Added 10/06/26 from self-review. Currently used only as WA bridge. Could handle: SayMore audit fixes, FCR dashboard scrape (needed before Oct cancel anyway), BrightLocal checks, ICO registration walkthrough. Anything form-and-dashboard shaped. |
 
 ### RECENTLY COMPLETED
+- Skills packs flattened + cleaned 10/06/26 — Maciej pack 9 skills (added `archivist`), David pack 7 skills built (session-start, kb, client-comms, pricing-and-quotes w/ full strategic layer, issues-log, pt-b2b-outreach, pt-interpreter-sourcing) + READMEs both packs. Subfolder duplication removed. `D:\tatkowski-kb\skills-david.zip` staged for email to David. ✓
 - Drawer v1 (client document portal) shipped 06/06/26 ✓
 - Fyffes EUR 220 paid 4 June 2026 (Weronika Michalak + Revolut confirmed) ✓
 - GitHub KB system live: https://github.com/satanhimself2137/tatkowski-kb ✓
