@@ -10,7 +10,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Status | Owner | Last update | File |
 |---|---|---|---|---|
-| Design-system conformance | Prompt 1 SHIPPED — next: SmartQuote DS modal refactor | Maciej | 10/06/26 | [design-system-conformance.md](design-system-conformance.md) |
+| Design-system conformance | Prompt 2 SHIPPED — next: Page furniture conformance (IE first) | Maciej | 10/06/26 | [design-system-conformance.md](design-system-conformance.md) |
 | Payments & customer journey | IN PROGRESS — Phase 0 (Claude Design pass) | Maciej | 07/06/26 | [workstream-1-payments-and-journey.md](workstream-1-payments-and-journey.md) |
 | Portugal market research | In progress | David (via Claude) | 06/06/26 | [portugal-market-research.md](portugal-market-research.md) |
 

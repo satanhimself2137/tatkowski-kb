@@ -1,6 +1,6 @@
 # ROADMAP — Design-system conformance
 
-**Status:** Prompt 1 SHIPPED — next: SmartQuote DS modal refactor
+**Status:** Prompt 2 SHIPPED — next: Page furniture conformance (IE first)
 **Owner:** Maciej
 **Last update:** 10/06/26 by Claude (Code)
 
@@ -52,6 +52,16 @@ Done criteria ticked: zero `ff6a3d` hardcodes, `--shadow-accent` resolves, all 4
 **Commits:**
 - 6472120 -- tokens: kill #ff6a3d drift -- remove global.css accent override, sweep hardcodes to #ff6a1a canonical (Commit C, issue #011)
 
+### 10/06/26 — Claude (Code) — Prompt 2: SmartQuote DS modal refactor (Option A)
+
+Replaced `.sqf-root` orange-gradient inline card with DS modal architecture: fixed scrim sibling (`.sqf-scrim`, z-index 8999) + centered fixed white-surface panel (`.sqf-root`, z-index 9000, `top:50%/left:50%/translate(-50%,-50%)`). Added `.sqf-modal-header` with SmartQuote™ h2 + ×-button (`sqf-modal-close`), 2-dot stepper (`data-step="1"` and `data-step="3"` aligns existing `_updateIndicator` 3-state logic — zero script changes). All step panels wrapped in `.sqf-modal-body` (overflow-y scroll, flex-grow 1). Sticky `.sqf-pay-bar` remains as child of modal body. Drawer guard CSS suppresses fixed overlay for `[data-sqf-instance="drawer"]` — no SmartQuoteDrawer.astro touch needed. Script touches: one documented addition — close button handler (`sqfCloseBtn.addEventListener('click', resetToStep1)`). Also fixed: `@keyframes sqf-pulse-dot` re-added near AI theatre section (had been orphaned when ai-badge block was deleted); `%23FF6A3D` in select SVG corrected to `%23ff6a1a`. Deleted: orange gradient, shine, snake SVG CSS blocks, old dark-mode gradient mirror, AI badge CSS, hover-lift block, `rgba(255,255,255,x)` white-forcing rules replaced with DS tokens. Specificity-boost section updated: browse link + primary buttons now `var(--accent)` + white (not white+navy).
+
+**Verification:** 7/7 checks passed — build clean (IE 52pp, 7.39s), DOM structure (title, stepper, body, pay bar, close btn), light CSS (`position:fixed`, `rgb(255,255,255)`, no gradient), dark CSS (`rgb(15,23,42)` via `var(--bg)` token, correct box shadow), stepper (step 1 active), scrim (hidden at 390px mobile per `@media(max-width:480px)`, suppressed for drawer), drawer compat (relative, transparent bg, scrim none, body overflow visible). Service worker cache flush required (`sw.js` unregistration) before new CSS loaded in preview — noted for future dev sessions (hard-reload or SW unregister).
+
+**Files touched:** `packages/ui/src/components/SmartQuoteForm.astro`
+
+**Commits:** 8532074
+
 ---
 
 ## Done criteria
@@ -59,7 +69,7 @@ Done criteria ticked: zero `ff6a3d` hardcodes, `--shadow-accent` resolves, all 4
 - [x] Zero `#ff6a3d` hardcodes outside `design-system/` and `dist/` — commit 6472120
 - [x] `--shadow-accent` token resolves in browser (no `var()` fallback gap) — issue #011 resolved, KB commit 8df525b
 - [x] All four market builds clean after sweep — IE 52pp, UK 47pp, ES 45pp, PT 38pp
-- [ ] SmartQuote DS modal refactor (Prompt 2) — fixed overlay, white surface, 2-dot stepper, internal scroll, sticky Pay
+- [x] SmartQuote DS modal refactor (Prompt 2) — fixed overlay, white surface, 2-dot stepper, internal scroll, sticky Pay — commit 8532074
 - [ ] Page furniture conformance — IE first, then UK/ES/PT
 - [ ] `contrast-enforcer.css`, `text-contrast-fixes.css`, `badge-fix.css` retired (all rules subsumed by conformant styles)
 - [ ] Drawer refresh against `ui_kits/drawer`
