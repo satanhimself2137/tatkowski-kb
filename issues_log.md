@@ -58,11 +58,11 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 - Resolution: (open) — first pass when revisited at end-of-workstream fix sweep: hard reload + Application > Service Workers > Unregister, retest. If body content reappears, mark resolved as SW cache. If reproduces after SW clear, bisect step 1 render path in `packages/ui/src/components/SmartQuoteForm.astro` (`.sqf-modal-body`, step 1 panel visibility).
 - Recurrence: 1
 
-## #013 [TECH] index.astro missing #panel-mode div — mode-interpreting template never mounts -- 10/06/26 -- OPEN
+## #013 [TECH] index.astro missing #panel-mode div — mode-interpreting template never mounts -- 10/06/26 -- RESOLVED
 - Logged by: Claude
 - Symptom: `<template id="mode-interpreting">` in `apps/ie/src/pages/index.astro` is never cloned into the DOM. `mountInitial()` / `switchMode()` both start with `const root = document.getElementById('panel-mode'); if (!root) return;` — but no element with `id="panel-mode"` exists in the Astro markup. The comment `<!-- Root where active mode frames are mounted -->` is present at line ~39 but the actual `<div id="panel-mode" ...>` is absent.
 - Context: Surfaced during Prompt 3-fix visual verification (10/06/26). Pre-existing before Prompt 3 (confirmed via `git show HEAD~1`). For IE production, this is currently non-impacting because `recruitmentEnabled: false` in `site.config.ts` — both landing buttons are `<a href>` navigation links (translation → `/certified-translation`, interpreting → `/interpreting`), so no in-page mode switching is attempted. If `recruitmentEnabled` is set to `true` or a use-case requires in-page panel display, mode mounting is silently broken. Also: `aria-controls="panel-mode"` on the recruitment button in LandingOverlay.astro references this non-existent element.
-- Resolution: (open)
+- Resolution: RESOLVED 10/06/26 by Claude — Phase 3 closeout (commit 3e47d7a). Added unconditional `<div id="panel-mode">` at line 43 (done in preview-gate session), then wired up `mountInitial('interpreting')` call on DOMContentLoaded. Panel now mounts on every page load.
 - Recurrence: 1
 
 ## #012 [TECH] SmartQuote browse button / upload flow dead on all markets after e76ae80 -- 07/06/26 -- RESOLVED

@@ -105,6 +105,33 @@ Corrective for Prompt 3 (commit 2351876). Deleted the `{recruitmentEnabled && (.
 
 **Commits:** bc7bb90
 
+### 10/06/26 — Claude (Code) — Phase 3 closeout: Option A homepage live
+
+Retired the `?panel=1` preview gate and made the IE homepage mount the interpreting panel unconditionally on load. Changes to `apps/ie/src/pages/index.astro`:
+
+- Removed frontmatter preview-gate comment (3 lines)
+- Added `mountInitial('interpreting')` call inside DOMContentLoaded, after all function definitions, before tab event listeners — panel mounts on every page load
+- Added `document.getElementById('static-seo-header')?.classList.add('static-seo-header-hidden')` inside `mountInitial` after `root.appendChild(frag)` — SEO fallback header hidden once real content mounts
+- Added `.static-seo-header.static-seo-header-hidden { display: none; }` to page `<style is:global>` block
+- Replaced dead comment `// Removed dynamic mode mount; landing now simply exits.` in `endLanding` with idempotent remount guard (checks for `section[data-frame]` before remounting, uses `mode || 'interpreting'` fallback)
+- Deleted entire `// PREVIEW TOGGLE: ?panel=1 ...` block (13 lines: 2 `console.log`, `isPreviewMode` const, preview `if` block with landing dismiss)
+- Unconditional `<div id="panel-mode">` at line 43 retained — now production mount point; resolves issue #013
+
+**Verification:**
+- TS check: 23 errors post-edit (≤ 27 baseline), zero new errors ✓
+- IE build: 52 pages, clean ✓
+- SSR HTML: `id="panel-mode"` present on bare URL ✓
+- Mount-on-load: 9 sections mounted (hero → contact), SEO header hidden ✓
+- Landing overlay: intact with 2 service buttons + Google reviews carousel ✓
+- Mounted panel when landing dismissed: all 9 sections visible, panel-mode display block, SEO header hidden ✓
+- Console errors: zero red errors ✓
+- Screenshot: pre-existing preview tool timeout (Vite WS/HMR, not a page error — same as Prompt 3)
+- SW unregistration required before new JS served (pre-existing dev-server cache issue, noted #014)
+
+**Files touched:** `apps/ie/src/pages/index.astro`
+
+**Commits:** 3e47d7a
+
 ---
 
 ## Done criteria
