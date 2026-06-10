@@ -370,14 +370,25 @@ Contract signed 16 Oct 2025. EUR 61.50/mo from 1 Dec 2025. Not renewing. Cancel 
 
 ## 8. GOOGLE BUSINESS PROFILE HISTORY
 
-**Current status (10 June 2026):** VERIFIED. IE profile verified on phone call 10/06/26 by Google specialist (case 3-6482000040927 closed). Service-area type, Dublin. Profile editing now unblocked. Expect 2-4 weeks for local pack eligibility to materialise in Dublin SERPs.
-**Verification timeline (for reference):** Jan 2026 FCR Media flipped to storefront without auth -> Feb-May 2026 repeated failed video verifications -> 05/06/26 reverted to service-area via Vishwanath, case 3-6482000040927 routed -> 10/06/26 verified on follow-up call (5 days past 24-48h ETA, resolved on push).
-**Service area:** Dublin only. Removed country-level 'Ireland' per Google rule (areas <=~2hr drive from base, up to 20 areas). Can add specific cities later (e.g. Cork) within policy.
-**Root cause:** FCR Media switched to storefront January 2026 without sign-off ��� triggered video verification impossible at residential address.
-**Profile:** 20 five-star reviews, 5.0 average.
-**Review link:** https://g.page/r/CfRJ5zTwe30FEBE/review
-**UK GBP:** Created and VERIFIED (service-area). Confirmed 05/06/26 during IE support chat - separate profile, no action needed.
-**Rule:** Service-area type, one per market, no storefront.
+**Current status (10 June 2026):** IE, UK, PT all VERIFIED. All three under adernhael@gmail.com dashboard. Service-area type, one per market, no storefront. Rule held across all markets.
+
+**IE:** VERIFIED 10/06/26 by Google specialist call (case 3-6482000040927 closed). Service area: Dublin only (removed country-level 'Ireland' per ~2hr-drive policy; can add Cork etc. later within policy). 20 five-star reviews, 5.0 avg. Review link: https://g.page/r/CfRJ5zTwe30FEBE/review. In post-verification 24-48h edit lock until ~12/06/26 — no edits to that profile during window. Expect 2-4 weeks for local pack eligibility to materialise in Dublin SERPs.
+
+**UK:** VERIFIED (date pre-05/06/26, confirmed during IE support chat). Service-area, separate profile.
+
+**PT:** VERIFIED 10/06/26 same session as IE post-verification. Service area: Portugal (country-level option offered by Google for new PT profile - bypasses 2hr-drive constraint). Verification address: David's home (Avenida Sao Joao de Deus, Edificio Principe Real, Lote 1, 1C, 8500-508 Portimao). Primary category: Translation Service. Phone: +351 931 052 612. Website: https://tatkowski.pt. WhatsApp chat link: https://wa.me/351931052612. Description in PT (749 chars). Logo uploaded; rest of photos pending. Secondary categories pending (Translator, Interpreter). Services pending. Hours pending.
+
+**ES:** Not yet created. Marta Moreno Lobera (jurada) is the certifying contact; David sourcing eSIM for ES public number.
+
+**Verification timeline (for reference - IE):** Jan 2026 FCR Media flipped to storefront without auth -> Feb-May 2026 repeated failed video verifications -> 05/06/26 reverted to service-area via Vishwanath, case 3-6482000040927 routed -> 10/06/26 verified on follow-up call (5 days past 24-48h ETA, resolved on push).
+**Root cause (IE):** FCR Media switched to storefront January 2026 without sign-off - triggered video verification impossible at residential address.
+
+**PT setup learnings (10/06/26):**
+- Service-area PT profile accepts country-level 'Portugal' as a single selectable area when offered in the dropdown — bypasses the ~2hr-drive rule the IE/UK profiles must follow. Don't try to add multiple cities; one country-level entry is cleaner and Google won't flag duplication.
+- Google specialist advised against multiple service areas for fresh service-based PT profile with no storefront. Confirmed in setup.
+- New profile creation during another profile's post-verification edit lock is fine — lock applies only to the in-review profile, not the account or dashboard. Different locations, independent queues.
+- KB had no PT address recorded pre-setup; pulled from David's KB commit b1a05e4 (10/06/26). Permanent record now in Section 5 (David's contact block) and here.
+- Profile published with logo only (no other photos, no services, no secondary categories). Borderline-bare profile passed verification, but expect lower local pack performance until photos + services + secondary categories filled in. Edit lock window: ~12/06/26 onwards.
 
 ---
 
@@ -628,6 +639,7 @@ git push origin main --ipv4
 | Graph send-mail script | Maciej | NEW 10/06/26. Quick-win #1 from self-review. App registration in Entra w/ Mail.Send on contact@, `send-mail.ps1` wrapping Graph `/sendMail`. Removes copy-paste step from every outbound email — currently 100% of outbound goes through manual Outlook attach. ~30 min setup. |
 | `revolut.ps1` payment check script | Maciej | NEW 10/06/26. Quick-win #2 from self-review. Merchant API key already live (webhook uses it). Wraps `GET https://merchant.revolut.com/api/orders` for "is X paid yet" lookups + monthly tallies. Kills the "check Revolut for EUR X" todo class. Antkiewicz EUR 39.99 (delivered 3 June) is the live test case — 7 days unverified. |
 | Watcher scheduled digest | Maciej | NEW 10/06/26. Quick-win #3 from self-review. Task Scheduler trigger → watcher receives daily/weekly prompts → runs archivist audit, surfaces compliance dates <30 days out, unpaid orders, B1 status, pending chases. Converts system from Maciej-polled to self-surfacing. Dependency: ideally Revolut script first so digest can pull payment state. |
+| **Domain architecture — DECISION PENDING** | Maciej | RAISED 10/06/26 post-GBP-PT-verification. Current 4-ccTLD setup (.com IE, .co.uk, .es, .pt) dilutes backlinks 4-way and forces 4 parallel SEO campaigns on a 1.5-person budget. Cross-contamination in Google rankings is NOT the issue (ccTLDs are auto-disambiguated); dilution of link authority is. Three options on the table: (A) Status quo + country picker on home page — UX only, fixes nothing structural. (B) Consolidate to tatkowski.com with /ie /uk /es /pt subfolders, ccTLDs become 301 redirects — best for organic but contradicts the locked plan that .com eventually becomes Tatkowski Systems holding. (C) Consolidate on tatkowski.ie with /uk /es /pt subfolders, ccTLDs all 301 to .ie — honours long-term .com→Systems plan, consolidates SEO into eventually-canonical translation-business domain, ccTLDs become brand-protection redirects. Claude's pick: (C), but counter is that .pt/.es give a small native-language B2C trust nudge that subfolders don't, and changing GBP website URL post-verification could re-trigger review. Recommended: don't decide until PT GBP beds in (4-6 weeks); revisit ~25/07/26. If decided yes, scope a roadmap/domain-consolidation.md workstream. |
 
 ### COMPLIANCE / ADMIN
 
@@ -654,6 +666,7 @@ git push origin main --ipv4
 | Claude in Chrome for browser grunt work | Added 10/06/26 from self-review. Currently used only as WA bridge. Could handle: SayMore audit fixes, FCR dashboard scrape (needed before Oct cancel anyway), BrightLocal checks, ICO registration walkthrough. Anything form-and-dashboard shaped. |
 
 ### RECENTLY COMPLETED
+- GBP PT VERIFIED 10/06/26 — created same session as IE post-verification (different profile = different queue = no lock conflict). Service-area Portugal (country-level option offered for new PT profile). Verification at David's home address Portimao. Logo-only profile passed verification on first attempt; photos + services + secondary categories to fill in post-edit-lock. ✓
 - GBP IE VERIFIED 10/06/26 — case 3-6482000040927 closed via follow-up call (5 days past Vishwanath's 24-48h ETA, resolved by escalation push). Service-area Dublin. Profile-edit lock lifted. Closes 5-month FCR-storefront saga. ✓
 - David skills pack emailed 10/06/26 — `skills-david.zip` (7 skills + README) sent to david@tatkowski.com with upload-to-claude.ai/customize/skills instructions + delete-after-upload note. ✓
 - Skills packs flattened + cleaned 10/06/26 — Maciej pack 9 skills (added `archivist`), David pack 7 skills built (session-start, kb, client-comms, pricing-and-quotes w/ full strategic layer, issues-log, pt-b2b-outreach, pt-interpreter-sourcing) + READMEs both packs. Subfolder duplication removed. `D:\tatkowski-kb\skills-david.zip` staged for email to David. ✓
