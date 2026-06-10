@@ -1,6 +1,6 @@
 # ROADMAP — Design-system conformance
 
-**Status:** Prompt 2 SHIPPED — next: Page furniture conformance (IE first)
+**Status:** Prompt 3 SHIPPED — next: IE subpages conformance + decision on shared component extraction
 **Owner:** Maciej
 **Last update:** 10/06/26 by Claude (Code)
 
@@ -62,6 +62,32 @@ Replaced `.sqf-root` orange-gradient inline card with DS modal architecture: fix
 
 **Commits:** 8532074
 
+### 10/06/26 — Claude (Code) — Prompt 3: IE homepage page furniture to DS idiom
+
+Rebuilt every top-level section of `apps/ie/src/pages/index.astro` (interpreting template) to match `packages/ui/src/design-system/ui_kits/website/site.css` vocabulary. All copy, SEO content, CTAs (hrefs + data attributes), anchor IDs, DottedPattern mount, SmartQuote trigger, and BaseLayout untouched.
+
+**Sections rebuilt:**
+- **Hero** — `.hero` + `.hero-inner`, `.eyebrow` pill, `h1`, `.hero-sub`, `.hero-lead`, `.cta-cluster` with primary + outline btns. Removed: `.apple-bg`, `.hero-title`/`.hero-subtitle-line`/`.hero-content` overrides, inline styles.
+- **Trust bar** — `.trust-bar` + `.trust-grid` + `.trust-item`. SVG icons (no emoji). Replaced `.trust-signals.apple-card-bg` + inline border/margin styles.
+- **Overview** — `.section.section-alt` replacing `.apple-card-bg`. `.section-head > h2`.
+- **Tabs** — `.section` replacing `.apple-card-bg`. `div.section-head > h2`. `section-divider` div removed.
+- **Services** — `.section.section-alt`, `.section-head`, `.services-grid`, `.svc` + `.svc-ic`. Replaced `.service-card`/`.service-icon` (replace_all — cosmetic hit on recruitment template accepted).
+- **Languages** — `.section`, `.section-head`. Removed preceding `section-divider`.
+- **Use-cases** — full rewrite: `.section.section-alt`, `.section-head`, `.services-grid` with 3 `.svc` cards (Emergency / Everyday Assistance / Remote & Phone). Replaced old grid with `apple-bg` + inline styles.
+- **Why-choose** — `.section`, `.section-head`. Removed preceding `section-divider`.
+- **Pricing** — `.section.section-alt`, `.section-head`, `.pricing-card` wrapping existing `.pricing-table`. Removed preceding `section-divider`.
+- **Contact** — full rewrite: `.section`, `.section-head`, `.contact-grid` (2-col DS grid), two `.contact-card` with `.contact-head` + `.contact-ic` + `.contact-desc` + `.btn.btn-primary/btn-secondary.btn-full`. Replaced `.contact-grid-modern`/`.contact-card-modern` and all sub-classes.
+
+**CSS style block changes (page `<style is:global>`):**
+- Removed: `.hero-title`, `.hero-subtitle-line`, `.hero-content`, `.section-title` page overrides; `.contact-wrapper`; entire `/* Modern Contact Section Redesign */` block (~180 lines).
+- Added: `.section`, `.section-alt`, `.section-head`, `.trust-bar`, `.trust-bar .trust-grid`/`.trust-item` override (counters global.css `!important` column layout), `.eyebrow`, `.hero-sub`, `.hero-lead`, `.cta-cluster`, `.hero-inner h1`, `.svc`, `.svc-ic`, `.pricing-card`, `.pricing-actions`, `.section .contact-grid` grid override (counters global.css flex), `.contact-card`, `.contact-head`, `.contact-ic`, `.contact-ic.green`, `.contact-desc`, dark-mode token mirrors.
+
+**Verification:** All 4 market builds clean — IE 52pp, UK 47pp, ES 45pp, PT 38pp. Accessibility snapshot confirms correct content structure. Screenshot unavailable (preview tool timeout — pre-existing Vite WS/HMR issue with reused dev server; not a page error). DottedPattern hook warning pre-existing and unrelated.
+
+**Files touched:** `apps/ie/src/pages/index.astro`
+
+**Commits:** 2351876
+
 ---
 
 ## Done criteria
@@ -70,7 +96,7 @@ Replaced `.sqf-root` orange-gradient inline card with DS modal architecture: fix
 - [x] `--shadow-accent` token resolves in browser (no `var()` fallback gap) — issue #011 resolved, KB commit 8df525b
 - [x] All four market builds clean after sweep — IE 52pp, UK 47pp, ES 45pp, PT 38pp
 - [x] SmartQuote DS modal refactor (Prompt 2) — fixed overlay, white surface, 2-dot stepper, internal scroll, sticky Pay — commit 8532074
-- [ ] Page furniture conformance — IE first, then UK/ES/PT
+- [x] Page furniture conformance — IE done (commit 2351876); UK/ES/PT pending
 - [ ] `contrast-enforcer.css`, `text-contrast-fixes.css`, `badge-fix.css` retired (all rules subsumed by conformant styles)
 - [ ] Drawer refresh against `ui_kits/drawer`
 
