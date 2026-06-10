@@ -370,7 +370,8 @@ Contract signed 16 Oct 2025. EUR 61.50/mo from 1 Dec 2025. Not renewing. Cancel 
 
 ## 8. GOOGLE BUSINESS PROFILE HISTORY
 
-**Current status (05 June 2026):** VERIFICATION ROUTED. IE profile confirmed reverted to service-area (storefront->service-area ticket processed). Live support chat w/ specialist Vishwanath -> ticket routed to verification team, ETA 24-48h. NEW case ID: 3-6482000040927 (supersedes old 4-3059000041687). ACTION: do NOT edit IE profile until verified - edits reset review. Watch contact@tatkowski.com + 'Get verified' prompt.
+**Current status (10 June 2026):** VERIFIED. IE profile verified on phone call 10/06/26 by Google specialist (case 3-6482000040927 closed). Service-area type, Dublin. Profile editing now unblocked. Expect 2-4 weeks for local pack eligibility to materialise in Dublin SERPs.
+**Verification timeline (for reference):** Jan 2026 FCR Media flipped to storefront without auth -> Feb-May 2026 repeated failed video verifications -> 05/06/26 reverted to service-area via Vishwanath, case 3-6482000040927 routed -> 10/06/26 verified on follow-up call (5 days past 24-48h ETA, resolved on push).
 **Service area:** Dublin only. Removed country-level 'Ireland' per Google rule (areas <=~2hr drive from base, up to 20 areas). Can add specific cities later (e.g. Cork) within policy.
 **Root cause:** FCR Media switched to storefront January 2026 without sign-off ��� triggered video verification impossible at residential address.
 **Profile:** 20 five-star reviews, 5.0 average.
@@ -614,7 +615,6 @@ git push origin main --ipv4
 | WhatsApp AI sequence | Maciej | (1) Chatwoot on Hetzner (2) IE WABA to Chatwoot (3) register UK number (4) migrate IE citations off +353 838710861 (5) David ES/PT SIMs (6) AI worker. Permanent System User token needed before production. |
 | SalesManager next build | Maciej | Archive/delete unpaid quotes, order modification, notification history, inline doc preview, Kanban search, pipeline widget fix, mobile tab labels. |
 | ICO fee registration (UK GDPR) | Maciej | GBP 40 at ico.org.uk/registration. Tier 1. Live action item. |
-| GBP verification - ROUTED 05/06/26 | Maciej | IE profile now service-area; ticket routed to verification team via chat w/ Vishwanath. Case 3-6482000040927. ETA 24-48h. Do NOT edit profile until verified. |
 | Rebuild /polish-translation/ and /ukrainian-translation/ to Gen3 | Maciej | Highest GSC impact (pos 38-41, 1,400+ imps each). |
 | Rebuild ES/PT localised service pages | David/Maciej | Currently redirected to English. Wrong long-term. |
 | PT interpreter sourcing — Facebook outreach | David | Active. Posts live in PT/UA/RU/EN. 3 applicants received 06/06/26. Critical gaps remaining: Ukrainian↔PT/EN in-person, Hindi↔EN, Nepali↔EN. |
@@ -654,6 +654,7 @@ git push origin main --ipv4
 | Claude in Chrome for browser grunt work | Added 10/06/26 from self-review. Currently used only as WA bridge. Could handle: SayMore audit fixes, FCR dashboard scrape (needed before Oct cancel anyway), BrightLocal checks, ICO registration walkthrough. Anything form-and-dashboard shaped. |
 
 ### RECENTLY COMPLETED
+- GBP IE VERIFIED 10/06/26 — case 3-6482000040927 closed via follow-up call (5 days past Vishwanath's 24-48h ETA, resolved by escalation push). Service-area Dublin. Profile-edit lock lifted. Closes 5-month FCR-storefront saga. ✓
 - David skills pack emailed 10/06/26 — `skills-david.zip` (7 skills + README) sent to david@tatkowski.com with upload-to-claude.ai/customize/skills instructions + delete-after-upload note. ✓
 - Skills packs flattened + cleaned 10/06/26 — Maciej pack 9 skills (added `archivist`), David pack 7 skills built (session-start, kb, client-comms, pricing-and-quotes w/ full strategic layer, issues-log, pt-b2b-outreach, pt-interpreter-sourcing) + READMEs both packs. Subfolder duplication removed. `D:\tatkowski-kb\skills-david.zip` staged for email to David. ✓
 - Drawer v1 (client document portal) shipped 06/06/26 ✓
