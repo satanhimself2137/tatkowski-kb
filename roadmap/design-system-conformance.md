@@ -88,6 +88,23 @@ Rebuilt every top-level section of `apps/ie/src/pages/index.astro` (interpreting
 
 **Commits:** 2351876
 
+### 10/06/26 — Claude (Code) — Prompt 3-fix: remove duplicate apple-bg sections + orphaned CSS
+
+Corrective for Prompt 3 (commit 2351876). Deleted the `{recruitmentEnabled && (...)}` Astro block (lines 324–486 pre-edit) which wrapped `<template id="mode-recruitment">` containing 9 old-idiom sections using `apple-bg` / `apple-card-bg` classes. These duplicated anchor IDs already present in the DS-conformant `<template id="mode-interpreting">` added by Prompt 3. Also removed ~60 lines of orphaned page CSS: `/* Dark theme support */` block and `/* Responsive design */` media query, both exclusively targeting `.contact-grid-modern`, `.contact-card-modern` and sub-classes from the deleted contact section.
+
+**Verification:**
+- Template content: `tplInterpExists: true`, `tplRecrExists: false`, 9 DS-classed sections, `appleHitsInDOM: 0` ✓
+- DOM uniqueness: 8 unique IDs (hero, overview, tabs, services, languages, usecases, why-choose, pricing, contact), each once ✓
+- Build: IE 52pp, UK 47pp, ES 45pp, PT 38pp — all clean ✓
+- Visual: Landing overlay — 2 buttons (Certified Translation + Interpreting) at 390px and 1440px, light and dark mode ✓
+- Note: `<template id="mode-interpreting">` never mounts in IE production because `recruitmentEnabled: false` (landing buttons are links that navigate to `/certified-translation` and `/interpreting` respectively). `#panel-mode` div is absent from `index.astro` — pre-existing issue unrelated to this fix, logged as issue #013.
+
+**Architecture note:** For IE, the homepage template content is dead code. The `/interpreting` page (`interpreting.astro`, separate file) handles actual interpreting user-facing content. Template content is only relevant if `recruitmentEnabled` is enabled and `#panel-mode` div is restored.
+
+**Files touched:** `apps/ie/src/pages/index.astro`
+
+**Commits:** bc7bb90
+
 ---
 
 ## Done criteria

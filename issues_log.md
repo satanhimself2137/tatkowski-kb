@@ -44,6 +44,13 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #013 [TECH] index.astro missing #panel-mode div — mode-interpreting template never mounts -- 10/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: `<template id="mode-interpreting">` in `apps/ie/src/pages/index.astro` is never cloned into the DOM. `mountInitial()` / `switchMode()` both start with `const root = document.getElementById('panel-mode'); if (!root) return;` — but no element with `id="panel-mode"` exists in the Astro markup. The comment `<!-- Root where active mode frames are mounted -->` is present at line ~39 but the actual `<div id="panel-mode" ...>` is absent.
+- Context: Surfaced during Prompt 3-fix visual verification (10/06/26). Pre-existing before Prompt 3 (confirmed via `git show HEAD~1`). For IE production, this is currently non-impacting because `recruitmentEnabled: false` in `site.config.ts` — both landing buttons are `<a href>` navigation links (translation → `/certified-translation`, interpreting → `/interpreting`), so no in-page mode switching is attempted. If `recruitmentEnabled` is set to `true` or a use-case requires in-page panel display, mode mounting is silently broken. Also: `aria-controls="panel-mode"` on the recruitment button in LandingOverlay.astro references this non-existent element.
+- Resolution: (open)
+- Recurrence: 1
+
 ## #012 [TECH] SmartQuote browse button / upload flow dead on all markets after e76ae80 -- 07/06/26 -- RESOLVED
 - Logged by: Claude
 - Symptom: Clicking "browse" or the drop zone on `/certified-translation` did nothing — no file picker opened. Affected all three instances (hero, main, drawer) on all four markets.
