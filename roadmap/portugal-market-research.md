@@ -2,7 +2,7 @@
 
 **Status:** IN PROGRESS — Phase 1
 **Owner:** David (via Claude)
-**Last update:** 06/06/26 by Claude/David
+**Last update:** 10/06/26 by Claude/David
 
 ---
 
@@ -93,6 +93,21 @@ Key providers to pitch (they supply services to employers with foreign workers):
 - Regional Clínicas de Medicina do Trabalho (search by district via ACT portal)
 - **ACT (Autoridade para as Condições de Trabalho)** — the national regulator; can provide clinic lists
 
+**Sector 6: Notários**
+
+Notários process property transactions, estate matters, company incorporations, and civil status documents. Foreign buyers and immigrants rely on them constantly. David has a local advantage in the Algarve.
+
+Confirmed contacts (do NOT contact Herlander Gabriel Correia — excluded by David):
+
+| Name | Email | Notes |
+|---|---|---|
+| Teresa Frias | teresa.frias@notarios.pt | Notária |
+| Fernando Ribeiro | fernando.ribeiro@notarios.pt | Notário |
+
+Pitch: certified translation of foreign documents (identity, property, estate) + in-person interpreting for deed signing. Time-sensitive by nature — urgent rate applies.
+
+---
+
 Pitch: certified interpreting for employee medical appointments — Ukrainian, Hindi, Nepali, Arabic, English. Direct booking, no agency markup, €120/first hour.
 
 **Sector 2: Staffing and Temp Agencies**
@@ -168,7 +183,7 @@ Key targets: Pestana Group, Tivoli Hotels (Minor group), Hilton Vilamoura, Vila 
 - [ ] Language pair demand ranking complete and evidenced
 - [ ] B2B target list: minimum 3 companies per sector with contact method
 - [ ] Interpreter roster gaps mapped against demand
-- [ ] Outreach email templates drafted (1 per sector)
+- [ ] Outreach email templates drafted (1 per sector) — notário contacts added 10/06/26 (Teresa Frias, Fernando Ribeiro)
 - [ ] Findings committed to KB and flagged to Maciej via ai_notes.md
 
 ---
