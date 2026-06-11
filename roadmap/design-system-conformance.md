@@ -1,8 +1,8 @@
 # ROADMAP — Design-system conformance
 
-**Status:** Phase B SHIPPED 13/13 — every in-scope language/hub page migrated byte-faithful (wordRatio range 0.952–1.000; IE flagships at 1.000 exact). Templates `LandingPage` + `LanguageHubPage` + `themes/ireland-green.css` + `themeAccent` mechanism all proven across base flagship, IE-extra flagship, themed mini, and hub archetypes. Next: Phase C (ServiceDetailPage + IE flagship service pages) or Phase H (fix-layer retirement — now unblocked).
+**Status:** Phase C SHIPPED 4/4 — IE flagship service pages (certified, document, legal, medical) migrated byte-faithful via new `ServiceDetailPage` template (wordRatio=1.000 across all four; h2/links/words pre→post identical on every page). Phase B SHIPPED 13/13 prior. Templates proven across language / hub / landing / service-detail archetypes. Next: Phase D (ServiceDetail fan-out UK/ES/PT) or Phase H (fix-layer retirement — still unblocked).
 **Owner:** Maciej
-**Last update:** 11/06/26 by Claude (desktop)
+**Last update:** 11/06/26 by Claude (desktop) — Phase C close-out
 
 ---
 
@@ -422,6 +422,37 @@ Source: `Get-ChildItem apps/*/src/pages/*translation*.astro` + `european-languag
 
 ---
 
+### 11/06/26 — Claude (Code, Sonnet 4.6) — Phase C: ServiceDetailPage template + 4 IE flagship service pages migrated — SHIPPED 4/4
+
+Built `ServiceDetailPage` template + `ServiceDetailPageData` type + `ServiceDetailSection` discriminated-union types (commit `b42d318`). Inherits Phase B forward principles: identity values off `site`, every section opt-in, schema emission opt-out-able, `pageUrlOverride` escape hatch, double-quote outer delimiter for apostrophe-bearing strings.
+
+Template carries the section opt-in mechanism via discriminated-union `ServiceDetailSection[]` (raw HTML sections preserve bespoke per-page markup verbatim) plus `embeddedSmartQuoteForm` flag, `additionalSchema[]` array for per-page schema nodes, `preHeroHtml` slot for legacy cross-link divs that sit before hero, `noHreflangGB` flag, `heroDataFrame` + `heroClass` overrides, `wrapperId` / `wrapperClass` / `wrapperAttrs` for legacy CSS-hook preservation.
+
+Migrated 4/4 IE flagship service pages byte-faithful:
+
+| Page | Sections | h2 pre→post | words pre→post | links pre→post | wordRatio | Commit |
+|---|---|---|---|---|---|---|
+| certified-translation | 16 raw + own smart-quote (no embed) | 17→17 | 2216→2216 | 5→5 | 1.000 | f2f6e56 |
+| document-translation | 12 raw + embeddedSmartQuoteForm (2999/3999) | 11→11 | 1572→1572 | 9→9 | 1.000 | bf755c1 |
+| legal-translation | 9 raw + embeddedSmartQuoteForm (2999/3999) | 9→9 | 1078→1078 | 3→3 | 1.000 | 994b3b7 |
+| medical-translation | 8 raw + embeddedSmartQuoteForm (2999/3999), `preHeroHtml` for cross-links div, 3-crumb breadcrumbs (Home → Translation → Medical) | 9→9 | 1134→1134 | 3→3 | 1.000 | 67e747e |
+
+All four wordRatio=1.000 exact. Zero regressions on h2/links/words. Progress journal commit `be37388` (`docs/phase-c-progress.md`).
+
+**Notable patterns:**
+- `certified-translation` carries 5 `additionalSchema` nodes and 17 sections — the heaviest service page; embed-NOT-used because it has its own smart-quote section inside the page body.
+- `document-translation` and the lighter pages embed SmartQuoteForm via the opt-in flag (2999 cents standard / 3999 cents urgent — IE rates).
+- `medical-translation` carries a pre-existing `color: dummy` bug in trust-bar inline CSS, preserved verbatim per byte-faithful mandate. Flagged for separate content review pass; do not silently rewrite.
+- Pages with bespoke per-route scripts (certified trust-bar IntersectionObserver + typewriter; document file-upload + form-submit + smooth-scroll) keep their scripts in the thin route file; template handles init for the rest.
+
+**Phase D pre-flight (recorded in journal):** UK files are CRLF (IE was LF — git autocrlf handles); currency GBP not EUR; canonical base `tatkowski.co.uk`; UK pricing £39.99/page standard with no urgent tier (verify whether `urgentRate` is omitted or matches standard); `noHreflangGB` does NOT apply on UK pages; `apps/uk/src/pages/terms.astro` has uncommitted WIP — agent must not trample; recon UK 4 pages before writing data files.
+
+**Files touched:** `packages/ui/src/templates/ServiceDetailPage.astro` (new), `packages/ui/src/templates/ServiceDetailPageData.ts` (new), `apps/ie/src/data/service-detail/{certified,document,legal,medical}-translation.ts` (new), `apps/ie/src/pages/{certified,document,legal,medical}-translation.astro` (replaced with thin routes), `docs/phase-c-progress.md` (new).
+
+**Commits:** b42d318 (template) → f2f6e56 (certified) → bf755c1 (document) → 994b3b7 (legal) → 67e747e (medical) → be37388 (journal).
+
+---
+
 ## Done criteria
 
 - [x] Zero `#ff6a3d` hardcodes outside `design-system/` and `dist/` — commit 6472120
@@ -434,7 +465,7 @@ Source: `Get-ChildItem apps/*/src/pages/*translation*.astro` + `european-languag
 - [x] LanguagePage template built and proven byte-faithful on 6/6 IE standard language pages (commit 63b4d86)
 - [x] LandingPage + LanguageHubPage templates + themeAccent mechanism + themes/ireland-green.css; **13/13 Phase B pages migrated across all 4 markets** byte-faithful (Phase B-1 → B-5, commits 9e9b21b → 1c9d6c8 → 1a96d7f → 5da7560 → a677314)
 - [ ] DirectionalPairPage template — IE-only 4 pages, deferred to follow-up workstream after Phases C–I + bug sweep
-- [ ] ServiceDetailPage template + IE flagships migrated data-driven (Phase C)
+- [x] ServiceDetailPage template + IE flagships migrated data-driven (Phase C SHIPPED 4/4 — commits b42d318 → f2f6e56 → bf755c1 → 994b3b7 → 67e747e + journal be37388)
 - [ ] ServiceDetail fan-out UK/ES/PT (Phase D)
 - [ ] GuidePage template + IE guides migrated data-driven (Phase E) — also requires porting Round 2 GuideBlocks + StickyCta to production `.astro`
 - [ ] Guide fan-out UK/ES/PT (Phase F)
