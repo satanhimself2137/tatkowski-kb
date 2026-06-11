@@ -258,7 +258,9 @@ Canonical detail + per-page time estimates + verification table in `docs/phase-b
 
 **Files touched:** `packages/ui/src/templates/LandingPage.astro` (new), `packages/ui/src/templates/LanguageHubPage.astro` (new), `packages/ui/src/data/types/landing.ts` (new), `packages/ui/src/data/types/language-hub.ts` (new), `packages/ui/src/lib/schema.ts` (extended), `packages/ui/src/design-system/themes/ireland-green.css` (new — sacred-tree extension), `packages/ui/src/layouts/BaseLayout.astro` (one import line), `apps/ie/src/data/landings/irish-translation.ts` (new), `apps/ie/src/pages/irish-translation.astro` (thin wrapper), `apps/uk/src/data/landings/polish-translation.ts` (new), `apps/uk/src/pages/polish-translation.astro` (thin wrapper), 13 pre-snapshots + 2 post-snapshots under `docs/seo-snapshots/`, `docs/phase-b-progress.md` (new).
 
-**Commits:** 9e9b21b.
+**Commits:** 9e9b21b (foundation + sentinels), 79670da (progress journal), 2ad5053 (deliverable update: line counts + session plan + template fix).
+
+**Deliverable update (2ad5053):** per-page bespoke line counts added for all 11 deferred pages (range 690–1951 lines); session batching plan for Sessions 2–5 by sub-archetype (Session 2: ES+PT polish ~80 min; Session 3: UK+ES+PT ukrainian ~140 min; Session 4: european-languages × 4 ~175 min; Session 5: IE flagships ~165 min); template fix: `LandingPage.astro` `contact.secondaryCta` tel: link no longer carries `target=_blank`; 5 architectural findings documented (IE schema shape differs from UK/ES/PT; display:none form word-count pattern applies to all remaining pages; component h2 sources; ES slug conventions; WhatsApp numbers per market).
 
 ---
 
