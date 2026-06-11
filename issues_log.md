@@ -44,11 +44,32 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
-## #020 [TECH] DocTypePage template shape was IE-specific — UK/ES/PT have thinner section sets -- 11/06/26 -- OPEN
+## #023 [OPS] UK visa pages not classified for migration routing — 8 pages awaiting operator decision -- 11/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: Phase G fan-out left UK visa-related pages (ilr-translation, asylum-translation, family-visa-translation, spouse-visa-translation, student-visa-translation, skilled-worker-visa-translation, visitor-visa-translation, citizenship-translation — approx 8 pages) un-enumerated and un-migrated. They may be doc-type-shaped (one type of paperwork, route to DocTypePage) or service-detail-shaped (a class of service, route to ServiceDetailPage in Phase D). Cannot be classified by Claude without reading each — operator decision needed because the routing affects information architecture for UK SEO.
+- Context: Phase G migrated 10/10 UK doc-type pages cleanly. Visa pages were held back deliberately rather than guessed. Each page should be read and classified: H1 + body structure tells you which template fits. If the page is "translation OF a visa application" → doc-type. If "translation services FOR visa applicants" → service-detail.
+- Resolution: (open) — operator triages the 8 visa pages, classifies each, then they migrate in either Phase G follow-up (doc-type extension) or Phase D (service-detail fan-out). Defer-to-Phase-D for service-detail-shaped is the cheaper default if unclear.
+- Recurrence: 1
+
+## #022 [TECH] PT doc-type pages were authored without page-level schema — preserved via emit flags -- 11/06/26 -- INFORMATIONAL (no action required)
+- Logged by: Claude
+- Symptom: 4/4 PT doc-type pages had no page-level `Service` or `FAQPage` JSON-LD before migration. Existing pages relied solely on the global organisation schema from `BaseLayout`. Migration must preserve this (SEO gate is byte-identical against pre-snapshot).
+- Context: Surfaced during Phase G Step C fan-out. Resolved by adding `emitServiceSchema` and `emitFaqSchema` boolean opt-outs to `DocTypePageData`, defaulting to true; PT data files set both false. Pages migrate cleanly, post-snapshot matches pre-snapshot (no schema added, no schema lost). Future PT content-uplift might add page-level schema — at that point flip the flags and re-snapshot.
+- Resolution: INFORMATIONAL — pattern established, no fix needed. Note for future LanguagePage / GuidePage / ServiceDetailPage templates: schema emission must be opt-out-able at the page level for the same reason markets vary in baseline maturity.
+- Recurrence: 1
+
+## #021 [TECH] Per-page schema `@id` slash conventions vary across markets — handled via pageUrlOverride -- 11/06/26 -- INFORMATIONAL (no action required)
+- Logged by: Claude
+- Symptom: Across the 4 markets, existing page-level schema `@id` values used inconsistent slash conventions (e.g. trailing slash on canonical but not on `@id` base, fragment-then-no-slash vs slash-then-fragment, etc.). A single `pageUrl = ${site.domain}/${slug}/` formula cannot reproduce every page's exact pre-snapshot `@id`.
+- Context: Surfaced during Phase G Step C fan-out SEO gating. Resolved by adding `pageUrlOverride` to `DocTypePageData` — per-page string override for the schema `@id` base. Defaults to derived value, only set in data when the existing page's `@id` shape needed exact preservation. Used in handful of fan-out data files.
+- Resolution: INFORMATIONAL — pattern works, escape hatch preserved per-page schema byte-identical. Forward principle: derived values are the default; per-page override exists for legacy preservation. New pages going forward should rely on the derived value to keep schema URLs consistent across the system.
+- Recurrence: 1
+
+## #020 [TECH] DocTypePage template shape was IE-specific — UK/ES/PT have thinner section sets -- 11/06/26 -- RESOLVED
 - Logged by: Claude
 - Symptom: Phase G fan-out Step B blocked on second structural mismatch (after #019 hardcodes). DocTypePage always renders 6 sections including `.acceptance-bar` and `.cta-section`. Existing doc-type pages: UK + ES have 4 sections (`doc-hero` / `doc-content` / `faq-section` / `related-doc`), PT has ~2 (just `hero` + a content card). No acceptance bar, no dedicated CTA section. Migrating UK/ES/PT as-is into the always-render template would either force authoring acceptance + CTA copy per page per market (content uplift, not migration) or leave empty sections rendering.
 - Context: Same root pattern as #019 — pilot was scoped IE-only, so the template encoded IE's content depth as mandatory rather than optional. UK/ES/PT pages are last-generation pages that never received the content uplift IE pages got pre-pilot. This is a template-architecture finding: in a multi-market system where markets sit at different content maturity, sections must be data-driven (render-if-supplied), not mandatory.
-- Resolution: in-progress — Phase G continuation makes `acceptance` and `cta` sections opt-in (render only when data supplies them). UK/ES/PT then migrate at their current depth onto the template. Visible content gap (no acceptance/CTA on those pages) becomes a tracked future content-uplift workstream rather than a structural blocker. LanguagePage (Phase A) must be designed with section-optionality from day one — same trap closed forward.
+- Resolution: RESOLVED — Phase G Step C (commit 24fc076). `acceptance`, `related`, `cta` sections, plus `faqHeading`, `emitServiceSchema`, `emitFaqSchema`, `pageUrlOverride`, all opt-in via `DocTypePageData`. IE re-verified 10/10 byte-identical against pre-snapshots after the change (conditionals don't fire on IE because IE always supplies the fields). 24/25 fan-out pages migrated cleanly across UK/ES/PT on the depth-agnostic template. Forward principle: every shared template treats sections as data-driven render-if-supplied, never mandatory. LanguagePage (Phase A) inherits from day one.
 - Recurrence: 1
 
 ## #019 [TECH] DocTypePage template was IE-hardcoded (domain + WhatsApp number) -- 11/06/26 -- RESOLVED
