@@ -240,6 +240,27 @@ Resolved the Step B shape mismatch by making the non-core DocTypePage sections (
 
 ---
 
+### 11/06/26 — Claude (Code, Sonnet 4.6) — Phase B-2: ES+PT polish-translation migrated (4 of 13 done)
+
+**Session 2 of planned 5.** Migrated `apps/es/src/pages/polish-translation.astro` and `apps/pt/src/pages/polish-translation.astro` to thin LandingPage wrappers. Clone-and-substitute off UK sentinel (Phase B-1). Both SEO gates pass byte-faithfully.
+
+| Page | wordRatio | h2 | links | words | Gate |
+|---|---|---|---|---|---|
+| ES polish | 0.983 | 9 ✓ | 5 ✓ | 1295→1273 | PASS |
+| PT polish | 0.985 | 9 ✓ | 5 ✓ | 1297→1277 | PASS |
+
+All 4 market builds clean: IE 52pp · UK 47pp · ES 45pp · PT 38pp. SmartQuote 3→3, WA 10→10 per market. Zero `apple-card-bg`/`apple-bg`/`#ff6a3d`. Sacred assets clean.
+
+**Key finding (Finding #6):** ES/PT h2 headings are English on existing pages — only hero H1, title, meta, and hero sub are in Spanish/Portuguese. Data files authored accordingly (all h2s in English matching pre-snapshot). PT authority is AIMA (not Ordem dos Advogados as spec described — live page uses AIMA). ES authority is Extranjería/MAEC.
+
+**Files touched:** `apps/es/src/data/landings/polish-translation.ts` (new), `apps/es/src/pages/polish-translation.astro` (thin wrapper), `apps/pt/src/data/landings/polish-translation.ts` (new), `apps/pt/src/pages/polish-translation.astro` (thin wrapper), `docs/seo-snapshots/post-{es,pt}/polish-translation.{seo.json,html}` (new), `docs/phase-b-progress.md` (Session 2 block).
+
+**Commits:** 1c9d6c8
+
+**Remaining deferred (9 of 13):** UK+ES+PT ukrainian (Session 3), european-languages ×4 (Session 4), IE polish+ukrainian (Session 5).
+
+---
+
 ### 11/06/26 — Claude (Code, Opus 4.7) — Phase B: LandingPage + LanguageHubPage templates + 2/13 sentinel migrations SHIPPED PARTIAL
 
 Built `packages/ui/src/templates/LandingPage.astro` + `packages/ui/src/templates/LanguageHubPage.astro` + `packages/ui/src/data/types/landing.ts` + `packages/ui/src/data/types/language-hub.ts`. Extended `packages/ui/src/lib/schema.ts` with `buildHubServiceSchema` (no Offer node, carries `availableLanguage[]`, optional `alternateName`). Created `packages/ui/src/design-system/themes/ireland-green.css` — the first file in a new `design-system/themes/` directory, the prompt-authorised extension point inside the otherwise sacred design-system tree. Hooked it via `BaseLayout.astro` import after contrast-enforcer (last import). LandingPage hero is a discriminated union (centered vs splitCard) so themed-mini pages (IE irish) and base/IE-flagship pages share one template. Forward principles #016/#019/#020/#021/#022 carried through.
