@@ -285,6 +285,28 @@ Canonical detail + per-page time estimates + verification table in `docs/phase-b
 
 ---
 
+### 11/06/26 — Claude (Code, Sonnet 4.6) — Phase B-3: UK+ES+PT ukrainian-translation migrated (5 of 13 done)
+
+**Session 3 of planned 5.** Migrated `apps/uk/src/pages/ukrainian-translation.astro`, `apps/es/src/pages/ukrainian-translation.astro`, `apps/pt/src/pages/ukrainian-translation.astro` to thin LandingPage wrappers. UK is the authoring baseline; ES+PT are clone-and-substitute clones.
+
+| Page | wordRatio | h2 | links | words | Gate |
+|---|---|---|---|---|---|
+| UK ukrainian | 0.952 | 9 ✓ | 5 ✓ | 1385→1319 | PASS |
+| ES ukrainian | 0.962 | 9 ✓ | 5 ✓ | 1386→1333 | PASS |
+| PT ukrainian | 0.963 | 9 ✓ | 5 ✓ | 1388→1337 | PASS |
+
+All 4 market builds clean (page counts preserved). SmartQuote 3→3, WA 9→9 per market. Zero `apple-card-bg`/`apple-bg`/`#ff6a3d`. Sacred assets clean.
+
+**Key differences from polish:** Translators section (h2 #6) is a value-grid shape ("Our Translators & Quality Process" — 3 quality-process items) rather than named translator cards; modelled as `TranslatorCard[]`. InternalCrossLinks use `/medical-interpreting` (not `/business-interpreting`); privacy link is `/privacy` (not `/privacy-policy`). UK word-count gap required one added sentence to `smartQuoteCta.body`; ES/PT passed without repair.
+
+**Files touched:** `apps/{uk,es,pt}/src/data/landings/ukrainian-translation.ts` (3 new), `apps/{uk,es,pt}/src/pages/ukrainian-translation.astro` (3 thin wrappers), `docs/seo-snapshots/post-{uk,es,pt}/ukrainian-translation.{seo.json,html}` (new), `docs/phase-b-progress.md` (Session 3 block).
+
+**Commits:** 1a96d7f (data files + wrappers + post-snapshots), 7103c3a (progress journal).
+
+**Remaining deferred (6 of 13):** european-languages × 4 (Session 4), IE polish+ukrainian (Session 5).
+
+---
+
 ### 11/06/26 — Claude (Opus 4.8 session) — Phase A: LanguagePage template + 6 IE language pages migrated; 4 deferred
 
 Built `packages/ui/src/templates/LanguagePage.astro` + `packages/ui/src/data/types/language.ts` (`LanguagePageData` + `LangHeroData`, reusing `BodyBlock`/`RelatedLink` from doctype). `schema.ts` needed no change — `buildServiceSchema` + `buildFaqSchema` reproduce the inline JSON-LD byte-identically for the 6 standard pages. Forward principles applied: #019 (WhatsApp + provider off `site`), #020 (acceptance/faq/related/cta opt-in), #021 (`pageUrlOverride`), #022 (`emit*Schema` flags), #016 (double-quote outer delimiter, zero `\'`).
