@@ -146,11 +146,11 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 - Resolution: (open) — fix in shared layer once, propagates to all pages including migrated doc-types. Verify on (a) DocTypePage migrated pages, (b) existing service-detail pages (certified-translation), (c) interpreting pages (medical-interpreting), (d) homepage Option A panel-mode mounted state. Deferred to end-of-workstream fix pass per agreed plan.
 - Recurrence: 1
 
-## #017 [TECH] SmartQuote v3 modal — doubled "SmartQuote™" header in modal shell -- 11/06/26 -- OPEN
+## #017 [TECH] SmartQuote v3 modal — doubled "SmartQuote™" header in modal shell -- 11/06/26 -- RESOLVED
 - Logged by: Claude
 - Symptom: Screenshot 11/06/26 on localhost:4321/medical-records-translation-ireland after triggering SmartQuote shows the modal rendering with TWO stacked "SmartQuote™" header bars (one with the close button, one without), plus the previously-known empty body (#014). The doubled-header symptom is NEW detail vs the original #014 capture; the empty body is the same issue.
 - Context: Probably TWO modal containers mounting simultaneously (e.g. SmartQuoteForm AND SmartQuoteDrawer both instantiating the shell) OR a step-1 panel rendering inside a wrong parent so the step-1 header markup appears alongside the modal-shell header. Independent of pilot — confirmed on a freshly-migrated pilot page but the trigger surface is unchanged from pre-pilot, so the migration did not introduce or alter this.
-- Resolution: (open) — likely related to #014 root cause; investigate together. Check whether SmartQuoteForm.astro AND SmartQuoteDrawer.astro both mount on doc-type pages (one should win, not both). If so, scope the mount to a single component per page. Deferred to end-of-workstream fix pass.
+- Resolution: RESOLVED 11/06/26 by Claude (commit ffdff77). Same root cause as #014. On IE certified-translation specifically, two type:'smartquote' sections (instanceIds 'hero' and 'main') were both rendered as fixed-centred modals via the broken .sqf-root CSS default — they stacked visually, producing the doubled header. Once .sqf-root defaulted to position:relative (in-flow), both sections render as in-page cards in their own <section> containers and no longer overlap. No template change required.
 - Recurrence: 1
 
 ## #016 [TECH] Astro build fails on backslash-escaped apostrophe (\') inside single-quoted JSX prop -- 10/06/26 -- OPEN
@@ -167,11 +167,11 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 - Resolution: (open) — next time touched: read the script, locate the `{0:D3}` site, harden the ID parse (default to last-ID + 1, coerce to int, fall back to scan if parse fails).
 - Recurrence: 1
 
-## #014 [TECH] SmartQuote v3 modal body appears empty on /certified-translation -- 10/06/26 -- OPEN
+## #014 [TECH] SmartQuote v3 modal body appears empty on /certified-translation -- 10/06/26 -- RESOLVED
 - Logged by: Claude
 - Symptom: localhost:4322/certified-translation shows v3 modal header (SmartQuote™ title + × close button) and 2-dot stepper rendering correctly, but the modal body middle area appears empty — no step 1 content visible (file upload area, language selectors, browse link). Screenshot captured 10/06/26.
 - Context: Phase 2 SmartQuote DS modal refactor shipped 10/06/26 (commit 8532074) with 7/7 verification checks clean. Prompt 2 build log explicitly flagged: "Service worker cache flush required (sw.js unregistration) before new CSS loaded in preview — noted for future dev sessions (hard-reload or SW unregister)." Highly likely stale SW cache. Surfaced while reviewing the ?panel=1 index template preview gate (separate workstream item).
-- Resolution: (open) — first pass when revisited at end-of-workstream fix sweep: hard reload + Application > Service Workers > Unregister, retest. If body content reappears, mark resolved as SW cache. If reproduces after SW clear, bisect step 1 render path in `packages/ui/src/components/SmartQuoteForm.astro` (`.sqf-modal-body`, step 1 panel visibility).
+- Resolution: RESOLVED 11/06/26 by Claude (commit ffdff77). Not stale SW. Root cause was CSS-level: .sqf-root in packages/ui/src/components/SmartQuoteForm.astro shipped with position:fixed;top:50%;left:50%;z-index:9000 and no default-hide rule, so any non-drawer SmartQuoteForm rendered as a viewport-centred modal with a dark .sqf-scrim backdrop from initial paint. On IE certified-translation the page mounts two inline instances (instanceIds 'hero' and 'main') which stacked, second clobbering first → the "empty body" symptom was actually the top-most instance in its just-mounted state. Fix: invert the CSS default so .sqf-root is position:relative (in-flow) and .sqf-scrim is display:none; drawer override block keeps drawer behaviour intact. Resolves #017 by the same change.
 - Recurrence: 1
 
 ## #013 [TECH] index.astro missing #panel-mode div — mode-interpreting template never mounts -- 10/06/26 -- RESOLVED
