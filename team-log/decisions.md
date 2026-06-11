@@ -32,6 +32,11 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-11 15:48 UTC — kb-write append roadmap/portugal-market-research.md
+
+**Source:** https://claude.ai/chat/7ac5d7c1-52c6-43fc-87c1-b397f690dfb5
+**Detail:** GNR Algarve (Stefan) public-sector lead — CCP tiers, no-ISO finding, unlock levers, 80/20 lead-time profile, 11-book literature cross-check — commit: aeacf8b
+
 ### 2026-06-11 14:50 UTC — kb-write append roadmap/portugal-market-research.md
 
 **Source:** https://claude.ai/chat/7ac5d7c1-52c6-43fc-87c1-b397f690dfb5
