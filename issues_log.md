@@ -44,6 +44,34 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #027 [TECH] LangHero flag-pl chip variant unmapped in chipClass — directional-pair pages affected -- 11/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: `LangHero` accepts a `variant` field on hero chips that maps to a CSS class via `chipClass`. Directional-pair pages (english-to-polish, polish-to-english, english-to-ukrainian, ukrainian-to-english) pass `variant: "flag-pl"` (or equivalent) which is not in the map — chip renders as base style only.
+- Context: Surfaced during Phase A pre-migration catalogue (`docs/phase-a-progress.md`). Pre-existing, not introduced by Phase A. Out of scope for Phase A because directional pairs are deferred to a future `DirectionalPairPage` template (4 IE pages). Logged so the variant gap is addressed when that template lands — either extend the chip map or model the variant differently in `DirectionalPairPageData`.
+- Resolution: (open) — fix during DirectionalPairPage template build, whenever that workstream lands.
+- Recurrence: 1
+
+## #026 [TECH] LangHero quoteEndpoint/quoteTitle props are vestigial — declared but not emitted in markup -- 11/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: `LangHero` declares `quoteEndpoint` and `quoteTitle` props in its interface, but the rendered markup does not emit them. The SmartQuote button only carries `data-open-smartquote`; no `data-quote-endpoint` or matching attribute reaches the DOM. The 6 migrated IE language pages preserve the values in their data files (authoring intent), but they are not observable in output.
+- Context: Surfaced during Phase A LanguagePage template build. The props were carried forward from pre-migration page data to preserve authoring intent. If the intent was to drive a per-page quote endpoint or title override on the SmartQuote modal, the wiring is missing. If they were never functional, they should be removed from the type.
+- Resolution: (open) — operator decides: (a) wire them into LangHero markup (likely as `data-quote-endpoint` / `data-quote-title` on the SmartQuote button) and verify behaviour; (b) remove them from `LangHeroData` and the 6 IE data files. No SEO impact either way.
+- Recurrence: 1
+
+## #025 [TECH] FAQ schema set differs from visible FAQ set on language pages — modeled in type, possible parallel on doc-type pages -- 11/06/26 -- INFORMATIONAL
+- Logged by: Claude
+- Symptom: All 6 migrated IE standard language pages ship 8 questions in their `FAQPage` JSON-LD but render only 6 visible `<details>` accordion items. Pre-existing — Phase A preserves the asymmetry byte-identically. Now modeled explicitly in `LanguagePageData` as separate `faqs` (visible) + `faqSchemaItems` (schema-only superset).
+- Context: Surfaced during Phase A SEO gating. Worth checking whether doc-type pages have the same hidden visible/schema mismatch — if so, `DocTypePageData` would benefit from the same split.
+- Resolution: INFORMATIONAL — language template models the asymmetry correctly. Optional follow-up: audit doc-type pages for the same pattern when the workstream next touches DocTypePage.
+- Recurrence: 1
+
+## #024 [TECH] Phase B language fan-out blocked — UK/ES/PT have zero LanguagePage-archetype pages -- 11/06/26 -- OPEN (operator decision)
+- Logged by: Claude
+- Symptom: Phase B of the DS-conformance workstream was scoped as "fan-out LanguagePage to UK/ES/PT, just data files per market". Phase B fan-out recon (11/06/26) shows UK/ES/PT carry zero pages of the LanguagePage archetype (the "standard language page" shape: LangHero + acceptance + body prose + faq + related + cta, no inline CSS/JS/forms). Each non-IE market only has `polish-translation.astro` (~62KB), `ukrainian-translation.astro` (~53KB), and `european-languages.astro` (~49KB) — all three classified DEFERRED in Phase A as LandingPage candidates (bespoke landers / hub), not LanguagePage. No directional-pair pages exist outside IE. Phase B as scoped is empty work.
+- Context: Same archetype-heterogeneity pattern that blocked Phase G Step B (UK/ES/PT doc-type pages lacked acceptance + CTA sections). IE has 6 standard language pages (gen1 rebuilds: russian, romanian, arabic, chinese, lithuanian, portuguese — all migrated 11/06/26) plus 4 bespoke landers (polish, ukrainian, irish, european-languages) plus 4 directional pairs. UK/ES/PT have only the bespoke-lander subset. Source: `Get-ChildItem apps/{ie,uk,es,pt}/src/pages/*translation*.astro` plus `european-languages.astro`, sized and classified against the Phase A archetype catalogue in `docs/phase-a-progress.md`.
+- Resolution: (open) — operator decides Phase B scope: (a) redefine as "build LandingPage template and migrate polish + ukrainian + european-languages across all 4 markets" (approx 12 pages, value across every market); (b) skip Phase B entirely and proceed to Phase C (ServiceDetailPage + IE flagships); (c) build DirectionalPairPage first (IE-only, 4 pages, low ROI). Recommendation logged in `roadmap/design-system-conformance.md` Open questions.
+- Recurrence: 1
+
 ## #023 [OPS] UK visa pages not classified for migration routing — 8 pages awaiting operator decision -- 11/06/26 -- OPEN
 - Logged by: Claude
 - Symptom: Phase G fan-out left UK visa-related pages (ilr-translation, asylum-translation, family-visa-translation, spouse-visa-translation, student-visa-translation, skilled-worker-visa-translation, visitor-visa-translation, citizenship-translation — approx 8 pages) un-enumerated and un-migrated. They may be doc-type-shaped (one type of paperwork, route to DocTypePage) or service-detail-shaped (a class of service, route to ServiceDetailPage in Phase D). Cannot be classified by Claude without reading each — operator decision needed because the routing affects information architecture for UK SEO.
