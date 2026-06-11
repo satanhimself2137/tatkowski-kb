@@ -1,8 +1,8 @@
 # ROADMAP — Design-system conformance
 
-**Status:** Phase D SHIPPED 12/12 — UK + ES + PT service-detail flagships migrated byte-faithful via Phase C `ServiceDetailPage` template (wordRatio range 1.000–1.009 across all 12 pages; all gates PASS). Phases A/B/C/D collectively cover language/hub/landing/service-detail archetypes across all four markets. Next: Phase H (fix-layer retirement — all blocking dependencies now met) or Phase E (GuidePage + IE guides + Round 2 component ports).
+**Status:** Phase H SHIPPED — fix-layer retired (647 lines deleted, 2 A-class rules ported). Phases A/B/C/D/H complete. Next: Phase E (GuidePage template + IE guides + Round 2 component ports).
 **Owner:** Maciej
-**Last update:** 11/06/26 by Claude (desktop) — Phase D close-out
+**Last update:** 11/06/26 by Claude (Code) — Phase H close-out
 
 ---
 
@@ -494,6 +494,35 @@ wordRatio range across all 12: **1.000–1.009** (well within the <5% tolerance 
 
 ---
 
+### 11/06/26 — Claude (Code, Sonnet 4.6) — Phase H: fix-layer retirement — SHIPPED
+
+Retired all three `!important` fix-layer CSS files. Full classification audit (Step 2) found only 2 A-class rules out of ~70+ (~3%) — well under 20% stop threshold.
+
+**A-class rules ported:**
+1. `global.css:2204` — `.trust-item small { color: #666 !important }` → `var(--muted, #64748b)` (commit `8a3379c`)
+2. `document-translation` dt-hero-actions nav buttons — `btn-secondary-hero` → `btn-primary` in all 4 market data files (commit `3ce5f1b`). Root cause: `text-contrast-fixes.css` was forcing `btn-secondary-hero` buttons orange with `!important`; without it the glass buttons were invisible on the white SmartQuoteForm card that covers the hero area.
+
+**Deleted:**
+- `packages/ui/src/styles/contrast-enforcer.css` (294 lines)
+- `packages/ui/src/styles/text-contrast-fixes.css` (331 lines)
+- `packages/ui/src/styles/badge-fix.css` (19 lines)
+- 3 import lines in `BaseLayout.astro`
+- Net: −646 lines of fix-layer CSS
+
+**Visual regression:** 48 screenshot pairs (6 routes × 2 viewports × 4 markets). All remaining diffs classified B-class (pricing table text `#1e293b → #475569`, form input/button styling) or tool artifacts (pre/post screenshots captured with different tool versions — animation suppression settings differ). No A-class misses remain post-fix.
+
+**Comment cleanup:** 4 stale contrast-enforcer comments deleted from `certified-translation.astro`, `SmartQuoteDrawer.astro`, `SmartQuoteForm.astro`.
+
+**Files touched:** `packages/ui/src/styles/{contrast-enforcer,text-contrast-fixes,badge-fix}.css` (deleted), `packages/ui/src/layouts/BaseLayout.astro` (imports removed), `packages/ui/src/styles/global.css` (trust-item fix), `apps/{ie,uk,es,pt}/src/data/service-detail/document-translation.ts` (btn-primary fix), `apps/ie/src/pages/certified-translation.astro` (comment), `packages/ui/src/components/SmartQuoteDrawer.astro` (comment), `packages/ui/src/components/SmartQuoteForm.astro` (2 comments), `docs/phase-h-progress.md` (full journal).
+
+**Commits:** `8a3379c` (port) → `4ef84ec` (delete) → `3ce5f1b` (cleanup + A-class btn-secondary-hero port).
+
+**Phase E pre-flight notes:**
+- `global.css` second `:root` block (~L1098) still has `--accent: #ff6a3d` override (pre-existing bug, not in Phase H scope).
+- `document-translation.astro` × 4 has now-unused `.btn-secondary-hero` CSS class in is:global — safe to remove in cleanup.
+
+---
+
 ## Done criteria
 
 - [x] Zero `#ff6a3d` hardcodes outside `design-system/` and `dist/` — commit 6472120
@@ -510,7 +539,7 @@ wordRatio range across all 12: **1.000–1.009** (well within the <5% tolerance 
 - [x] ServiceDetail fan-out UK/ES/PT (Phase D SHIPPED 12/12 — commits ec3bca6 → e3592ce → 98d4bc3 → 346725a → f8e048c → 2943ce0 → 7579aef → 7be87fd → 51f39be → ad9aa61 → 4036e72 → 8ada373 + journal 4a0f731)
 - [ ] GuidePage template + IE guides migrated data-driven (Phase E) — also requires porting Round 2 GuideBlocks + StickyCta to production `.astro`
 - [ ] Guide fan-out UK/ES/PT (Phase F)
-- [ ] `contrast-enforcer.css`, `text-contrast-fixes.css`, `badge-fix.css` retired (all rules subsumed by conformant styles) — Phase H, NOW UNBLOCKED (Phases A + B complete; combined with DocTypePage the conformance footprint is wide enough to test fix-layer redundancy)
+- [x] `contrast-enforcer.css`, `text-contrast-fixes.css`, `badge-fix.css` retired — Phase H SHIPPED 11/06/26 (commits 8a3379c → 4ef84ec → 3ce5f1b; journal docs/phase-h-progress.md)
 - [ ] Drawer refresh against `ui_kits/drawer` — Phase I
 - [ ] End-of-workstream bug sweep — issues #014, #015, #017, #018, #023 (UK visa classification), #029 (cross-market hub schema bugs surfaced in Phase B-4), #030 (`rawHtml` vs `html` silent strip), #031 (PowerShell UTF-8 encoding trap), plus anything newly logged
 
