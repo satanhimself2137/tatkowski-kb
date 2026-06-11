@@ -44,6 +44,20 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #031 [TECH] PowerShell Get-Content reads UTF-8 as Windows-1252; round-tripping with Set-Content garbles multi-byte chars -- 11/06/26 -- OPEN
+- Logged by: Claude (Code, Sonnet 4.6)
+- Symptom: During Phase D-11 (ES/PT service-detail migrations), authoring data files via PowerShell `Get-Content` then `Set-Content -Encoding UTF8` corrupted multi-byte characters. Example: EUR symbol round-tripped to a-circumflex-EUR sequence; en-dash to a-circumflex-EUR-double-quote sequence. Cause: this Windows machine's `Get-Content` defaults to Windows-1252 on UTF-8 files unless `-Encoding UTF8` is explicitly passed on the READ side; once the bytes have been misinterpreted on read, no encoding flag on write restores them.
+- Context: Discovered when PT/ES service-detail page builds rendered visible mojibake in browser. Recovery required re-authoring affected data files from scratch.
+- Resolution: For new data files use the Write tool (or `Out-File -Encoding UTF8` on freshly composed strings, NOT round-tripped content). For raw HTML strings that carry currency/punctuation, prefer HTML numeric entities (`&#x20AC;` for EUR, `&#x2013;` for en-dash, `&#x2019;` for right single quote) over literal multi-byte characters. If `Get-Content` IS used on a UTF-8 file, always pass `-Encoding UTF8` explicitly. Open: consider session-default `$PSDefaultParameterValues['*:Encoding']='utf8'` in PowerShell profile to make this safer by default.
+- Recurrence: 1
+
+## #030 [TECH] `ServiceDetailPage` raw HTML section field is `rawHtml` not `html`; wrong key silently strips all sections -- 11/06/26 -- OPEN
+- Logged by: Claude (Code, Sonnet 4.6)
+- Symptom: Built page rendered with only the hero (`<main>` had 33 words total) despite the data file declaring multiple sections. No build error, no TypeScript error.
+- Context: Phase D-10 (PT document-translation migration). The `RawSection` variant of the `ServiceDetailSection` discriminated union expects `rawHtml: string`; the data file was authored with `html: string`. TypeScript narrows on the `type` discriminator and strips unknown keys silently, so the section object passed the structural check but rendered as empty.
+- Resolution: Always use `rawHtml` for `RawSection` payloads. Worth a quick eyeball pass on any data file before commit: `Select-String -Path apps/*/src/data/service-detail/*.ts -Pattern '^\s+html:'` should return zero hits. Longer-term consider: (a) adding a runtime warning in `ServiceDetailPage.astro` when a `RawSection` has no `rawHtml` field, or (b) tightening the discriminated union with an `unknownKeys: never` brand. Out-of-scope for the conformance workstream; revisit during end-of-workstream bug sweep.
+- Recurrence: 1
+
 ## #029 [SEO] Cross-market european-languages hub pages carry wrong @id domains, areaServed, and copy-paste residue — preserved byte-faithful in Phase B-4 -- 11/06/26 -- OPEN
 - Logged by: Claude
 - Symptom: All 4 european-languages hub pages carry idiosyncratic schema/breadcrumb bugs that pre-date Phase B. Surfaced during Phase B-4 migration (11/06/26); preserved byte-faithful because the migration's mandate is SEO parity, not silent correction. Specifics by market:
