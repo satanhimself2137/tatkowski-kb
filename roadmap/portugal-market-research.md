@@ -244,3 +244,14 @@ David's family-level contact Viviana (pending-details PT certifying lawyer, +351
 ## Post-ship summary
 
 [To be filled when research phase closes.]
+
+
+**Literature cross-check (11-book corpus, added 11/06/26):**
+
+Vetted GNR §5 against the interpreting literature corpus (MASTER-EXTRACTION.md). Confirmations and additions:
+
+- **Confirmed — roster is the channel.** Corpus finding on how public-service interpreting jobs originate (court rosters, institutional supplier lists, repeat referral, the case officer who books directly — not central procurement) maps exactly onto the "lista de fornecedores habituais." Getting on the list beats any certification. Reinforces the §5 unlock.
+- **Confirmed — high-stakes same-day work rewards reliability over price.** Police/court interpreting skews urgent and criminal-liberty stakes; corpus says reliability and turning up are the buying criteria, not lowest quote. Justifies urgent framing.
+- **Gap flagged — payment + concentration risk.** Corpus §10 (three authors converging): staged payment, non-payment escalation ladder, and no single client >~25% of revenue. State entities pay slowly — keep 30-day terms but expect slippage, and treat the Art.113 €75k/3yr cap as a natural concentration ceiling. Do not let GNR become the PT book.
+- **Gap flagged — roster one-pager spec.** Corpus failure-mode data: wrong dialect and impartiality/confidentiality breaches are the relationship-killers in police work specifically. The Stefan roster one-pager must carry dialect granularity (Russian vs Ukrainian; Arabic dialects) and a confidentiality + impartiality line (Mikkelson's PSI canons), not just language headings.
+- **Pitch angle.** Lead the Stefan approach with reliability + impartiality, then languages, then price. That's the order the corpus says public-sector criminal-investigation buyers actually weight.
