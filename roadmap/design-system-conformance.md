@@ -1,8 +1,8 @@
 # ROADMAP — Design-system conformance
 
-**Status:** Phase C SHIPPED 4/4 — IE flagship service pages (certified, document, legal, medical) migrated byte-faithful via new `ServiceDetailPage` template (wordRatio=1.000 across all four; h2/links/words pre→post identical on every page). Phase B SHIPPED 13/13 prior. Templates proven across language / hub / landing / service-detail archetypes. Next: Phase D (ServiceDetail fan-out UK/ES/PT) or Phase H (fix-layer retirement — still unblocked).
+**Status:** Phase D SHIPPED 12/12 — UK + ES + PT service-detail flagships migrated byte-faithful via Phase C `ServiceDetailPage` template (wordRatio range 1.000–1.009 across all 12 pages; all gates PASS). Phases A/B/C/D collectively cover language/hub/landing/service-detail archetypes across all four markets. Next: Phase H (fix-layer retirement — all blocking dependencies now met) or Phase E (GuidePage + IE guides + Round 2 component ports).
 **Owner:** Maciej
-**Last update:** 11/06/26 by Claude (desktop) — Phase C close-out
+**Last update:** 11/06/26 by Claude (desktop) — Phase D close-out
 
 ---
 
@@ -453,6 +453,47 @@ All four wordRatio=1.000 exact. Zero regressions on h2/links/words. Progress jou
 
 ---
 
+### 11/06/26 — Claude (Code, Sonnet 4.6) — Phase D: ServiceDetail fan-out UK/ES/PT — SHIPPED 12/12
+
+Fanned out the Phase C `ServiceDetailPage` template across UK, ES, and PT — 4 service-detail flagships per market = 12 pages total. No template changes; type/template closed by Phase C held under fan-out pressure. Migration ordering went market-by-market (UK → ES → PT) rather than the page-type-by-page-type sequencing originally suggested in the agent prompt; gates all PASS either way, market-by-market gave better authoring rhythm given per-market identity context.
+
+All 12 pages PASS byte-faithful gate:
+
+| # | Market | Page | wordRatio | Notes |
+|---|---|---|---|---|
+| D-1 | UK | certified-translation | 1.009 | urgentRate mapped to standardRate (£39.99 × 100 pence) — UK has no separate urgent tier |
+| D-2 | UK | document-translation | 1.000 | — |
+| D-3 | UK | legal-translation | 1.000 | — |
+| D-4 | UK | medical-translation | 1.000 | "Npoundlogy" typo preserved verbatim (latent bug) |
+| D-5 | ES | certified-translation | 1.001 | Pre-existing schema `@id` domain bug preserved verbatim (sibling to #029) |
+| D-6 | ES | document-translation | 1.000 | — |
+| D-7 | ES | legal-translation | 1.000 | — |
+| D-8 | ES | medical-translation | 1.000 | — |
+| D-9 | PT | certified-translation | 1.005 | — |
+| D-10 | PT | document-translation | 1.000 | Issue #030 surfaced here — `rawHtml` vs `html` silent strip cost a build cycle |
+| D-11 | PT | legal-translation | 1.000 | Issue #031 surfaced here — PowerShell UTF-8 encoding trap, recovered via Write-tool + HTML entities |
+| D-12 | PT | medical-translation | 1.000 | "Npoundlogy" typo preserved verbatim; `preHeroHtml` carries `/medical-interpreting` + `/phone-interpreting` cross-links |
+
+wordRatio range across all 12: **1.000–1.009** (well within the <5% tolerance band). Zero gate failures. All four market builds clean post-migration (38 pages each).
+
+**Two new issues logged during this run:**
+
+- **#030 — `rawHtml` not `html` silent strip.** `RawSection` interface field is `rawHtml: string`. Using `html:` is accepted by TypeScript's discriminated-union narrowing because the variant matches on the `type` field; unknown keys are stripped silently with no compiler error and no runtime error. Built page had only the hero (33 words in `<main>`) until the typo was caught. Long-term mitigation candidates: runtime warning in `ServiceDetailPage.astro`, or `unknownKeys: never` brand on the type. Deferred to end-of-workstream bug sweep.
+- **#031 — PowerShell `Get-Content` UTF-8 encoding trap.** This machine's PowerShell `Get-Content` defaults to Windows-1252 on UTF-8 files unless `-Encoding UTF8` is explicitly passed on the READ side. Round-tripping with `Set-Content -Encoding UTF8` writes already-mangled bytes (EUR → `a-circumflex-EUR` etc.). Workaround for new data files: Write tool directly, or HTML numeric entities in raw HTML strings (`&#x20AC;`, `&#x2013;`, `&#x2019;`).
+
+**Preserved latent bugs (do-not-silently-fix list):**
+- UK medical-translation "Npoundlogy" typo (carried verbatim per byte-faithful mandate).
+- PT medical-translation "Npoundlogy" typo (same).
+- ES certified-translation schema `@id` references wrong domain (sibling pattern to #029 cross-market hub bugs).
+
+**Sequencing observation for future fan-outs:** market-by-market authoring outperformed page-type-by-page-type. Same-market identity context (currency, canonical, hreflang, locale, language) loaded once per market keeps the agent's local working set tighter than rotating through three markets per page-type. Recommend Phase F (Guide fan-out) follows the same market-by-market pattern.
+
+**Files touched:** `apps/{uk,es,pt}/src/data/service-detail/{certified,document,legal,medical}-translation.ts` (12 new), `apps/{uk,es,pt}/src/pages/{certified,document,legal,medical}-translation.astro` (12 replaced with thin routes), `docs/phase-d-progress.md` (new).
+
+**Commits:** ec3bca6 (D-1) → e3592ce (D-2) → 98d4bc3 (D-3) → 346725a (D-4) → f8e048c (D-5) → 2943ce0 (D-6) → 7579aef (D-7) → 7be87fd (D-8) → 51f39be (D-9) → ad9aa61 (D-10) → 4036e72 (D-11) → 8ada373 (D-12) → 4a0f731 (journal).
+
+---
+
 ## Done criteria
 
 - [x] Zero `#ff6a3d` hardcodes outside `design-system/` and `dist/` — commit 6472120
@@ -466,12 +507,12 @@ All four wordRatio=1.000 exact. Zero regressions on h2/links/words. Progress jou
 - [x] LandingPage + LanguageHubPage templates + themeAccent mechanism + themes/ireland-green.css; **13/13 Phase B pages migrated across all 4 markets** byte-faithful (Phase B-1 → B-5, commits 9e9b21b → 1c9d6c8 → 1a96d7f → 5da7560 → a677314)
 - [ ] DirectionalPairPage template — IE-only 4 pages, deferred to follow-up workstream after Phases C–I + bug sweep
 - [x] ServiceDetailPage template + IE flagships migrated data-driven (Phase C SHIPPED 4/4 — commits b42d318 → f2f6e56 → bf755c1 → 994b3b7 → 67e747e + journal be37388)
-- [ ] ServiceDetail fan-out UK/ES/PT (Phase D)
+- [x] ServiceDetail fan-out UK/ES/PT (Phase D SHIPPED 12/12 — commits ec3bca6 → e3592ce → 98d4bc3 → 346725a → f8e048c → 2943ce0 → 7579aef → 7be87fd → 51f39be → ad9aa61 → 4036e72 → 8ada373 + journal 4a0f731)
 - [ ] GuidePage template + IE guides migrated data-driven (Phase E) — also requires porting Round 2 GuideBlocks + StickyCta to production `.astro`
 - [ ] Guide fan-out UK/ES/PT (Phase F)
 - [ ] `contrast-enforcer.css`, `text-contrast-fixes.css`, `badge-fix.css` retired (all rules subsumed by conformant styles) — Phase H, NOW UNBLOCKED (Phases A + B complete; combined with DocTypePage the conformance footprint is wide enough to test fix-layer redundancy)
 - [ ] Drawer refresh against `ui_kits/drawer` — Phase I
-- [ ] End-of-workstream bug sweep — issues #014, #015, #017, #018, #023 (UK visa classification), #029 (cross-market hub schema bugs surfaced in Phase B-4), plus anything newly logged
+- [ ] End-of-workstream bug sweep — issues #014, #015, #017, #018, #023 (UK visa classification), #029 (cross-market hub schema bugs surfaced in Phase B-4), #030 (`rawHtml` vs `html` silent strip), #031 (PowerShell UTF-8 encoding trap), plus anything newly logged
 
 ---
 
