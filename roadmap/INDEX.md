@@ -10,7 +10,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Status | Owner | Last update | File |
 |---|---|---|---|---|
-| Design-system conformance | Phase B SHIPPED 13/13 — LandingPage + LanguageHubPage proven across all archetypes; Phase H (fix-layer retirement) now unblocked; Phase C (ServiceDetailPage) next | Maciej | 11/06/26 | [design-system-conformance.md](design-system-conformance.md) |
+| Design-system conformance | Phase C SHIPPED 4/4 — ServiceDetailPage + IE flagship services migrated byte-faithful (wordRatio 1.000 across all four); Phase D (UK/ES/PT fan-out) or Phase H (fix-layer retirement) next | Maciej | 11/06/26 | [design-system-conformance.md](design-system-conformance.md) |
 | Payments & customer journey | IN PROGRESS — Phase 0 (Claude Design pass) | Maciej | 07/06/26 | [workstream-1-payments-and-journey.md](workstream-1-payments-and-journey.md) |
 | Portugal market research | In progress | David (via Claude) | 06/06/26 | [portugal-market-research.md](portugal-market-research.md) |
 
