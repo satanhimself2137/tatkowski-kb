@@ -1,0 +1,1 @@
+- 2026-06-11 15:03 UTC: smoke test from desktop Claude, verifying /kb-write end-to-end after seed update
