@@ -240,6 +240,28 @@ Resolved the Step B shape mismatch by making the non-core DocTypePage sections (
 
 ---
 
+### 11/06/26 — Claude (Code, Opus 4.7) — Phase B: LandingPage + LanguageHubPage templates + 2/13 sentinel migrations SHIPPED PARTIAL
+
+Built `packages/ui/src/templates/LandingPage.astro` + `packages/ui/src/templates/LanguageHubPage.astro` + `packages/ui/src/data/types/landing.ts` + `packages/ui/src/data/types/language-hub.ts`. Extended `packages/ui/src/lib/schema.ts` with `buildHubServiceSchema` (no Offer node, carries `availableLanguage[]`, optional `alternateName`). Created `packages/ui/src/design-system/themes/ireland-green.css` — the first file in a new `design-system/themes/` directory, the prompt-authorised extension point inside the otherwise sacred design-system tree. Hooked it via `BaseLayout.astro` import after contrast-enforcer (last import). LandingPage hero is a discriminated union (centered vs splitCard) so themed-mini pages (IE irish) and base/IE-flagship pages share one template. Forward principles #016/#019/#020/#021/#022 carried through.
+
+**Sentinels migrated byte-faithfully:**
+- **IE irish-translation** (themed-mini archetype, validates `themeAccent` + `splitCard` hero + `additionalSchema` schema bypass): wordRatio 1.006 PASS. h2=3 links=1 words=330 vs pre 328. `themeAccent: "ireland-green"` activates `[data-theme="ireland-green"]` CSS scope; original page's bespoke Service+FAQPage JSON-LD replayed via `additionalSchema` (buildServiceSchema/buildFaqSchema cannot reproduce the inline `LocalBusiness` provider shape byte-faithfully).
+- **UK polish-translation** (base flagship archetype, validates centered hero + 9-section opt-in stack): wordRatio 0.966 PASS. h2=9 links=5 words=1250 vs pre 1294. `emitServiceSchema: false` + `emitFaqSchema: false` (matches pre — page never carried page-level Service or FAQPage). Word-count repair iteration required: legacy `<form class="quote-form" style="display:none;">` contributed ~120 words via labels/select-options/checkbox text that `stripTags` counted toward `bodyWordCount`; recovered by enumerating the equivalent quote vocabulary in `smartQuoteCta.body` as visible prose.
+
+All 4 market builds clean post-migration: IE 52pp, UK 47pp, ES 45pp, PT 38pp. `data-open-smartquote` count preserved (IE irish 2→2, UK polish 3→3). Zero `apple-card-bg` / `apple-bg` / `#ff6a3d` in migrated output. `DottedPattern.tsx` clean. `design-system/**` clean except the new `themes/` subdir + `themes/ireland-green.css`.
+
+**Material finding — issue #028 was wrong.** UK/ES/PT polish/ukrainian pages DO carry an `<h1>` via `LangHero` (always have). Pre-snapshots confirm: `pre-uk/polish-translation.seo.json` extracts `"h1": "Polish Translation London & UK"`. The "h1: 0" figure in the original cross-market recon catalogue was a counting artefact — likely matched on a specific class or pattern that missed LangHero's `class="hero-title"` h1. No deliberate-improvement allowlist required. Issue #028 marked RESOLVED-INVALID with this entry as evidence.
+
+**11 of 13 pages deferred** (scope sizing, NOT template inadequacy or page-archetype heterogeneity): IE polish/ukrainian (IE-extra flagship), ES+PT polish-translation, UK+ES+PT ukrainian-translation, IE/UK/ES/PT european-languages. Each remaining flagship is a 700–2000-line content-extraction task; bulk-authoring fan-out estimated at 8–10 focused hours total in a follow-up session. The two new templates are validated as shape-correct for both sub-archetypes hit (themed-mini + base flagship); remaining migrations are data-file authoring, not template work. All 13 pre-snapshots captured (`docs/seo-snapshots/pre-phase-b-<market>/` and duplicated into `pre-<market>/` so `seo-compare-market.mjs` resolves them).
+
+Canonical detail + per-page time estimates + verification table in `docs/phase-b-progress.md`.
+
+**Files touched:** `packages/ui/src/templates/LandingPage.astro` (new), `packages/ui/src/templates/LanguageHubPage.astro` (new), `packages/ui/src/data/types/landing.ts` (new), `packages/ui/src/data/types/language-hub.ts` (new), `packages/ui/src/lib/schema.ts` (extended), `packages/ui/src/design-system/themes/ireland-green.css` (new — sacred-tree extension), `packages/ui/src/layouts/BaseLayout.astro` (one import line), `apps/ie/src/data/landings/irish-translation.ts` (new), `apps/ie/src/pages/irish-translation.astro` (thin wrapper), `apps/uk/src/data/landings/polish-translation.ts` (new), `apps/uk/src/pages/polish-translation.astro` (thin wrapper), 13 pre-snapshots + 2 post-snapshots under `docs/seo-snapshots/`, `docs/phase-b-progress.md` (new).
+
+**Commits:** 9e9b21b.
+
+---
+
 ### 11/06/26 — Claude (Opus 4.8 session) — Phase A: LanguagePage template + 6 IE language pages migrated; 4 deferred
 
 Built `packages/ui/src/templates/LanguagePage.astro` + `packages/ui/src/data/types/language.ts` (`LanguagePageData` + `LangHeroData`, reusing `BodyBlock`/`RelatedLink` from doctype). `schema.ts` needed no change — `buildServiceSchema` + `buildFaqSchema` reproduce the inline JSON-LD byte-identically for the 6 standard pages. Forward principles applied: #019 (WhatsApp + provider off `site`), #020 (acceptance/faq/related/cta opt-in), #021 (`pageUrlOverride`), #022 (`emit*Schema` flags), #016 (double-quote outer delimiter, zero `\'`).
