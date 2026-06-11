@@ -647,6 +647,8 @@ git push origin main --ipv4
 | Item | Owner | Notes |
 |---|---|---|
 | FCR Media auto-renewal | Maciej | Not renewing. Cancel by 31 Oct 2026 to contracts@fcrmedia.ie. |
+| Enoma follow-ups (GBP/SayMore reset) | Maciej | Email sent 11/06/26: GBP verified close-out + asks (clean SayMore address, reconnect GBP→SayMore for AI review tool, push new description copy when Maciej supplies it, resume weekly posts, re-run website review with exportable report). Enoma did not reply to 21/05/26 email — chase if no reply by 18/06/26. |
+| GBP Street View residual (IE) | Maciej | Google still surfaces a Street View "See outside" tile on the IE profile despite service-area + hidden address + photo library cleaned to logo only. Not a GBP setting; sourced from Maps imagery anchored to lat/long. Plan: (1) wait for propagation (a few weeks normal post storefront→service-area flip); (2) report the panorama via three-dot "Report a problem" → wrong business association; (3) reply on case **3-6482000040927** asking support to escalate to Maps to suppress imagery. Do (2)+(3) when ready, not urgent. |
 | Home office licence agreement | Maciej | Simple licence needed before company pays rent portion. Accountant sign-off first. |
 | Mobile contract to company name | Maciej | Biggest standing deductible currently missed. |
 | Paul (PT interpreter) direct contact | Maciej | Get from Fiverr order. |
@@ -667,6 +669,7 @@ git push origin main --ipv4
 | Claude in Chrome for browser grunt work | Added 10/06/26 from self-review. Currently used only as WA bridge. Could handle: SayMore audit fixes, FCR dashboard scrape (needed before Oct cancel anyway), BrightLocal checks, ICO registration walkthrough. Anything form-and-dashboard shaped. |
 
 ### RECENTLY COMPLETED
+- Enoma close-out email sent 11/06/26 — GBP IE verified close-out + 5 asks (clean SayMore address, reconnect GBP→SayMore for AI review tool, push refreshed description copy when supplied, resume weekly posts incl. interpreting-led draft post, re-run website review with exportable report). Context line: new B2B HR client (Fyffes unnamed, EUR 1bn+ valuation), interpreting now Priority 1. ✓
 - GBP PT VERIFIED 10/06/26 — created same session as IE post-verification (different profile = different queue = no lock conflict). Service-area Portugal (country-level option offered for new PT profile). Verification at David's home address Portimao. Logo-only profile passed verification on first attempt; photos + services + secondary categories to fill in post-edit-lock. ✓
 - GBP IE VERIFIED 10/06/26 — case 3-6482000040927 closed via follow-up call (5 days past Vishwanath's 24-48h ETA, resolved by escalation push). Service-area Dublin. Profile-edit lock lifted. Closes 5-month FCR-storefront saga. ✓
 - David skills pack emailed 10/06/26 — `skills-david.zip` (7 skills + README) sent to david@tatkowski.com with upload-to-claude.ai/customize/skills instructions + delete-after-upload note. ✓
