@@ -255,3 +255,34 @@ Vetted GNR §5 against the interpreting literature corpus (MASTER-EXTRACTION.md)
 - **Gap flagged — payment + concentration risk.** Corpus §10 (three authors converging): staged payment, non-payment escalation ladder, and no single client >~25% of revenue. State entities pay slowly — keep 30-day terms but expect slippage, and treat the Art.113 €75k/3yr cap as a natural concentration ceiling. Do not let GNR become the PT book.
 - **Gap flagged — roster one-pager spec.** Corpus failure-mode data: wrong dialect and impartiality/confidentiality breaches are the relationship-killers in police work specifically. The Stefan roster one-pager must carry dialect granularity (Russian vs Ukrainian; Arabic dialects) and a confidentiality + impartiality line (Mikkelson's PSI canons), not just language headings.
 - **Pitch angle.** Lead the Stefan approach with reliability + impartiality, then languages, then price. That's the order the corpus says public-sector criminal-investigation buyers actually weight.
+
+## Findings — Section 5: Public Sector / Law Enforcement — GNR Algarve (Stefan lead)
+
+Added 11/06/26 by Claude, from David's TEAM ONE drop plus procurement research.
+
+The lead: David surfaced a contact — Stefan, criminal investigation department, GNR (Guarda Nacional Republicana), Algarve. GNR units handle interviews, suspect questioning and witness statements involving non-Portuguese speakers — recurring ad-hoc interpreting demand (Russian, Ukrainian, Arabic and others). Public-sector interpreting channel, distinct from the five private B2B sectors above. Stefan is also relevant to Maciej's separate videography venture; for Tatkowski the relevant play is interpreting/translation procurement.
+
+Job profile (David, 11/06): roughly 80% of jobs come with about 14 days notice; roughly 20% are last-minute calls. Implications: price the bulk at standard B2B rate, with urgent rate only on the ~20% last-minute slice. The 14-day lead allows proper interpreter and dialect matching for the majority and removes the scramble; only the 20% needs fast-response cover. This makes the lead lower-risk and schedulable — predictable volume with a small urgent tail. To pin down with Stefan: rough jobs per month and which language pairs, to size the roster against the 14-day-notice majority.
+
+Portuguese public procurement tiers (Código dos Contratos Públicos):
+- Ajuste Direto Simplificado (Art. 128): up to €5,000. Single supplier, no tender, no Portal BASE — call plus invoice. No ISO. Most ad-hoc interpreting lives here.
+- Ajuste Direto (Art. 19/20): up to €20,000. Single supplier, written contract/aceitação, Portal BASE registration. No ISO.
+- Consulta Prévia (Art. 27): up to €75,000. Must invite at least 3 suppliers. No ISO by statute.
+- Concurso Público: above €75,000. Full tender. ISO 17100 sometimes listed here only.
+
+Article 113 cap: a single supplier can be awarded up to €75,000 accumulated over 3 years from the same contracting entity via ajuste direto / consulta prévia for the same service type before it must go to tender.
+
+Finding / decision: ISO 17100 is NOT required for the ad-hoc interpreting work GNR Algarve would hand out — that work sits in the €5,000 ajuste direto simplificado tier. ISO 17100 stays parked for Q3 2026 as already planned (relevant to corporate B2B and future framework tenders, not this door).
+
+What unlocks GNR work:
+- PT-compliant invoicing: ability to issue proper faturas (with NIF) to a state entity. David to confirm.
+- A one-page interpreter roster for Stefan: name, languages, NIF, contact hours, prior police/court experience.
+- Round-number B2B pricing: €150 first hour, €50 per additional 30 min, travel at cost, 30-day terms. No .99.
+- The real unlock: many units keep a "lista de fornecedores habituais" (regular supplier list). Getting onto it matters more than certification. Stefan to confirm his unit's mechanism for ad-hoc interpreter calls.
+
+Literature cross-check (11-book corpus, MASTER-EXTRACTION.md):
+- Confirmed — roster is the channel. Corpus finding on how public-service interpreting jobs originate (court rosters, institutional supplier lists, repeat referral, the case officer who books directly, not central procurement) maps onto the "lista de fornecedores habituais." Roster beats certification.
+- Reliability over price applies to the urgent slice. Corpus says same-day high-stakes work rewards reliability and turning up over lowest quote — that now maps mainly to the ~20% last-minute calls. For the ~80% scheduled work, the 14-day lead shifts the buying criteria toward quality, dialect-match and consistency.
+- Gap flagged — payment plus concentration risk. Corpus section 10 (three authors converging): staged payment, non-payment escalation ladder, and no single client over ~25% of revenue. State entities pay slowly — keep 30-day terms but expect slippage, and treat the Art.113 €75k/3yr cap as a natural concentration ceiling. Do not let GNR become the PT book.
+- Gap flagged — roster one-pager spec. Corpus failure-mode data: wrong dialect and impartiality/confidentiality breaches are the relationship-killers in police work. The Stefan one-pager must carry dialect granularity (Russian vs Ukrainian; Arabic dialects) and a confidentiality plus impartiality line (Mikkelson's PSI canons), not just language headings.
+- Pitch angle: lead with reliability plus impartiality, then languages, then price.
