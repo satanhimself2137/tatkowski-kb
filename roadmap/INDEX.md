@@ -29,6 +29,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Shipped | File |
 |---|---|---|
+| Interpreting corpus — cashflow intelligence extraction (11 books) | 11/06/26 | [interpreting-corpus-research.md](interpreting-corpus-research.md) |
 | WA Watcher v0.5 — chat hygiene + model controls | 09/06/26 | [wa-watcher-v0.5.md](wa-watcher-v0.5.md) |
 | Document-baking studio + viewer | 06/06/26 | [baking-studio.md](baking-studio.md) |
 | Drawer v1 — client document portal | 06/06/26 | [drawer.md](drawer.md) |

@@ -1,0 +1,5 @@
+# Raw full-text extractions and source books are copyrighted — keep local only.
+# The transformative notes (extracted/notes/) and MASTER-EXTRACTION.md ARE tracked.
+sources/
+extracted/text/
+data/
