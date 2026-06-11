@@ -1,8 +1,8 @@
 # ROADMAP — Design-system conformance
 
-**Status:** Prompt 3 SHIPPED — next: IE subpages conformance + decision on shared component extraction
+**Status:** Phase A SHIPPED PARTIAL — 6 of 10 IE language pages migrated byte-faithful via new `LanguagePage` template; 4 deferred to future `LandingPage` / themed / `DirectionalPairPage` work. Phase B fan-out (UK/ES/PT) blocked by archetype absence — recon 11/06/26 confirms those markets carry zero LanguagePage-archetype pages. See Open questions.
 **Owner:** Maciej
-**Last update:** 10/06/26 by Claude (Code)
+**Last update:** 11/06/26 by Claude (desktop)
 
 ---
 
@@ -33,7 +33,8 @@
 
 ## Open questions
 
-*(none at start of Prompt 1)*
+- **11/06/26 — Phase B re-scope decision (BLOCKING).** As originally scoped, Phase B = "Language fan-out to UK/ES/PT using LanguagePage as-is, just data files per market." Recon 11/06/26 (desktop) shows UK/ES/PT carry **zero** pages of the LanguagePage archetype (the gen1-rebuild "standard language page" shape: LangHero + acceptance + prose + faq + related + cta, no inline CSS/JS/forms). The only language pages in those markets are `polish-translation.astro` (~62KB), `ukrainian-translation.astro` (~53KB), and `european-languages.astro` (~49KB) — all three classified DEFERRED in Phase A and assigned to a future `LandingPage` template (or themed/hub variant), not LanguagePage. No directional-pair pages exist outside IE. **Phase B as scoped is empty work.** Decision options for operator: (a) re-define Phase B as "build LandingPage template and migrate polish + ukrainian + european-languages across all 4 markets" (~12 pages of real value); (b) skip Phase B entirely and proceed to Phase C (ServiceDetailPage + IE flagships); (c) build DirectionalPairPage first (IE-only, 4 pages, low ROI). See issue #024.
+- **11/06/26 — Bespoke-page templatisation scope.** Two new template builds are implied by Phase A's deferrals: `LandingPage` (for polish/ukrainian/european-languages — likely needs sub-variants given the flagship vs hub split) and `DirectionalPairPage` (4 IE pages, distinct archetype with community + stats + linked doc-card grids, off-brand blue accent). Question: do these belong inside the DS conformance workstream, or as a follow-up workstream after Phases C–I land? Bespoke pages already use DS tokens and would not block fix-layer retirement (Phase H). Recommendation: defer both templates to a follow-up workstream; this workstream finishes with Phases C–I + bug sweep. Operator call.
 
 ---
 
@@ -188,6 +189,85 @@ Retired the `?panel=1` preview gate and made the IE homepage mount the interpret
 
 ---
 
+### 11/06/26 — Claude (Code) — DocTypePage pilot: template + 10 IE doc-type pages migrated data-driven
+
+Built `packages/ui/src/templates/DocTypePage.astro` + `packages/ui/src/data/types/doctype.ts` (`DocTypePageData`, `BodyBlock` union, `RelatedLink`) + `packages/ui/src/lib/schema.ts` helpers (`buildServiceSchema`, `buildFaqSchema`). Migrated 10 IE doc-type pages off bespoke `.astro` files to thin route wrappers importing the template + per-page data files under `apps/ie/src/data/doctypes/`. Pre/post SEO snapshots compared via `tools/seo-snapshot-market.mjs` + `tools/seo-compare-market.mjs`: every gate green (title, meta, canonical, h1, h2 set, internalLinks, JSON-LD semantic, wordCount ≥95% pre). Builds clean across all four markets. Sacred assets (`DottedPattern.tsx`, `design-system/`) untouched. Canonical detail in `docs/doctype-pilot-progress.md`.
+
+**Files touched:** `packages/ui/src/templates/DocTypePage.astro` (new), `packages/ui/src/data/types/doctype.ts` (new), `packages/ui/src/lib/schema.ts` (new), `apps/ie/src/data/doctypes/*.ts` (10 new data files), `apps/ie/src/pages/*-translation-ireland.astro` (10 routes rewritten as 230–250-byte thin wrappers), `docs/doctype-pilot-progress.md` (new).
+
+**Commits:** f472294
+
+---
+
+### 11/06/26 — Claude (Code) — DocTypePage pilot: independent forensic audit
+
+Independent re-verification of the pilot under SEO byte-identity gates: 10/10 pages PASS, builds clean, sacred assets untouched. Audit report in `docs/TOTAL-AUDIT-REPORT.md`.
+
+**Commits:** 9682e1e
+
+---
+
+### 11/06/26 — Claude (Code) — Full-plan stage 0: scope + phasing locked, A–J deferred
+
+Stage-0 planning artefact captured: the workstream beyond the DocTypePage pilot was split into Phases A–J (LanguagePage; UK/ES/PT language fan-out; ServiceDetailPage + IE flagships; ServiceDetail fan-out; GuidePage + IE guides; Guide fan-out; DocTypePage parametrisation/opt-in; fix-layer retirement; Drawer refresh) with morning-execution recommendations per phase. Canonical detail in `docs/full-plan-progress.md`. Doc-only commit; no code change.
+
+**Commits:** 8ed5678
+
+---
+
+### 11/06/26 — Claude (Code) — Phase G Step A: parametrise DocTypePage off site config
+
+Pulled hardcoded IE identity values out of `DocTypePage.astro` and routed them through `site` config: domain, WhatsApp number, provider `@id`. IE pilot re-verified byte-identical 10/10 after the parametrisation. Market-aware SEO tooling added (`tools/seo-snapshot-market.mjs` + `tools/seo-compare-market.mjs`). Step B blocked at the time on a shape mismatch — UK/ES/PT doc-type pages lacked the acceptance bar + CTA section that the template emitted — and routed to operator decision. This is the same archetype-heterogeneity pattern that re-surfaces in Phase A and Phase B language pages (see issue #024). Forward principles #019, #022 introduced here. Canonical detail in `docs/phase-g-progress.md`.
+
+**Files touched:** `packages/ui/src/templates/DocTypePage.astro`, `packages/ui/src/data/types/doctype.ts`, `tools/seo-snapshot-market.mjs` (new market-aware variant), `tools/seo-compare-market.mjs` (new market-aware variant), site-config additions across `apps/{ie,uk,es,pt}/src/data/site.config.ts`.
+
+**Commits:** 1f75330
+
+---
+
+### 11/06/26 — Claude (Code) — Phase G Step C: opt-in sections + 24 doc-type pages fanned out across UK/ES/PT
+
+Resolved the Step B shape mismatch by making the non-core DocTypePage sections (acceptance bar, related links, CTA, page-level schema emission) opt-in via data flags. With those guards in place, fanned out 24 of 25 candidate doc-type pages to UK/ES/PT — 10 UK + 10 ES + 4 PT — as thin route wrappers + per-page data files. IE re-verified byte-identical. ES `extranjeria` deferred to Phase D as a hub-page shape, not a doc-type. Introduced principles #020 (sections opt-in) and #021 (`pageUrlOverride` for legacy `@id` slash conventions) and #022 (`emit*Schema` flags). Canonical detail in `docs/phase-g-progress.md`.
+
+**Files touched:** `packages/ui/src/templates/DocTypePage.astro` (opt-in guards), `packages/ui/src/data/types/doctype.ts` (emit flags + `pageUrlOverride`), `apps/{uk,es,pt}/src/data/doctypes/*.ts` (24 new data files), `apps/{uk,es,pt}/src/pages/*.astro` (24 thin wrappers).
+
+**Commits:** 24fc076
+
+---
+
+### 11/06/26 — Claude (Opus 4.8 session) — Phase A: LanguagePage template + 6 IE language pages migrated; 4 deferred
+
+Built `packages/ui/src/templates/LanguagePage.astro` + `packages/ui/src/data/types/language.ts` (`LanguagePageData` + `LangHeroData`, reusing `BodyBlock`/`RelatedLink` from doctype). `schema.ts` needed no change — `buildServiceSchema` + `buildFaqSchema` reproduce the inline JSON-LD byte-identically for the 6 standard pages. Forward principles applied: #019 (WhatsApp + provider off `site`), #020 (acceptance/faq/related/cta opt-in), #021 (`pageUrlOverride`), #022 (`emit*Schema` flags), #016 (double-quote outer delimiter, zero `\'`).
+
+**Migrated 6 of 10 in-scope IE language pages, every SEO gate green at wordRatio 1.000:** russian-translation, romanian-translation, arabic-translation, chinese-translation, lithuanian-translation, portuguese-translation. Each route reduced to a 228–232-byte thin wrapper. Builds clean: IE 52pp, UK 47pp, ES 45pp, PT 38pp. SmartQuote triggers (`data-open-smartquote`) preserved 2→2 per page; WhatsApp link counts preserved 10→10 per page. Zero `apple-card-bg` / `apple-bg` / `#ff6a3d` in migrated output. DottedPattern + design-system untouched.
+
+**4 of 10 in-scope pages deferred** (routes byte-untouched): polish-translation + ukrainian-translation (bespoke landing-page archetype — ~700-line page CSS, 2× embedded `SmartQuoteForm`, page scripts, bespoke section grid); irish-translation (themed page — Irish-green `:root` override, non-LangHero hero, per-node idiosyncratic JSON-LD `buildServiceSchema` cannot reproduce); european-languages (bespoke hub — inline-styled 20-flag grid + hidden form + `SmartQuoteForm` + scripts + custom `availableLanguage[]` Service schema). Plus 4 directional-pair pages deferred to a future `DirectionalPairPage` template (english-to-polish, polish-to-english, english-to-ukrainian, ukrainian-to-english — community + stats + linked doc-card grid archetype, off-brand blue `#2563eb` accent).
+
+**>30% defer note.** 40% defer (4/10) trips the workstream's ">30% → stop" condition by the letter; its stated purpose (systemic template/schema inadequacy) is **not** met — the template is byte-faithful on 6/6 standard pages. The 40% is page-archetype heterogeneity, the same pattern Phase G Step B hit. Claude (Opus 4.8) shipped the verified 6 + flagged the rest for operator direction rather than force-migrate lossily or sit on good work. Operator endorsed the call (11/06/26 desktop session). Canonical detail in `docs/phase-a-progress.md`.
+
+**Files touched:** `packages/ui/src/templates/LanguagePage.astro` (new), `packages/ui/src/data/types/language.ts` (new), `apps/ie/src/data/languages/*.ts` (6 new data files), `apps/ie/src/pages/{russian,romanian,arabic,chinese,lithuanian,portuguese}-translation.astro` (6 routes rewritten as 228–232-byte thin wrappers), `docs/seo-snapshots/pre-ie/*` (snapshots for all 14 candidate pages), `docs/phase-a-progress.md` (new).
+
+**Commits:** 63b4d86 (template + 6 migrations); a07dbb8 (progress-journal hash record).
+
+---
+
+### 11/06/26 — Claude (desktop) — Phase B fan-out recon
+
+Inventoried language-archetype pages across all four markets. **Finding: Phase B as originally scoped is empty work.** UK/ES/PT carry zero pages of the standard-language-page archetype that Phase A's `LanguagePage` template was built for. Each non-IE market only carries the bespoke landers polish-translation + ukrainian-translation + european-languages (all DEFERRED in Phase A as LandingPage candidates, not LanguagePage). No directional-pair pages exist outside IE.
+
+| Market | LanguagePage-archetype | Bespoke landers (LandingPage candidates) | Directional pairs |
+|---|---|---|---|
+| IE | 6 (russian, romanian, arabic, chinese, lithuanian, portuguese) — MIGRATED 11/06/26 | 4 (polish, ukrainian, irish, european-languages) | 4 (en↔pl, en↔uk) |
+| UK | 0 | 3 (polish, ukrainian, european-languages) | 0 |
+| ES | 0 | 3 (polish, ukrainian, european-languages) | 0 |
+| PT | 0 | 3 (polish, ukrainian, european-languages) | 0 |
+
+Source: `Get-ChildItem apps/*/src/pages/*translation*.astro` + `european-languages.astro`, sorted by size; archetype classification per Phase A's pre-migration catalogue (`docs/phase-a-progress.md`). Operator decision logged as open question (above) and issue #024.
+
+**No code change.** Recon only.
+
+---
+
 ## Done criteria
 
 - [x] Zero `#ff6a3d` hardcodes outside `design-system/` and `dist/` — commit 6472120
@@ -195,8 +275,17 @@ Retired the `?panel=1` preview gate and made the IE homepage mount the interpret
 - [x] All four market builds clean after sweep — IE 52pp, UK 47pp, ES 45pp, PT 38pp
 - [x] SmartQuote DS modal refactor (Prompt 2) — fixed overlay, white surface, 2-dot stepper, internal scroll, sticky Pay — commit 8532074
 - [x] Page furniture conformance — IE done (commit 2351876); UK/ES/PT pending
-- [ ] `contrast-enforcer.css`, `text-contrast-fixes.css`, `badge-fix.css` retired (all rules subsumed by conformant styles)
-- [ ] Drawer refresh against `ui_kits/drawer`
+- [x] DocTypePage template + 10 IE doc-type pages migrated data-driven (commits f472294 + audit 9682e1e)
+- [x] DocTypePage parametrised market-agnostic + sections opt-in + schema emit flags + `pageUrlOverride`; 24 doc-type pages fanned out across UK/ES/PT (commits 1f75330 + 24fc076)
+- [x] LanguagePage template built and proven byte-faithful on 6/6 IE standard language pages (commit 63b4d86)
+- [ ] LanguagePage / LandingPage / DirectionalPairPage fan-out to UK/ES/PT — Phase B scope under operator review (recon 11/06/26)
+- [ ] ServiceDetailPage template + IE flagships migrated data-driven (Phase C)
+- [ ] ServiceDetail fan-out UK/ES/PT (Phase D)
+- [ ] GuidePage template + IE guides migrated data-driven (Phase E) — also requires porting Round 2 GuideBlocks + StickyCta to production `.astro`
+- [ ] Guide fan-out UK/ES/PT (Phase F)
+- [ ] `contrast-enforcer.css`, `text-contrast-fixes.css`, `badge-fix.css` retired (all rules subsumed by conformant styles) — Phase H, gated on A + C + E
+- [ ] Drawer refresh against `ui_kits/drawer` — Phase I
+- [ ] End-of-workstream bug sweep — issues #014, #015, #017, #018, #023 (UK visa classification), plus #024 (Phase B archetype gap), plus anything newly logged
 
 ---
 
