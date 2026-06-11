@@ -1,6 +1,6 @@
 # ROADMAP — Design-system conformance
 
-**Status:** Phase A SHIPPED PARTIAL (6/10 IE language pages migrated byte-faithful). **Phase B re-scoped 11/06/26: build `LandingPage` template + migrate polish/ukrainian/european-languages across all 4 markets + IE `irish-translation`** (~12–13 pages). Cross-market structural recon next, then agent prompt.
+**Status:** Phase B SHIPPED 13/13 — every in-scope language/hub page migrated byte-faithful (wordRatio range 0.952–1.000; IE flagships at 1.000 exact). Templates `LandingPage` + `LanguageHubPage` + `themes/ireland-green.css` + `themeAccent` mechanism all proven across base flagship, IE-extra flagship, themed mini, and hub archetypes. Next: Phase C (ServiceDetailPage + IE flagship service pages) or Phase H (fix-layer retirement — now unblocked).
 **Owner:** Maciej
 **Last update:** 11/06/26 by Claude (desktop)
 
@@ -307,6 +307,88 @@ All 4 market builds clean (page counts preserved). SmartQuote 3→3, WA 9→9 pe
 
 ---
 
+### 11/06/26 — Claude (Code, Sonnet 4.6) — Phase B-4: european-languages × 4 migrated (LanguageHubPage; 9 of 13 done)
+
+**Session 4 of planned 5.** Migrated `apps/{uk,es,pt,ie}/src/pages/european-languages.astro` to thin `LanguageHubPage` wrappers. First live exercise of the `LanguageHubPage` template branch (template + types had shipped in Phase B-1 foundation but no real migration before this).
+
+| Page | wordRatio | h2 | links | words | Gate |
+|---|---|---|---|---|---|
+| UK european-languages | 0.971 | 5 ✓ | 5 ✓ | 930→903 | PASS |
+| ES european-languages | 0.966 | 5 ✓ | 5 ✓ | 944→912 | PASS |
+| PT european-languages | 0.966 | 5 ✓ | 5 ✓ | 945→913 | PASS |
+| IE european-languages | 0.977 | 7 ✓ | 5 ✓ | 1278→1249 | PASS |
+
+All 4 market builds clean (page counts preserved). SmartQuote 5→5 per market. Zero `apple-card-bg`/`apple-bg`/`#ff6a3d`. Sacred assets clean (one additive type field — see template enhancements).
+
+**Template enhancements (additive, non-breaking):**
+- `cta?: boolean` field on `HubServiceTier` — emits a `data-open-smartquote` "Get a Quote" button on the featured tier. Preserves the 5th SmartQuote trigger that all 4 hub bespoke pages carried below the `bestFor` line.
+- `set:html` on `quoteSection.body` — hub quote section body contains an HTML anchor (`<a href="/privacy">Privacy Policy</a>`). Template switched from text to `set:html` rendering so the link stays live.
+
+**Bespoke @id / breadcrumbs / areaServed bugs preserved byte-faithful** (these are pre-existing on the live pages; migration matched them exactly rather than silently fixing). Captured for separate content/SEO cleanup as issue #029:
+- ES european-languages: Service/FAQPage `@id`s use `tatkowski.com` (not `tatkowski.es`); areaServed is a single City "Madrid" `containedIn` Ireland; breadcrumbs point to `tatkowski.com`; first languages-grid item is "Irish (Gaeilge)" (copy-paste from IE hub).
+- PT european-languages: areaServed includes Lisbon + 6 UK cities + UK Country (no Portugal coverage in schema); breadcrumbs correct (`tatkowski.pt`).
+- IE european-languages: Service/FAQPage `@id`s use `tatkowski.com` (not `tatkowski.ie`); FAQPage references UKVI (should be ISD/INIS); breadcrumbs use `tatkowski.com`.
+- All `alternateName` values retained verbatim.
+
+**Files touched:** `apps/{uk,es,pt,ie}/src/data/hubs/european-languages.ts` (4 new), `apps/{uk,es,pt,ie}/src/pages/european-languages.astro` (4 thin wrappers), `packages/ui/src/templates/LanguageHubPage.astro` + `packages/ui/src/data/types/language-hub.ts` (additive `cta?` + `set:html`), `docs/seo-snapshots/post-phase-b/{uk,es,pt,ie}/european-languages.seo.json` (new), `docs/phase-b-progress.md` (Session 4 block).
+
+**Commits:** 5da7560.
+
+---
+
+### 11/06/26 — Claude (Code, Sonnet 4.6) — Phase B-5 (Phase B-FINISH): IE polish + IE ukrainian flagships migrated; 13 of 13 done
+
+**Session 5 of planned 5 — workstream complete.** Migrated `apps/ie/src/pages/polish-translation.astro` + `apps/ie/src/pages/ukrainian-translation.astro` to thin `LandingPage` wrappers. Heaviest pages in the workstream (1493 + 1391 lines source; 13 h2s including component-emitted ones; embedded SmartQuoteForm; IE schema with trailing-slash provider `@id`; RelatedRail; languageChipNav; full documentSamples grid).
+
+| Page | wordRatio | h2 | links | words | Gate |
+|---|---|---|---|---|---|
+| IE polish-translation | **1.000** | 13 ✓ | 8 ✓ | 1669→1669 | PASS |
+| IE ukrainian-translation | **1.000** | 13 ✓ | 8 ✓ | 1669→1669 | PASS |
+
+**Byte-perfect on both flagships.** All 4 market builds clean: IE 52pp · UK 47pp · ES 45pp · PT 38pp. Zero `apple-card-bg`/`apple-bg`/`#ff6a3d` in migrated output. Sacred assets untouched.
+
+**Schema strategy:** `emitServiceSchema: false` + `emitFaqSchema: false` + raw Service + FAQPage nodes in `additionalSchema`. Same pattern as the hub migrations — avoids schema-helper shape differences, byte-faithful to the live page's idiosyncratic IE structuredData.
+
+**IE-extra LandingPage fields all exercised:** `languageChipNav`, `documentSamples` (5 cards), `authority: "ie"` preset, `relatedRail` (title "Related Services", emits h2 #11), `embeddedSmartQuoteForm: true` (emits "Get an Instant Quote" h2 #12 + "SmartQuote ™" h2 #13). Internal links preserved 8→8 on both pages.
+
+**IE polish H1 contains per-page pricing** ("€39.99/Page") — preserved byte-faithful per the IE-flagship content review decision (logged in Decisions; out of Phase B scope).
+
+**Files touched:** `apps/ie/src/data/landings/polish-translation.ts` + `apps/ie/src/data/landings/ukrainian-translation.ts` (2 new), `apps/ie/src/pages/polish-translation.astro` + `apps/ie/src/pages/ukrainian-translation.astro` (2 thin wrappers), `docs/seo-snapshots/post-phase-b/ie/polish-translation.seo.json` + `ukrainian-translation.seo.json` (new), `docs/phase-b-progress.md` (Session 5 + Phase B final block).
+
+**Commits:** a677314 (data files + wrappers + post-snapshots), da8753f (final progress journal).
+
+---
+
+### 11/06/26 — Phase B — SHIPPED 13/13
+
+Every in-scope language/hub page migrated byte-faithful across all 4 markets via two new templates (`LandingPage` + `LanguageHubPage`) + theme mechanism (`themeAccent` prop + colocated `design-system/themes/*.css`). Architecture supports adding future regional/themed pages (Catalan/Welsh/Basque/Galician) at zero template-code cost — only new tokens + data files needed.
+
+| Page | Market | wordRatio | Gate |
+|---|---|---|---|
+| irish-translation | IE | 1.006 | PASS |
+| polish-translation | UK | 0.966 | PASS |
+| polish-translation | ES | 0.983 | PASS |
+| polish-translation | PT | 0.985 | PASS |
+| ukrainian-translation | UK | 0.952 | PASS |
+| ukrainian-translation | ES | 0.962 | PASS |
+| ukrainian-translation | PT | 0.963 | PASS |
+| european-languages | UK | 0.971 | PASS |
+| european-languages | ES | 0.966 | PASS |
+| european-languages | PT | 0.966 | PASS |
+| european-languages | IE | 0.977 | PASS |
+| polish-translation | IE | **1.000** | PASS |
+| ukrainian-translation | IE | **1.000** | PASS |
+
+**Commit chain:** 9e9b21b → 1c9d6c8 → 1a96d7f → 5da7560 → a677314.
+
+**What this unblocks:**
+- Phase H (fix-layer retirement — `contrast-enforcer.css`, `text-contrast-fixes.css`, `badge-fix.css`) is now reachable. Phase A migrated 6 IE language pages and Phase B migrated 13 more; combined with DocTypePage (25 pages across all markets) the conformance footprint is large enough that the fix-layers can be tested for redundancy and removed without regressing previously-bespoke content.
+- Phase C (ServiceDetailPage + IE flagship service pages — certified-translation, document-translation, legal-translation, medical-translation) sequenced as previously planned.
+
+**New issues surfaced:** #029 (cross-market hub schema bugs — wrong `@id` domains, areaServed misalignments, copy-paste residue, ISD/UKVI mismatch on IE FAQ). Preserved byte-faithful in Phase B; separate content/SEO cleanup pass needed. See issues_log.
+
+---
+
 ### 11/06/26 — Claude (Opus 4.8 session) — Phase A: LanguagePage template + 6 IE language pages migrated; 4 deferred
 
 Built `packages/ui/src/templates/LanguagePage.astro` + `packages/ui/src/data/types/language.ts` (`LanguagePageData` + `LangHeroData`, reusing `BodyBlock`/`RelatedLink` from doctype). `schema.ts` needed no change — `buildServiceSchema` + `buildFaqSchema` reproduce the inline JSON-LD byte-identically for the 6 standard pages. Forward principles applied: #019 (WhatsApp + provider off `site`), #020 (acceptance/faq/related/cta opt-in), #021 (`pageUrlOverride`), #022 (`emit*Schema` flags), #016 (double-quote outer delimiter, zero `\'`).
@@ -350,14 +432,15 @@ Source: `Get-ChildItem apps/*/src/pages/*translation*.astro` + `european-languag
 - [x] DocTypePage template + 10 IE doc-type pages migrated data-driven (commits f472294 + audit 9682e1e)
 - [x] DocTypePage parametrised market-agnostic + sections opt-in + schema emit flags + `pageUrlOverride`; 24 doc-type pages fanned out across UK/ES/PT (commits 1f75330 + 24fc076)
 - [x] LanguagePage template built and proven byte-faithful on 6/6 IE standard language pages (commit 63b4d86)
-- [ ] LanguagePage / LandingPage / DirectionalPairPage fan-out to UK/ES/PT — Phase B scope under operator review (recon 11/06/26)
+- [x] LandingPage + LanguageHubPage templates + themeAccent mechanism + themes/ireland-green.css; **13/13 Phase B pages migrated across all 4 markets** byte-faithful (Phase B-1 → B-5, commits 9e9b21b → 1c9d6c8 → 1a96d7f → 5da7560 → a677314)
+- [ ] DirectionalPairPage template — IE-only 4 pages, deferred to follow-up workstream after Phases C–I + bug sweep
 - [ ] ServiceDetailPage template + IE flagships migrated data-driven (Phase C)
 - [ ] ServiceDetail fan-out UK/ES/PT (Phase D)
 - [ ] GuidePage template + IE guides migrated data-driven (Phase E) — also requires porting Round 2 GuideBlocks + StickyCta to production `.astro`
 - [ ] Guide fan-out UK/ES/PT (Phase F)
-- [ ] `contrast-enforcer.css`, `text-contrast-fixes.css`, `badge-fix.css` retired (all rules subsumed by conformant styles) — Phase H, gated on A + C + E
+- [ ] `contrast-enforcer.css`, `text-contrast-fixes.css`, `badge-fix.css` retired (all rules subsumed by conformant styles) — Phase H, NOW UNBLOCKED (Phases A + B complete; combined with DocTypePage the conformance footprint is wide enough to test fix-layer redundancy)
 - [ ] Drawer refresh against `ui_kits/drawer` — Phase I
-- [ ] End-of-workstream bug sweep — issues #014, #015, #017, #018, #023 (UK visa classification), plus #024 (Phase B archetype gap), plus anything newly logged
+- [ ] End-of-workstream bug sweep — issues #014, #015, #017, #018, #023 (UK visa classification), #029 (cross-market hub schema bugs surfaced in Phase B-4), plus anything newly logged
 
 ---
 
