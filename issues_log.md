@@ -44,6 +44,13 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #028 [SEO] UK/ES/PT polish-translation + ukrainian-translation pages have no H1 — 6 pages affected -- 11/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: Six bespoke flagship lander pages render with zero `<h1>` tag. Page content starts directly at H2 ("Why Choose Our [Language] Translation Services?" at ~line 46 in each file). Affected: `apps/uk/src/pages/polish-translation.astro`, `apps/uk/src/pages/ukrainian-translation.astro`, `apps/es/src/pages/polish-translation.astro`, `apps/es/src/pages/ukrainian-translation.astro`, `apps/pt/src/pages/polish-translation.astro`, `apps/pt/src/pages/ukrainian-translation.astro`. IE equivalents are unaffected — both have a proper `<h1>` (line 63 in IE polish; equivalent in IE ukrainian).
+- Context: Surfaced during Phase B (LandingPage template) cross-market structural recon (11/06/26). UK/ES/PT polish/ukrainian are tightly cloned from each other (UK/ES/PT polish all ~62KB, identical h2:9 / section:9 structure; UK/ES/PT ukrainian all ~53KB, identical structure). The missing-h1 bug appears to have been cloned along with the base. Real SEO impact — every page should have exactly one H1 carrying the primary keyword. Search engines downrank pages missing one.
+- Resolution: (open) — natural fix-window is Phase B migration. When these pages move to the LandingPage template, the template's hero will emit a proper H1 as part of its baseline output, fixing the bug automatically. Decision needed: (a) preserve the bug under strict byte-faithful migration and fix separately later; (b) declare the H1 addition an intentional improvement, document the deliberate post-snapshot delta (h1: 0 → 1), and ship as part of Phase B. Recommendation: (b) — bug fix during migration costs nothing, leaving pages without H1 indefinitely is the worse outcome. SEO gate would need a "deliberate-improvement" allowlist for this delta on the 6 affected pages.
+- Recurrence: 1
+
 ## #027 [TECH] LangHero flag-pl chip variant unmapped in chipClass — directional-pair pages affected -- 11/06/26 -- OPEN
 - Logged by: Claude
 - Symptom: `LangHero` accepts a `variant` field on hero chips that maps to a CSS class via `chipClass`. Directional-pair pages (english-to-polish, polish-to-english, english-to-ukrainian, ukrainian-to-english) pass `variant: "flag-pl"` (or equivalent) which is not in the map — chip renders as base style only.
