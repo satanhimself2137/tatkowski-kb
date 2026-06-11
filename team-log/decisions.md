@@ -32,6 +32,11 @@ Append-only log of concrete decisions made in TEAM ONE WhatsApp or during Claude
 
 <!-- entries below, newest on top -->
 
+### 2026-06-11 14:50 UTC — kb-write append roadmap/portugal-market-research.md
+
+**Source:** https://claude.ai/chat/7ac5d7c1-52c6-43fc-87c1-b397f690dfb5
+**Detail:** GNR §5 literature cross-check — corpus confirms roster-channel; adds payment/concentration risk, dialect+ethics roster spec, reliability-led pitch — commit: 5aff083
+
 ### 2026-06-09 19:17 UTC — kb-write replace competitors-ie.md
 
 **Source:** https://claude.ai/chat/6764f851-b210-45ee-bf2a-dc301875f100
