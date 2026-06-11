@@ -44,6 +44,20 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #020 [TECH] DocTypePage template shape was IE-specific — UK/ES/PT have thinner section sets -- 11/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: Phase G fan-out Step B blocked on second structural mismatch (after #019 hardcodes). DocTypePage always renders 6 sections including `.acceptance-bar` and `.cta-section`. Existing doc-type pages: UK + ES have 4 sections (`doc-hero` / `doc-content` / `faq-section` / `related-doc`), PT has ~2 (just `hero` + a content card). No acceptance bar, no dedicated CTA section. Migrating UK/ES/PT as-is into the always-render template would either force authoring acceptance + CTA copy per page per market (content uplift, not migration) or leave empty sections rendering.
+- Context: Same root pattern as #019 — pilot was scoped IE-only, so the template encoded IE's content depth as mandatory rather than optional. UK/ES/PT pages are last-generation pages that never received the content uplift IE pages got pre-pilot. This is a template-architecture finding: in a multi-market system where markets sit at different content maturity, sections must be data-driven (render-if-supplied), not mandatory.
+- Resolution: in-progress — Phase G continuation makes `acceptance` and `cta` sections opt-in (render only when data supplies them). UK/ES/PT then migrate at their current depth onto the template. Visible content gap (no acceptance/CTA on those pages) becomes a tracked future content-uplift workstream rather than a structural blocker. LanguagePage (Phase A) must be designed with section-optionality from day one — same trap closed forward.
+- Recurrence: 1
+
+## #019 [TECH] DocTypePage template was IE-hardcoded (domain + WhatsApp number) -- 11/06/26 -- RESOLVED
+- Logged by: Claude
+- Symptom: Phase G fan-out Step B initially blocked. Template hardcoded `https://tatkowski.com/${slug}/` for `pageUrl` (drives schema `@id`) at line 18 and `wa.me/353838710861` (IE WhatsApp number) at line 35. Consuming as-is on UK/ES/PT would have failed SEO gate on every page (WhatsApp href change + JSON-LD `@id` domain change → 100% defer rate stop condition).
+- Context: Pilot was scoped IE-only, so IE values matched the hardcodes and the pilot's SEO gate passed. No cross-market generalisation step happened during the pilot. Surfaced 11/06/26 the first time Phase G tried to fan out. Same root pattern as #020 (different surface). Pilot's audit didn't catch it — audit only compared IE pre/post, had nothing else to compare against.
+- Resolution: RESOLVED — Phase G Step A (commit 1f75330). `pageUrl` now derives from `site.domain`, `waHref` from `site.whatsappNumber`. IE re-verification 10/10 byte-identical against existing pre-snapshots confirmed no drift. Market-aware SEO tooling added (`tools/seo-snapshot-market.mjs`, `tools/seo-compare-market.mjs`). Lesson: every shared template MUST read identity-shaped values (domain, phone, currency, country, locale) off site config from day one. LanguagePage (Phase A) inherits the pattern.
+- Recurrence: 1
+
 ## #018 [TECH] Header-offset gap above hero on multiple page types (shared-layer pre-existing) -- 11/06/26 -- OPEN
 - Logged by: Claude
 - Symptom: Narrow strip of page background visible between the fixed header bar and the top of the hero section, leaving a white/light slice on dark theme. Surfaced 11/06/26 during DocTypePage pilot dev-server review (localhost:4321/criminal-record-translation-ireland and others). Same defect visible on production page tatkowski.com/medical-interpreting which was not part of any recent migration — confirms pre-existing shared-layer bug, NOT introduced by the pilot.
