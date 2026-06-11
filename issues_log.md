@@ -44,6 +44,17 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #029 [SEO] Cross-market european-languages hub pages carry wrong @id domains, areaServed, and copy-paste residue — preserved byte-faithful in Phase B-4 -- 11/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: All 4 european-languages hub pages carry idiosyncratic schema/breadcrumb bugs that pre-date Phase B. Surfaced during Phase B-4 migration (11/06/26); preserved byte-faithful because the migration's mandate is SEO parity, not silent correction. Specifics by market:
+  - **ES european-languages** — `Service` + `FAQPage` `@id`s reference `tatkowski.com` (should be `tatkowski.es`); `areaServed` is a single `City` "Madrid" with `containedIn` set to Ireland (should be Spain, or omitted); breadcrumbs point to `tatkowski.com` rather than `tatkowski.es`; first item in the visible languages grid is "Irish (Gaeilge)" — almost certainly copy-paste residue from the IE hub when the ES page was cloned.
+  - **PT european-languages** — `areaServed` includes Lisbon + 6 UK cities + UK Country, no Portugal coverage in the schema; breadcrumbs are correct (`tatkowski.pt`).
+  - **IE european-languages** — `Service` + `FAQPage` `@id`s reference `tatkowski.com` (which is technically the IE business domain at this stage, so less wrong than ES/IE pattern, but inconsistent with the per-market schema discipline applied elsewhere); `FAQPage` references UKVI (should be ISD / INIS — IE immigration body); breadcrumbs use `tatkowski.com`.
+  - **UK european-languages** — no bugs surfaced; clean.
+- Context: These bugs were latent on the live pages before Phase B. Migration to `LanguageHubPage` template did NOT fix them — the migration mandate is byte-faithful SEO parity (so Search Console doesn't see new schema and downrank during the conformance refactor). Data files for the 4 hub pages reproduce the bespoke `Service` / `FAQPage` / breadcrumb nodes verbatim via `additionalSchema`. Schema helpers (`buildHubServiceSchema`, etc.) were bypassed for the hub-page Service+FAQ nodes specifically so the bugs could be carried over without divergence. Fixing means a content/SEO pass that updates the data files' `additionalSchema` values; the template itself does not need changes.
+- Resolution: (open) — separate content/SEO cleanup pass. Recommended ordering: do this in conjunction with the end-of-workstream bug sweep (after Phases C–I), or as a standalone single-session pass once the rest of the DS conformance work has shipped (since fixing schema mid-conformance risks confusing Search Console about which version is authoritative). Each fix is a data-file edit, not a template change — low-risk once the broader migration settles. Single per-page commit acceptable.
+- Recurrence: 1
+
 ## #028 [SEO] UK/ES/PT polish-translation + ukrainian-translation pages have no H1 — 6 pages affected -- 11/06/26 -- RESOLVED-INVALID
 - Logged by: Claude
 - Symptom: Six bespoke flagship lander pages render with zero `<h1>` tag. Page content starts directly at H2 ("Why Choose Our [Language] Translation Services?" at ~line 46 in each file). Affected: `apps/uk/src/pages/polish-translation.astro`, `apps/uk/src/pages/ukrainian-translation.astro`, `apps/es/src/pages/polish-translation.astro`, `apps/es/src/pages/ukrainian-translation.astro`, `apps/pt/src/pages/polish-translation.astro`, `apps/pt/src/pages/ukrainian-translation.astro`. IE equivalents are unaffected — both have a proper `<h1>` (line 63 in IE polish; equivalent in IE ukrainian).
