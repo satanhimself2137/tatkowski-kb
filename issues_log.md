@@ -44,6 +44,20 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #018 [TECH] Header-offset gap above hero on multiple page types (shared-layer pre-existing) -- 11/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: Narrow strip of page background visible between the fixed header bar and the top of the hero section, leaving a white/light slice on dark theme. Surfaced 11/06/26 during DocTypePage pilot dev-server review (localhost:4321/criminal-record-translation-ireland and others). Same defect visible on production page tatkowski.com/medical-interpreting which was not part of any recent migration — confirms pre-existing shared-layer bug, NOT introduced by the pilot.
+- Context: Likely culprits in `packages/ui/src/components/Header.astro`, `packages/ui/src/layouts/BaseLayout.astro`, or `packages/ui/src/styles/global.css` — main padding-top not matching fixed-header height, OR hero margin-top colliding with header transform, OR transparent header without compensating body offset.
+- Resolution: (open) — fix in shared layer once, propagates to all pages including migrated doc-types. Verify on (a) DocTypePage migrated pages, (b) existing service-detail pages (certified-translation), (c) interpreting pages (medical-interpreting), (d) homepage Option A panel-mode mounted state. Deferred to end-of-workstream fix pass per agreed plan.
+- Recurrence: 1
+
+## #017 [TECH] SmartQuote v3 modal — doubled "SmartQuote™" header in modal shell -- 11/06/26 -- OPEN
+- Logged by: Claude
+- Symptom: Screenshot 11/06/26 on localhost:4321/medical-records-translation-ireland after triggering SmartQuote shows the modal rendering with TWO stacked "SmartQuote™" header bars (one with the close button, one without), plus the previously-known empty body (#014). The doubled-header symptom is NEW detail vs the original #014 capture; the empty body is the same issue.
+- Context: Probably TWO modal containers mounting simultaneously (e.g. SmartQuoteForm AND SmartQuoteDrawer both instantiating the shell) OR a step-1 panel rendering inside a wrong parent so the step-1 header markup appears alongside the modal-shell header. Independent of pilot — confirmed on a freshly-migrated pilot page but the trigger surface is unchanged from pre-pilot, so the migration did not introduce or alter this.
+- Resolution: (open) — likely related to #014 root cause; investigate together. Check whether SmartQuoteForm.astro AND SmartQuoteDrawer.astro both mount on doc-type pages (one should win, not both). If so, scope the mount to a single component per page. Deferred to end-of-workstream fix pass.
+- Recurrence: 1
+
 ## #016 [TECH] Astro build fails on backslash-escaped apostrophe (\') inside single-quoted JSX prop -- 10/06/26 -- OPEN
 - Logged by: Claude
 - Symptom: Astro build errors with `Unexpected "'" at <line>:<col>` when a single-quoted JSX prop value contains `\'` (e.g. `q: 'What you\'ll need'`). esbuild treats the backslash as literal and the next `'` closes the string. Surfaced in Phase 4 on `apps/ie/src/pages/certified-translation.astro:251:15` inside FAQ items array. Build went from clean → broken on one character change. Diagnosed by bisecting: full FAQ items array → empty → minimal → re-adding & only → re-adding em dash only → re-adding apostrophe.
