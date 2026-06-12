@@ -28,7 +28,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Shipped | File |
 |---|---|---|
-| Design-system conformance (Phases A–I + DocTypePage + Bug Sweep) — 6 production templates, 47 pages migrated across IE/UK/ES/PT, 647-line fix-layer retired, SmartQuote modal #014/#017 RESOLVED | 12/06/26 | [design-system-conformance.md](design-system-conformance.md) |
+| Design-system conformance (Phases A–I + DocTypePage + Bug Sweep + Phase J post-ship + Phase K close-out) — 6 production templates, 47 pages migrated across IE/UK/ES/PT, 647-line fix-layer retired, SmartQuote modal #014/#017 RESOLVED, brand-namespace `apple-*` → `tk-*` rename, IP audit clean, Tier 2 glass-kept decision logged | 12/06/26 | [design-system-conformance.md](design-system-conformance.md) |
 | Interpreting corpus — cashflow intelligence extraction (11 books) | 11/06/26 | [interpreting-corpus-research.md](interpreting-corpus-research.md) |
 | WA Watcher v0.5 — chat hygiene + model controls | 09/06/26 | [wa-watcher-v0.5.md](wa-watcher-v0.5.md) |
 | Document-baking studio + viewer | 06/06/26 | [baking-studio.md](baking-studio.md) |
