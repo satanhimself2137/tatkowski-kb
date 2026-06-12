@@ -1,8 +1,8 @@
 # ROADMAP — Design-system conformance
 
-**Status:** **SHIPPED 12/06/26.** Phases A/B/C/D/E/F/H/I + DocTypePage + Bug Sweep all complete. 6 production templates shipped (LanguagePage, LanguageHubPage, LandingPage, ServiceDetailPage, GuidePage, DocTypePage); 8 Round 2 guide components ported to production (`GuideTOC`, `CalloutBlock`, `CalloutGridBlock`, `StepListBlock`, `ComparisonTableBlock`, `FAQBlock`, `CrossLinkBlock`, `StickyCta`); fix-layer retired (647 lines `!important` CSS deleted); SmartQuote modal #014 + #017 resolved; #029 + 3 latent content bugs resolved in Bug Sweep. All 4 markets build clean (IE 52pp · UK 47pp · ES 45pp · PT 38pp). See Post-ship summary below.
+**Status:** **SHIPPED 12/06/26 (Phase J + Phase K post-ship runs included).** Phases A/B/C/D/E/F/H/I + DocTypePage + Bug Sweep + Phase J (SmartQuote modal residual, theme flash on nav, hero on dot field, trust-bar SVG, brand-namespace rename `apple-*` → `tk-*`, IP audit, SF Pro → Roboto) + Phase K (terms.astro WIP, #036 CSS warning, #030 dev-warning back-port complete, 3 future-workstream prep docs) all complete. **Tier 2 glass-vs-flat DECIDED 12/06/26 — keep glass; `tk-surface` / `tk-card` sanctioned as DS-extension** (issue #037). Future DS visual application waits on DS polish workstream. All 4 markets clean (IE 52pp · UK 47pp · ES 45pp · PT 38pp). See Post-ship summary below.
 **Owner:** Maciej
-**Last update:** 12/06/26 by Claude (desktop) — workstream SHIPPED close-out
+**Last update:** 12/06/26 by Claude (desktop) — Phase J + Phase K close-out, Tier 2 decision logged
 
 ---
 
@@ -576,6 +576,68 @@ Deferred:
 **Day-0 visual baseline scope reduction** (Decisions log entry) — run scoped Day-0 visual baseline to actual gate consumers (guide/drawer surfaces) rather than 72 up-front screenshots. Rationale: dist-based SEO byte-faithful gate is the hard gate and stayed reliable throughout. Phase E journal deviation #4. Trade-off accepted; recommended pattern for future workstreams of similar shape.
 
 **Commits:** 18202b8 → 19601b2 → 399b4c5 → b1d5045 → ad8af0b → 7003e92 → 70b11ed (Bug Sweep journal) → 94c1fab (workstream summary doc).
+
+---
+
+### 12/06/26 — Claude (Code, Opus 4.8) — Phase J: SmartQuote modal residual + theme/hero/trust-bar/SW + IP audit — SHIPPED
+
+Post-ship completion run after a real-browser verification pass on the workstream's first SHIPPED state surfaced residuals the byte-faithful migration discipline of A–F deliberately left in place. Per-commit push, in-browser prototyping before source edits, Phase H rationalisation-failure-mode named explicitly as a stop condition.
+
+**Tier 1 — six concrete diagnosed fixes:**
+
+- **Service worker stale-shell (commit 06868ee).** Root cause: SW used `request.mode === 'navigate'` for network-first gating, but Astro `<ClientRouter />` soft-navigates via `fetch(href)` whose `request.mode` is NOT `navigate` — those requests fell into the cache-first branch and served stale pre-conformance HTML on click. Fix: static-asset gate for cache-first, all HTML network-first regardless of mode; cache bump v2 → v3 to evict ghost shells. Applied across all 4 markets.
+
+- **Theme FOUC + dead dark-mode selectors (commit aceb98f).** Initial-theme script was plain `<script>` (Astro defers it). Three components carried corrupted `htmlhtmlhtmlhtml[data-theme="dark"]` selectors that matched nothing — dark mode silently broken on those surfaces. Fix: `is:inline` on theme init, repair selectors.
+
+- **SmartQuote inline body collapse — `#014` residual (commit 3bf8eca).** Brief hypothesised `setStep` height-lock + hero-specific. Real root cause via DOM measurement: `.sqf-modal-body` shipped `flex: 1 1 0; min-height: 0; overflow-y: auto` — correct only inside a definite-height modal overlay. `ffdff77` made every non-drawer mount in-flow (auto-height `.sqf-root`) but left the modal flex-scroll rules applying → body collapsed to 0, `overflow: hidden` clipped content. Every inline SmartQuote on every product page rendered header-only (both `hero` and `main` instances). Fix: default body to `flex: 0 0 auto; overflow-y: visible`; moved flex-scroll behind unused-by-current-code `.sqf-root--modal` opt-in.
+
+- **Theme flash on ClientRouter navigation (commit 4ab1716 + 373af1d).** `<ClientRouter />` swap replaces ALL `<html>` attributes with the incoming SSG document's (which carries no `data-theme`). Client-set `data-theme="dark"` wiped on every nav → light paint → page-load handler corrects → flash. Fix: refactor theme init into named `applyTheme()`, call once immediately (FOUC fix held), register on `astro:after-swap` (pre-paint), guarded by `window.__tkThemeSwapBound` against listener stacking. Lifecycle instrumentation confirmed incoming HTML theme = null, final theme = dark. Side-fix in 373af1d: corrected misleading "View Transitions swap `<body>` but not `<html>` attributes" comment at BaseLayout.astro:664 — that comment had misled the original `#014` investigation.
+
+- **Hero legibility on dotted pattern (commit 1a6e104).** Light-mode hero text on `DottedPattern` illegible. Fix: per-theme dot-field opacity (light 0.5, dark 1.0). Discovered an existing `[class*="dotted"], [class*="pattern"] { opacity: 1 !important }` guard rule overriding the fix — surgically removed only the opacity lock from the guard, kept z-index/display/pointer-events protection.
+
+- **Trust-bar emoji → SVG icons (commits 850c37e + d05d291).** Real bug was platform-inconsistent emoji glyph rendering (not markup). UK pages also carried *literal corrupted `?` characters in source* — encoding loss family with #031, #033. Fix: shared `trustIcon()` helper in `packages/ui/lib/` returning Lucide-shape SVG strings — interpolates into both `.ts` template literals (`set:html`) and `.astro` files (`<Fragment set:html={trustIcon(...)} />`). Preserves byte-faithful raw-HTML migrations from Phases C/D while centralising icons. Node UTF-8 sweep throughout — PowerShell cp1252 trap actively avoided (#031 lesson fed forward).
+
+**Brand-namespace rename + IP audit:**
+
+- **`apple-bg` / `apple-card-bg` → `tk-surface` / `tk-card` (commit aa75d91).** 597 replacements / 109 source files (96 `.astro`, 12 `.ts`, 1 `.css`) across all 4 markets via Node UTF-8 sweep. Production-preview screenshots pixel-identical pre/post light + dark. Caught and rescued the IE/UK `terms.astro` WIP from being accidentally swept into the commit by `git add apps` — hunk-staged the rename only.
+
+- **Third-party IP audit (commit f1a0439).** Deliverable at `docs/ip-audit-2026-06-12.md`. 0 RENAME items remaining; 1 REVIEW item (SF Pro fonts); CLEAR on 23 brand categories. False positives correctly identified (`stripe` = "accent stripe", `dc` = hex noise, `figma` = code comment, `meta` = HTML tags). No `material-*` / `fluent-*` / `carbon-*` design-idiom drift.
+
+- **SF Pro → Roboto (commit 3e1bfcf).** Resolves the IP audit REVIEW item. Dropped `"SF Pro Text"` and `"SF Pro Display"` from 8 page-level stacks + 2 stale comments. Canonical stack: `"Roboto", -apple-system, system-ui, sans-serif`. Token stacks (`--font-heading`, `--font-ui`) were already Roboto-primary. Verified by computed-style + selector-metric analysis (screenshot renderer wedged on this run, fallback to selector analysis: changed selectors set explicit `line-height: 1.6` with no `letter-spacing` tuning, no SF-Pro-specific metric to break).
+
+**Tier 2 audit — DEFERRED then DECIDED:**
+
+Site-wide `tk-surface` / `tk-card` glassmorphism, 423 occurrences across ~90 files × 4 markets vs flat DS website-kit. **DECIDED (Maciej, 12/06/26): keep glass** as sanctioned DS-extension (issue #037). Future DS visual application waits on DS polish workstream.
+
+**Files touched:** `apps/*/public/sw.js` (× 4), `packages/ui/src/layouts/BaseLayout.astro`, `packages/ui/src/components/SmartQuoteForm.astro`, `packages/ui/src/styles/global.css`, `packages/ui/lib/trustIcons.{js,ts}` (new), 14 trust-bar consumer files across markets, 109 files swept by apple-* → tk-* rename, 9 files updated by SF Pro → Roboto, plus journals at `docs/phase-j-progress.md`, `docs/phase-j-completion-progress.md`, `docs/ip-audit-2026-06-12.md`.
+
+**Commits:** 06868ee → aceb98f → 137bf25 → 3bf8eca → 4ab1716 → 1a6e104 → 373af1d → 850c37e → d05d291 → bd98448 → aa75d91 → f1a0439 → 893366f → 3e1bfcf → 76c4d31.
+
+---
+
+### 12/06/26 — Claude (Code, Opus 4.8) — Phase K: Residual cleanup + future-workstream prep — SHIPPED
+
+Final close-out run. Per-commit push, three operational steps + three read-only audit deliverables.
+
+**Operational fixes:**
+
+- **IE/UK `terms.astro` WIP committed (commit 9bc0c3c).** Pre-existing uncommitted `#0f172a` → `var(--text, #0f172a)` sweep, 5 lines × 2 files, carried through every phase since Phase A under "do not trample" mandate. Pure token-substitution making IE/UK identical to clean ES/PT siblings. Committed.
+
+- **`#036` court-interpreting CSS-minify warning RESOLVED (commit 6f7e4b8).** Root cause: ES + PT `court-interpreting.astro` had a `<style>` block opened at line 169 that was never closed — line 234 jumped straight into `<script>`. esbuild parsed the `<` of `<script>` inside CSS context, emitting the warning. IE/UK correctly closed `</style>`. Fix: insert `</style>` before the `<script>`. Note: the embedded `<script>` had been previously inert (rendered as literal CSS text), targets `.booking-form` which doesn't exist on this page — zero behavioural change.
+
+- **`#030` dev-warning back-port completed (commit cce4748).** Phase J added `import.meta.env.DEV` discriminated-union validation to GuidePage + ServiceDetailPage. Phase K back-ports to the remaining 4: LandingPage (hero `layout` discriminator), LanguageHubPage (presence-based, no discriminated union), LanguagePage (`BodyBlock` discriminator), DocTypePage (`BodyBlock` discriminator). Single batched commit. `#030` now fully RESOLVED — pattern complete across all 6 data-driven templates.
+
+**Future-workstream prep deliverables (three read-only audit docs):**
+
+- **`docs/directional-pair-recon.md`** — DirectionalPairPage workstream prep. Inventoried 4 IE directional pair pages. Surfaced **#039 (NEW)**: `LangHero.chipClass` has no `flag-pl` key — both IE Polish directional pages pass `variant: 'flag-pl'` which falls through to base style with no colour class. Live silent bug on production. One-line fix folds into the workstream. Also covers #026 (LangHero vestigial props) and #027 (broader DirectionalPair scope).
+
+- **`docs/issue-018-diagnostic-prep.md`** — `#018` header-offset gap diagnostic prep. Verified header is `min-height: 72px` sticky (premise correction confirmed). Leading hypothesis: `LangHero.astro` hero uses hardcoded `margin-top: -80px / padding-top: 80px` against a 72px header, and those literals are not variable-driven so runtime `--header-height` rewriting never touches them. Diagnostic surface area + DOM-measurement script template + cross-market verification checklist included.
+
+- **`docs/google-reviews-wiring-prep.md`** — Google Reviews API wiring prep. Surfaced **#040 (NEW)**: `/api/google-reviews` endpoint exists only on IE + Sales markets; UK/ES/PT have no endpoint → 404 on hydration → permanent fallback. Cross-market `index.astro` rating baselines also diverge (UK/ES/PT 18 reviews vs IE 20). Footer literal text + SSR JSON-LD entirely hardcoded across all markets. IE worker uses Cloudflare edge cache (not KV).
+
+**Journal:** `docs/phase-k-progress.md`.
+
+**Commits:** 9bc0c3c → 6f7e4b8 → cce4748 → 9d04122.
 
 ---
 
