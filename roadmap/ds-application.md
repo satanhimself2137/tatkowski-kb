@@ -42,6 +42,21 @@ Apply the Round 3 DS direction (`specs/Hero-DottedPattern-Fix.html` + `Glass-Ele
 
 ## Build log
 
+### 12/06/26 22:02 — Code — Round 3 §3.2 IE: align ISD page refund language with T&Cs
+
+Two clauses on `immigration-translation-ireland.ts` (lines 123 + 146) conflicted with `apps/ie/src/pages/terms.astro` §11 ('reasonable endeavours + refund for impossibility only, NOT for delay or rejection'). Both rewritten per drafts approved 12/06/26.
+
+- Line 123 (how-to step 5 bullet): `'acceptance guaranteed for any rejection attributable to our work, or full refund'` → `'built to the current ISD standard, with free reissue if ISD asks for a change attributable to our work'`.
+- Line 146 (FAQ — 'What happens if ISD rejects the translation?'): dropped 'or provide a full refund'; added explicit ETA bands (24h/36h/48h for 1-3p/4-6p/7-10p, manual confirmation for 11+).
+
+Sweep across UK/ES/PT lands as separate per-market commits — 13 surfaces found with equivalent acceptance-guarantee misalignment (UK: 5, ES: 4 + SNIG bug, PT: 4). PT Portuguese-language 'garantindo' on `traducao-certificada-aima.ts:21` and `traducao-registo-criminal.ts:21` translates to 'ensuring [completeness/compliance]' — not acceptance guarantees — left as-is.
+
+Verified live on `http://localhost:4321/immigration-translation-ireland/`: 'acceptance guaranteed' and 'or full refund' absent; new 'built to the current ISD standard' and 'we revise and reissue at no extra cost — typically within 24 hours…' present in DOM (FAQ answer inside `<details>` accordion).
+
+**Commit:** 21ed879 — fix(content): #010 — align ISD page refund language with T&Cs (Round 3 §3.2 IE)
+
+---
+
 ### 12/06/26 21:35 — Code — Round 3 Phase 2 close (§2.1 + §2.2 + §2.3)
 
 Phase 2 delivers the surface-tier system + the legacy hero floor removals direction §4 demanded. The four sub-steps:
