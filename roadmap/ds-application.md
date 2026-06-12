@@ -42,6 +42,24 @@ Apply the Round 3 DS direction (`specs/Hero-DottedPattern-Fix.html` + `Glass-Ele
 
 ## Build log
 
+### 12/06/26 20:24 — Code — Round 3 §1.1: pattern.css foundation + no-pattern-opacity rule
+
+Laid down the Brand Pattern token file per spec §7 + direction §3. New `packages/ui/src/styles/tokens/pattern.css` carries 8 zone tokens (hero / body / cta / divider / footer / guide / admin / print), is theme-aware via `--bg`, owns the wrapper opacity rule (the only file allowed to), and defines the hero reading scrim as `[data-pattern-zone="hero"]::before` (radial `--bg` feather, replaces the rejected `1a6e104` opacity hack). Print `@media` switches the live canvas for the seeded PNG bake (asset ships with the baking-studio workstream). Imported in `global.css` after `tokens.css` so the app's tokens still win on any shared variable.
+
+`_adherence.oxlintrc.json` gains a `no-pattern-opacity` selector — any string-literal CSS rule outside `tokens/pattern.css` that targets `.dotted-pattern-wrapper` or `#particleField` with an `opacity` declaration warns. The reverted `1a6e104` patch would now fail this rule.
+
+No observable behaviour change yet. Zone attributes aren't attached to template sections until §1.2, and the IntersectionObserver that mirrors the viewport-center zone's `--pattern-alpha` / `--pattern-pull` onto `:root` (required because the live `DottedPattern` wrapper is fixed-global and won't inherit from a section sibling) also ships in §1.2. All 4 markets build clean: IE 52 · UK 47 · ES 45 · PT 38.
+
+**Files touched:**
+- packages/ui/src/styles/tokens/pattern.css (new, 87 lines)
+- packages/ui/src/styles/global.css (+2 lines, @import)
+- packages/ui/src/Tatkowski Design System/_adherence.oxlintrc.json (+4 lines, no-pattern-opacity selector)
+
+**Commits:**
+- a2821f7 — feat(ds): add tokens/pattern.css with 8 zone tokens (Round 3 §1.1)
+
+---
+
 ### 12/06/26 19:46 — Code — Phase 0: DS path canonicalisation
 
 Renamed the canonical DS folder to `packages/ui/src/Tatkowski Design System/` (matches the Claude Design export name so future re-exports are a drop-in replace) and deleted the stale hyphenated `packages/ui/src/design-system/`. Moved `themes/ireland-green.css` to `packages/ui/src/styles/themes/ireland-green.css` so app-owned theme overrides don't get blown away on DS re-export (IE irish-translation landing still opts in via `themeAccent: "ireland-green"` — visual identity preserved). Updated the two live import sites (`BaseLayout.astro`, `global.css`), the sweep-accent skip-dir, the `landing.ts` doc comment, and CLAUDE.md path references. Historical phase docs left immutable. All 4 markets build clean: IE 52 · UK 47 · ES 45 · PT 38.
