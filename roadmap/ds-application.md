@@ -42,6 +42,51 @@ Apply the Round 3 DS direction (`specs/Hero-DottedPattern-Fix.html` + `Glass-Ele
 
 ## Build log
 
+### 12/06/26 20:58 — Code — Round 3 §1.2: zone selectors across 6 templates + revert opacity hack + observer + verification
+
+Every section wrapper across the 6 data-driven templates carries `[data-pattern-zone]`, per the locked mapping table:
+
+| Template | Zones used |
+|---|---|
+| LangPage | hero · divider (acceptance) · body (doc-content/faq/related) · cta |
+| LangHubPage | hero · body (langs/svc-types/faq) · cta (quote/contact/inline-smartquote) |
+| LandingPage | hero (centered + split) · body (×11) · cta (×4) · divider (relatedRail) |
+| ServiceDetailPage | hero · per-section: body (processTimeline/inclusionList/faq/authority) · cta (smartquote) |
+| GuidePage | guide (hero + chapter prose, per §4a exception — ambient not motion) · divider (callouts) · cta (smartquote) |
+| DocTypePage | hero · divider (acceptance) · body (doc-content/faq/related) · cta |
+| Footer.astro | footer (one assignment, applies to all templates × markets) |
+| LangHero.astro | hero (one assignment inside the shared LangPage hero component) |
+
+IntersectionObserver in BaseLayout mirrors the active zone's `--pattern-alpha` / `--pattern-pull` / `--pattern-variant` onto `:root` so the fixed `.dotted-pattern-wrapper` tracks the rhythm. Tie-breaker: **closest-to-viewport-center wins; document order (last declared) on exact tie**. Architecture: IntersectionObserver tracks which zones are at all visible (cheap), rAF-throttled scroll listener recomputes closest-to-center while any zone is on screen.
+
+`1a6e104` light-mode `.dotted-pattern-wrapper { opacity: 0.5 !important }` + its `[data-theme="dark"]` companion both removed from global.css. Pattern returns to full presence in both themes; legibility comes from the hero scrim (already in `tokens/pattern.css` from §1.1) and the forthcoming E1/E2/E3 surfaces (§2). Hero scrim activates anywhere `[data-pattern-zone="hero"]` is attached.
+
+Observer behaviour verified live in Chrome on IE /russian-translation: scroll hero → body → cta → footer transitions root α 1.0 → 1.0 → 0.9 → 0.5 as expected. All 4 markets build clean: IE 52 · UK 47 · ES 45 · PT 38.
+
+84 real-browser screenshots captured via `tools/ds-application-screenshots.mjs` (Playwright, adapted from Phase H — but keeps pattern wrapper visible, opposite intent): 4 markets × 6 templates × 2 themes × 2 viewports for IE, 4 markets × 5 templates × 2 themes × 2 viewports for UK/ES/PT (LangPage is IE-only by codebase design — `grep LanguagePage apps/*/src/pages/*` only hits IE; documented in README so it's not read as a regression).
+
+**Open item carried forward (§2 territory, not §1.2):** the spec's "no opaque floor box" on heroes (direction §4) isn't yet honoured because every template's hero retains its own pre-existing background (e.g. `.lang-hero` navy gradient). The pattern.css scrim `::before` IS present per spec §7, but legacy hero CSS sits on top of it. Cleanup lands with E1/E2/E3 surface application in §2.
+
+**Files touched (12):**
+- packages/ui/src/styles/global.css (revert 1a6e104)
+- packages/ui/src/components/LangHero.astro (zone=hero)
+- packages/ui/src/components/Footer.astro (zone=footer)
+- packages/ui/src/templates/LanguagePage.astro (5 zones)
+- packages/ui/src/templates/LanguageHubPage.astro (7 zones)
+- packages/ui/src/templates/LandingPage.astro (17 zones)
+- packages/ui/src/templates/ServiceDetailPage.astro (6 zones)
+- packages/ui/src/templates/GuidePage.astro (4 zones)
+- packages/ui/src/templates/DocTypePage.astro (5 zones)
+- packages/ui/src/layouts/BaseLayout.astro (observer)
+- tools/ds-application-screenshots.mjs (new — Playwright sweep)
+- docs/ds-application-screenshots-2026-06-12/ (new — 84 PNG, README, MANIFEST.json)
+
+**Commits:**
+- 5a93bd7 — feat(ds): zone selectors across 6 templates + revert opacity hack + hero scrim (Round 3 §1.2)
+- 161e7f3 — docs(ds): Round 3 §1.2 verification — 84 real-browser screenshots + script
+
+---
+
 ### 12/06/26 20:24 — Code — Round 3 §1.1: pattern.css foundation + no-pattern-opacity rule
 
 Laid down the Brand Pattern token file per spec §7 + direction §3. New `packages/ui/src/styles/tokens/pattern.css` carries 8 zone tokens (hero / body / cta / divider / footer / guide / admin / print), is theme-aware via `--bg`, owns the wrapper opacity rule (the only file allowed to), and defines the hero reading scrim as `[data-pattern-zone="hero"]::before` (radial `--bg` feather, replaces the rejected `1a6e104` opacity hack). Print `@media` switches the live canvas for the seeded PNG bake (asset ships with the baking-studio workstream). Imported in `global.css` after `tokens.css` so the app's tokens still win on any shared variable.
