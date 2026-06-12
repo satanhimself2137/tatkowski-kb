@@ -42,6 +42,32 @@ Apply the Round 3 DS direction (`specs/Hero-DottedPattern-Fix.html` + `Glass-Ele
 
 ## Build log
 
+### 12/06/26 21:10 — Code — Round 3 §1.3: SalesManager pattern application + dimmed focus state
+
+Apply the `admin` zone per direction §4b. SalesManager doesn't use BaseLayout (own SPA), so the wiring is simpler than public sites — only one zone for the whole app, no observer needed.
+
+- `apps/sales/src/pages/index.astro` imports `@tatkowski/ui/styles/tokens/pattern.css` so the admin zone selectors are loaded.
+- `AdminApp.tsx` outer wrapper now carries `data-pattern-zone="admin"` always, plus `data-focus` when a data panel has focus.
+- pattern.css's selectors set `--pattern-alpha:.6` baseline → `.18` on focus. The fixed `.dotted-pattern-wrapper` inherits via CSS-variable cascade. Hard-dark `--sm-*` navy substrate unchanged per scope rule.
+
+Focus tracked at admin layout level via `useEffect` binding `focusin/focusout` on `<main.sm-main-content>` (the data-panel container — Dashboard/OrderBoard/Clients/Pairs/Users/Guide). Navigation chrome and overlays are siblings of `<main>`, so they don't trigger the dim. `focusout.relatedTarget` gates the false transition so focus moving between children inside `<main>` stays focused.
+
+Hard out-of-scope adherence: no edits to `useOrders`, `updateOrder`, `onUnauthorized` order-state cleanup, `handleLogout`, OrderBoard, OrderDetail, kanban state, KV writes, Revolut webhook, HMAC, or any order lifecycle. New `panelFocused` state + useEffect are pure layout-level additions.
+
+**Known minor deviation (logged for future hygiene pass, NOT a §1.3 gap):** existing `patternDimmed` state (auth-state-driven, feeds DottedPattern.dimmed prop's internal speed×0.4 + per-dot opacity×0.3) left untouched. When logged in + focused, the two dim signals compound: CSS-variable α 0.18 × component internal dim. Not exact spec fidelity but operationally safer than retiring `patternDimmed` mid-edit — its setters at AdminApp.tsx:1234 and :1256 sit inside `useOrders.onUnauthorized` cleanup and inside `handleLogout`. Collapsing the two signals belongs to a future pass that can factor the operator-logic boundary out of this file.
+
+Verified live on http://localhost:4444/ — login screen (no `<main>` so no focus): `data-pattern-zone="admin"` present, root `--pattern-alpha:.6`, wrapper opacity 0.6. Toggling `data-focus` manually: drops to .18 / 0.18 with the .4s ease transition from pattern.css. Builds clean: sales 5 pages; IE 52 pages (no regression).
+
+**Files touched (3):**
+- packages/ui/src/components/AdminApp.tsx (state + useEffect + wrapper attrs)
+- apps/sales/src/pages/index.astro (import tokens/pattern.css)
+- .claude/launch.json (sales preview entry)
+
+**Commits:**
+- 6247f77 — feat(ds): salesmanager pattern application + dimmed focus state (Round 3 §1.3)
+
+---
+
 ### 12/06/26 20:58 — Code — Round 3 §1.2: zone selectors across 6 templates + revert opacity hack + observer + verification
 
 Every section wrapper across the 6 data-driven templates carries `[data-pattern-zone]`, per the locked mapping table:
