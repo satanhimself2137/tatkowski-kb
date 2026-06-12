@@ -42,6 +42,22 @@ Apply the Round 3 DS direction (`specs/Hero-DottedPattern-Fix.html` + `Glass-Ele
 
 ## Build log
 
+### 12/06/26 22:04 — Code — Round 3 §3.2 UK: align UKVI pages refund language with T&Cs
+
+UK had **5 surfaces** with 'guarantee acceptance' framing conflicting with T&Cs §11. All rewritten per drafts approved 12/06/26, referencing **UKVI Para 39B** (correct UK standard — not blanket IE wording).
+
+1. `data/guide/ukvi-translation-guide.ts:165` — Guide FAQ ("What happens if my translation is rejected?"). Replaced 'We guarantee acceptance…never had a translation rejected' with 'produced to current UKVI Para 39B standards…we revise and reissue at no extra cost' + ETA bands.
+2. `data/service-detail/certified-translation.ts:143` — sales overview block. Replaced both 'We guarantee UKVI-accepted quality' and 'We guarantee it' with build-to-standard + revise-at-no-extra-cost framing.
+3. `data/service-detail/certified-translation.ts:373` — FAQ tile. Retitled 'Acceptance Guarantee' → 'If UKVI raises a query'; body reframed.
+4. `pages/ukvi-certified-translation.astro:35` — JSON-LD FAQ schema. Question 'Do you guarantee UKVI acceptance?' → 'Are your translations accepted by UKVI?'. Answer T&Cs-aligned.
+5. `pages/ukvi-certified-translation.astro:146` — visible FAQ. Same question + answer rewrite as #4 (schema + visible in sync).
+
+Verified live on `http://localhost:4322/ukvi-translation-guide/`: old 'guarantee acceptance' and 'never had a translation rejected' absent; 'Para 39B', 'we revise and reissue at no extra cost', and ETA bands all present.
+
+**Commit:** 8d4efed — fix(content): #010 — align UK pages refund language with T&Cs (Round 3 §3.2 UK)
+
+---
+
 ### 12/06/26 22:02 — Code — Round 3 §3.2 IE: align ISD page refund language with T&Cs
 
 Two clauses on `immigration-translation-ireland.ts` (lines 123 + 146) conflicted with `apps/ie/src/pages/terms.astro` §11 ('reasonable endeavours + refund for impossibility only, NOT for delay or rejection'). Both rewritten per drafts approved 12/06/26.
