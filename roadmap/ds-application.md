@@ -42,6 +42,30 @@ Apply the Round 3 DS direction (`specs/Hero-DottedPattern-Fix.html` + `Glass-Ele
 
 ## Build log
 
+### 12/06/26 21:18 — Code — Round 3 §1.4: Drawer pattern application
+
+Apply the body zone per direction §4c. Drawer is its own SPA (no BaseLayout) so the wiring mirrors §1.3's SalesManager pattern: import `tokens/pattern.css` in the entry, mount `DottedPattern` and add `data-pattern-zone="body"` at the outer wrapper. No observer needed — single zone for the whole app.
+
+`DrawerApp.tsx` had three separate return paths for `loading` / `logged_out` / `logged_in` auth states. Refactored into a single shared wrapper carrying the pattern + zone attribute, with a computed `content` subtree selecting per auth state. The auth state machine (D-series, transitions, hash routing) is unchanged — only the JSX shape around its outputs.
+
+Hard out-of-scope adherence: no edits to magic-link auth, 6-digit code flow, document download, R2 logic, or hash routing. The shared-wrapper refactor is a render-shape change around the auth states.
+
+**Known pre-existing visual (NOT a §1.4 gap):** the login screen's `.drawer-centred` class in `drawer.css` carries an opaque orange-radial + slate-linear gradient background that covers the pattern on the login/OTP screens. That's off-spec per direction §4c ("Substrate: flat white") but predates this workstream. Flattening `.drawer-centred` belongs to a Phase 2 polish on the auth gate, NOT §1.4 scope. Post-login surfaces (`.drawer-main`, which has no background) show the pattern through cleanly.
+
+Verified live on http://localhost:4325/: `data-pattern-zone="body"` on outer wrapper with `--pattern-alpha:1`, `DottedPattern` canvas mounted at 1440×900. Hiding `.drawer-centred` via DevTools confirms the pattern is rendering underneath at full presence — orange dots clearly visible on the flat-white substrate.
+
+Builds clean: drawer 1 page; IE 52 pages (no regression).
+
+**Files touched (3):**
+- apps/drawer/src/pages/index.astro (import tokens/pattern.css)
+- apps/drawer/src/components/DrawerApp.tsx (DottedPattern mount + render shape)
+- .claude/launch.json (drawer preview entry)
+
+**Commits:**
+- e80aedd — feat(ds): drawer pattern application (Round 3 §1.4)
+
+---
+
 ### 12/06/26 21:10 — Code — Round 3 §1.3: SalesManager pattern application + dimmed focus state
 
 Apply the `admin` zone per direction §4b. SalesManager doesn't use BaseLayout (own SPA), so the wiring is simpler than public sites — only one zone for the whole app, no observer needed.
