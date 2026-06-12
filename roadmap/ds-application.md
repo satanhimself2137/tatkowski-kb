@@ -42,6 +42,44 @@ Apply the Round 3 DS direction (`specs/Hero-DottedPattern-Fix.html` + `Glass-Ele
 
 ## Build log
 
+### 12/06/26 22:21 — Code — Round 3 §3.2 PT: align AIMA pages refund language with T&Cs
+
+PT had **4 surfaces** with 'guarantee acceptance' framing conflicting with T&Cs §11. All rewritten per drafts approved 12/06/26, referencing **AIMA** (Agência para a Integração, Migrações e Asilo — replaced SEF Oct 2023), Portuguese courts, and notary-certification where required.
+
+1. `data/service-detail/certified-translation.ts:35` — JSON-LD FAQ Q+A. Answer reframed from 'Yes. We guarantee acceptance…' to 'Our certified translations are produced to current AIMA standards…revise and reissue at no extra cost if attributable to our work'.
+2. `:143` — sales overview block. Replaced both 'We guarantee authority-accepted quality' and 'We guarantee it' with build-to-standard + revise-at-no-extra-cost framing.
+3. `:310-311` — comparison table cells. us 'guaranteed/reissue free' → 'Free reissue if a formatting query is raised attributable to our work'. them 'No guarantees given' → 'Reissue or refund policy not stated'.
+4. `:382` — FAQ tile. Title 'Acceptance Guarantee' → 'If AIMA raises a query'; body reframed around AIMA/Portuguese-court standards + notary-certification.
+
+**PT-language `garantindo` finding (informational, no action):** `traducao-certificada-aima.ts:21` and `traducao-registo-criminal.ts:21` use `garantindo` to mean 'ensuring [completeness/compliance]', NOT acceptance guarantees. Tone-aligned with the rest of those Portuguese pages. Left as-is.
+
+Verified live on `http://localhost:4324/certified-translation/`: old strings all absent; new strings present in visible HTML (JSON-LD `<script>` content for the Q+A also rewritten, not detectable via `body.innerHTML` but confirmed via source check).
+
+**Commit:** adcce32 — fix(content): #010 — align PT pages refund language with T&Cs (Round 3 §3.2 PT)
+
+---
+
+### 12/06/26 22:21 — Carry-forward — ES + PT partial localisation gap (consolidated)
+
+**Out of scope for the DS application workstream. Requires a dedicated localisation pass before programmatic SEO scale-out on ES/PT.**
+
+Surfaced while running the §3.2 ES sweep. The ES and PT sites are per-file localised — doctype pages are in target language (`apps/es/src/data/doctypes/traduccion-jurada-*`, `apps/pt/src/data/doctypes/traducao-*`), but `apps/es/src/data/service-detail/*.ts`, several `apps/es/src/pages/*.astro`, and equivalent PT files are still in English on the `.es` and `.pt` domains.
+
+ES surfaces affected (representative, not exhaustive):
+- `service-detail/certified-translation.ts` — 15 SNIG mentions (wrong authority — should be MAEC/Extranjería) + broken `/inis-translation-guide` link
+- 10 pages with `Ireland`/`United Kingdom` in JSON-LD `areaServed` (apostille-service, business/court/phone/school/parent-teacher interpreting, all 4 recruitment verticals)
+- `court-interpreting.astro` and `phone-interpreting.astro` — Garda / GSOC (Irish police bodies) referenced throughout
+- `faq.astro` — 4 paragraphs framing certified-translation conventions / VAT / QQI credentials as Irish on an ES domain
+- 4 page `<h1>`/`<h2>` with 'Madrid & Ireland' phrasing (medical-interpreting, phone-interpreting, service-detail/certified-translation:340, legal-translation:336)
+
+PT likely has equivalent gaps (`/certified-translation/` route exists on the PT domain rendering the English service-detail data file — that route was where the §3.2 PT fixes landed). Full PT scan not yet run.
+
+**Why not patched in §3.2 ES:** the user's call. Patching English copy that's about to be retranslated into Spanish is wasted work. The right fix is a full localisation pass. The §3.2 PT T&Cs alignment was kept because T&Cs alignment is correct regardless of language.
+
+**Next workstream (open thread):** ES + PT localisation pass — full Spanish/Portuguese translation of service-detail/*.ts, all English `/pages/*.astro` on the ES/PT domains, plus correct authority terminology (MAEC + Extranjería on ES, AIMA on PT). Gating prerequisite for programmatic SEO scale-out on ES/PT. **IE and UK scale-out are unblocked when this DS-application workstream closes; ES/PT scale-out is gated on the localisation workstream.**
+
+---
+
 ### 12/06/26 22:04 — Code — Round 3 §3.2 UK: align UKVI pages refund language with T&Cs
 
 UK had **5 surfaces** with 'guarantee acceptance' framing conflicting with T&Cs §11. All rewritten per drafts approved 12/06/26, referencing **UKVI Para 39B** (correct UK standard — not blanket IE wording).
