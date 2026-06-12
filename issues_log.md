@@ -44,6 +44,41 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
+## #036 [TECH] `apps/{es,pt}/src/pages/court-interpreting.astro` inline `<script>` triggers esbuild CSS-minify warning -- 12/06/26 -- OPEN
+- Logged by: Claude (Code, Opus 4.8) — surfaced during DS-conformance Phase F build runs.
+- Symptom: Build emits `[css-syntax-error] Unexpected "<"` warning on `apps/es/src/pages/court-interpreting.astro` and the PT equivalent. Build succeeds; warning is noise but indicates an inline `<script>` block with `//`-line comments that esbuild's CSS-minify pass parses incorrectly.
+- Context: Pre-existing; not touched by this run. Likely an Astro mode-misclassification or a `<style>` block accidentally enclosing JS-style comments. Affects ES and PT only — IE and UK equivalents (if they exist) do not warn.
+- Resolution: cleanup task. Either move the inline JS to a typed module, or strip the `//` comments inside the affected block.
+- Recurrence: persistent across all Phase F builds.
+
+## #035 [TECH] `packages/ui/src/design-system/ui_kits/drawer/**` references the client portal kit, not the SmartQuote drawer archetype -- 12/06/26 -- OPEN (informational)
+- Logged by: Claude (Code, Opus 4.8) — surfaced during DS-conformance Phase I recon.
+- Symptom: Phase I prompt directed the agent to refresh `SmartQuoteDrawer.astro` against the `ui_kits/drawer` reference. Recon found the two are different archetypes: `ui_kits/drawer` is a client-portal slide-out (different content shape, interaction model, and CSS contract); `SmartQuoteDrawer` is a quote-flow drawer already DS-conformant and using `position: sticky` not `fixed`.
+- Context: Phase I shipped one legitimate change anyway — token hygiene on brand hardcodes (`#ff6a1a` → `var(--accent)`, commit `e63c3a7`, zero visual change verified). Premise diff against the wrong reference was correctly refused.
+- Resolution: any future "drawer refresh" task needs a drawer-specific design reference (Figma frame or a kit specifically for the SmartQuote quote-flow drawer archetype). Until that exists, `SmartQuoteDrawer` is considered DS-conformant as-shipped.
+- Recurrence: 1 (Phase I premise correction).
+
+## #034 [SEO] ES service-detail pages carried `@id` references to `tatkowski.com` instead of `tatkowski.es` (provider cross-domain) -- 12/06/26 -- RESOLVED
+- Logged by: Claude (Code, Opus 4.8) — surfaced during DS-conformance Bug Sweep.
+- Symptom: ES service-detail JSON-LD `provider.@id` (and related) referenced `tatkowski.com#business` instead of `tatkowski.es#business`. Schema validators accept it but the provider entity is logically wrong — the IE Organization, not the ES one. Sibling pattern to #029 hub-domain bugs.
+- Context: Preserved byte-faithful through Phases C/D under the do-not-silently-fix mandate. Resolved in Bug Sweep with `BaseLayout` emitting `tatkowski.es#business` so corrected refs resolve.
+- Resolution: commit `399b4c5` — `fix(content): correct ES service-detail schema @id domains tatkowski.com -> tatkowski.es`. Emails untouched (different domain rationale).
+- Recurrence: 1 — bug-sweep surface.
+
+## #033 [CONTENT] UK + PT medical-translation pages carried "Npoundlogy" / "npoundlogical" mojibake from a botched €→£ sweep -- 12/06/26 -- RESOLVED
+- Logged by: Claude (Code, Opus 4.8) — surfaced during DS-conformance Bug Sweep.
+- Symptom: Medical-translation pages on UK and PT contained the string "Npoundlogy" (and lowercase variant) where "Neurology" was intended. Root cause: a historical euro→pound currency sweep ran a string replace that matched "euro" inside "Neurology" (€ → £, "Neuro" → "Npound" via the same regex). 3 occurrences per market.
+- Context: Preserved byte-faithful through Phases C/D. Bug Sweep adjudicated as content correction (clearly bug, not stylistic).
+- Resolution: commit `19601b2` — `fix(content): correct Npoundlogy -> Neurology euro->pound sweep typo (UK + PT medical)`. Broad re-grep performed for sibling damage from the same sweep; no further hits.
+- Recurrence: 1. Lesson: blanket find/replace across content must whitelist boundary tokens or check `\b` boundaries.
+
+## #032 [TECH] IE medical-translation trust-grid contained malformed `<span color: dummy>` markup -- 12/06/26 -- RESOLVED
+- Logged by: Claude (Code, Opus 4.8) — surfaced during DS-conformance Bug Sweep.
+- Symptom: `apps/ie/src/data/service-detail/medical-translation.ts` raw-HTML section carried malformed inline spans with `color: dummy` placeholders. Renders as broken element attributes; browser silently parses past.
+- Context: Preserved byte-faithful through Phase C (flagged in Phase C journal). Git history confirms the spans were malformed pre-existing markup — completed to valid HTML in the bug sweep.
+- Resolution: commit `18202b8` — `fix(content): repair IE medical-translation trust-grid color:dummy spans`. Completed to valid markup using the token colour the surrounding design expected.
+- Recurrence: 1.
+
 ## #031 [TECH] PowerShell Get-Content reads UTF-8 as Windows-1252; round-tripping with Set-Content garbles multi-byte chars -- 11/06/26 -- OPEN
 - Logged by: Claude (Code, Sonnet 4.6)
 - Symptom: During Phase D-11 (ES/PT service-detail migrations), authoring data files via PowerShell `Get-Content` then `Set-Content -Encoding UTF8` corrupted multi-byte characters. Example: EUR symbol round-tripped to a-circumflex-EUR sequence; en-dash to a-circumflex-EUR-double-quote sequence. Cause: this Windows machine's `Get-Content` defaults to Windows-1252 on UTF-8 files unless `-Encoding UTF8` is explicitly passed on the READ side; once the bytes have been misinterpreted on read, no encoding flag on write restores them.
@@ -51,14 +86,14 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 - Resolution: For new data files use the Write tool (or `Out-File -Encoding UTF8` on freshly composed strings, NOT round-tripped content). For raw HTML strings that carry currency/punctuation, prefer HTML numeric entities (`&#x20AC;` for EUR, `&#x2013;` for en-dash, `&#x2019;` for right single quote) over literal multi-byte characters. If `Get-Content` IS used on a UTF-8 file, always pass `-Encoding UTF8` explicitly. Open: consider session-default `$PSDefaultParameterValues['*:Encoding']='utf8'` in PowerShell profile to make this safer by default.
 - Recurrence: 1
 
-## #030 [TECH] `ServiceDetailPage` raw HTML section field is `rawHtml` not `html`; wrong key silently strips all sections -- 11/06/26 -- OPEN
+## #030 [TECH] `ServiceDetailPage` raw HTML section field is `rawHtml` not `html`; wrong key silently strips all sections -- 11/06/26 -- PARTIALLY RESOLVED (keep open)
 - Logged by: Claude (Code, Sonnet 4.6)
 - Symptom: Built page rendered with only the hero (`<main>` had 33 words total) despite the data file declaring multiple sections. No build error, no TypeScript error.
 - Context: Phase D-10 (PT document-translation migration). The `RawSection` variant of the `ServiceDetailSection` discriminated union expects `rawHtml: string`; the data file was authored with `html: string`. TypeScript narrows on the `type` discriminator and strips unknown keys silently, so the section object passed the structural check but rendered as empty.
-- Resolution: Always use `rawHtml` for `RawSection` payloads. Worth a quick eyeball pass on any data file before commit: `Select-String -Path apps/*/src/data/service-detail/*.ts -Pattern '^\s+html:'` should return zero hits. Longer-term consider: (a) adding a runtime warning in `ServiceDetailPage.astro` when a `RawSection` has no `rawHtml` field, or (b) tightening the discriminated union with an `unknownKeys: never` brand. Out-of-scope for the conformance workstream; revisit during end-of-workstream bug sweep.
+- Resolution: Always use `rawHtml` for `RawSection` payloads. Worth a quick eyeball pass on any data file before commit: `Select-String -Path apps/*/src/data/service-detail/*.ts -Pattern '^\s+html:'` should return zero hits. **PARTIAL FIX 12/06/26 (Phase E + Bug Sweep, Opus 4.8 run):** dev-mode runtime warnings added to `GuidePage.astro` and `ServiceDetailPage.astro` via `import.meta.env.DEV` gate — silent in production, surfaces missing discriminated-union payloads at dev time. Commits in Phase E + Bug Sweep chain. **Remaining open:** back-port the same dev-warning pattern to `LandingPage.astro`, `LanguageHubPage.astro`, `LanguagePage.astro`, `DocTypePage.astro` (4 templates). Bounded follow-up.
 - Recurrence: 1
 
-## #029 [SEO] Cross-market european-languages hub pages carry wrong @id domains, areaServed, and copy-paste residue — preserved byte-faithful in Phase B-4 -- 11/06/26 -- OPEN
+## #029 [SEO] Cross-market european-languages hub pages carry wrong @id domains, areaServed, and copy-paste residue — preserved byte-faithful in Phase B-4 -- 11/06/26 -- RESOLVED
 - Logged by: Claude
 - Symptom: All 4 european-languages hub pages carry idiosyncratic schema/breadcrumb bugs that pre-date Phase B. Surfaced during Phase B-4 migration (11/06/26); preserved byte-faithful because the migration's mandate is SEO parity, not silent correction. Specifics by market:
   - **ES european-languages** — `Service` + `FAQPage` `@id`s reference `tatkowski.com` (should be `tatkowski.es`); `areaServed` is a single `City` "Madrid" with `containedIn` set to Ireland (should be Spain, or omitted); breadcrumbs point to `tatkowski.com` rather than `tatkowski.es`; first item in the visible languages grid is "Irish (Gaeilge)" — almost certainly copy-paste residue from the IE hub when the ES page was cloned.
@@ -66,7 +101,7 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
   - **IE european-languages** — `Service` + `FAQPage` `@id`s reference `tatkowski.com` (which is technically the IE business domain at this stage, so less wrong than ES/IE pattern, but inconsistent with the per-market schema discipline applied elsewhere); `FAQPage` references UKVI (should be ISD / INIS — IE immigration body); breadcrumbs use `tatkowski.com`.
   - **UK european-languages** — no bugs surfaced; clean.
 - Context: These bugs were latent on the live pages before Phase B. Migration to `LanguageHubPage` template did NOT fix them — the migration mandate is byte-faithful SEO parity (so Search Console doesn't see new schema and downrank during the conformance refactor). Data files for the 4 hub pages reproduce the bespoke `Service` / `FAQPage` / breadcrumb nodes verbatim via `additionalSchema`. Schema helpers (`buildHubServiceSchema`, etc.) were bypassed for the hub-page Service+FAQ nodes specifically so the bugs could be carried over without divergence. Fixing means a content/SEO pass that updates the data files' `additionalSchema` values; the template itself does not need changes.
-- Resolution: (open) — separate content/SEO cleanup pass. Recommended ordering: do this in conjunction with the end-of-workstream bug sweep (after Phases C–I), or as a standalone single-session pass once the rest of the DS conformance work has shipped (since fixing schema mid-conformance risks confusing Search Console about which version is authoritative). Each fix is a data-file edit, not a template change — low-risk once the broader migration settles. Single per-page commit acceptable.
+- Resolution: **RESOLVED 12/06/26 (Bug Sweep, Opus 4.8 run).** Three per-market commits: `b1d5045` (es hub schema bugs), `ad8af0b` (ie UKVI → ISD, 20 occurrences), `7003e92` (pt areaServed → Portugal). ES service-detail `@id` cross-domain sibling pattern fixed separately in `399b4c5` and tracked as #034.
 - Recurrence: 1
 
 ## #028 [SEO] UK/ES/PT polish-translation + ukrainian-translation pages have no H1 — 6 pages affected -- 11/06/26 -- RESOLVED-INVALID
@@ -83,11 +118,11 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 - Resolution: (open) — fix during DirectionalPairPage template build, whenever that workstream lands.
 - Recurrence: 1
 
-## #026 [TECH] LangHero quoteEndpoint/quoteTitle props are vestigial — declared but not emitted in markup -- 11/06/26 -- OPEN
+## #026 [TECH] LangHero quoteEndpoint/quoteTitle props are vestigial — declared but not emitted in markup -- 11/06/26 -- OPEN (deferred, scope-guarded)
 - Logged by: Claude
 - Symptom: `LangHero` declares `quoteEndpoint` and `quoteTitle` props in its interface, but the rendered markup does not emit them. The SmartQuote button only carries `data-open-smartquote`; no `data-quote-endpoint` or matching attribute reaches the DOM. The 6 migrated IE language pages preserve the values in their data files (authoring intent), but they are not observable in output.
 - Context: Surfaced during Phase A LanguagePage template build. The props were carried forward from pre-migration page data to preserve authoring intent. If the intent was to drive a per-page quote endpoint or title override on the SmartQuote modal, the wiring is missing. If they were never functional, they should be removed from the type.
-- Resolution: (open) — operator decides: (a) wire them into LangHero markup (likely as `data-quote-endpoint` / `data-quote-title` on the SmartQuote button) and verify behaviour; (b) remove them from `LangHeroData` and the 6 IE data files. No SEO impact either way.
+- Resolution: (open) — operator decides: (a) wire them into LangHero markup (likely as `data-quote-endpoint` / `data-quote-title` on the SmartQuote button) and verify behaviour; (b) remove them from `LangHeroData` and the 6 IE data files. No SEO impact either way. **12/06/26 annotation (Bug Sweep, Opus 4.8 run):** Vestigial status confirmed — props are declared but unused in markup. Removal pathway b touches 20+ files across data layers and component types; the 5-file scope guard on the workstream-completion run tripped, removal deferred to a dedicated task. Recommended: handle alongside DirectionalPairPage template build (#027 sibling) when that workstream lands.
 - Recurrence: 1
 
 ## #025 [TECH] FAQ schema set differs from visible FAQ set on language pages — modeled in type, possible parallel on doc-type pages -- 11/06/26 -- INFORMATIONAL
@@ -142,8 +177,8 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 ## #018 [TECH] Header-offset gap above hero on multiple page types (shared-layer pre-existing) -- 11/06/26 -- OPEN
 - Logged by: Claude
 - Symptom: Narrow strip of page background visible between the fixed header bar and the top of the hero section, leaving a white/light slice on dark theme. Surfaced 11/06/26 during DocTypePage pilot dev-server review (localhost:4321/criminal-record-translation-ireland and others). Same defect visible on production page tatkowski.com/medical-interpreting which was not part of any recent migration — confirms pre-existing shared-layer bug, NOT introduced by the pilot.
-- Context: Likely culprits in `packages/ui/src/components/Header.astro`, `packages/ui/src/layouts/BaseLayout.astro`, or `packages/ui/src/styles/global.css` — main padding-top not matching fixed-header height, OR hero margin-top colliding with header transform, OR transparent header without compensating body offset.
-- Resolution: (open) — fix in shared layer once, propagates to all pages including migrated doc-types. Verify on (a) DocTypePage migrated pages, (b) existing service-detail pages (certified-translation), (c) interpreting pages (medical-interpreting), (d) homepage Option A panel-mode mounted state. Deferred to end-of-workstream fix pass per agreed plan.
+- Context: Likely culprits in `packages/ui/src/components/Header.astro`, `packages/ui/src/layouts/BaseLayout.astro`, or `packages/ui/src/styles/global.css` — main padding-top not matching fixed-header height, OR hero margin-top colliding with header transform, OR transparent header without compensating body offset. **12/06/26 premise correction (Bug Sweep, Opus 4.8 run):** original hypothesis was wrong. The header is `position: sticky`, not `fixed` — so the "fixed-header compensation" framing doesn't apply. After two diagnostic passes the actual root cause of the ~8px gap was not isolated; needs cross-market visual-regression gate (which the workstream-completion run scoped down to gate consumers only) before further hunting.
+- Resolution: (open) — needs (a) per-market full visual gate to confirm gap reproduces consistently, (b) DOM measurement pass against the actual sticky-header CSS to find which element is contributing the 8px (likely a `<main>` `padding-top`, hero `margin-top`, or a shared layer between BaseLayout and the first section). Recommended: handle as a dedicated single-session task with proper visual-regression instrumentation.
 - Recurrence: 1
 
 ## #017 [TECH] SmartQuote v3 modal — doubled "SmartQuote™" header in modal shell -- 11/06/26 -- RESOLVED
