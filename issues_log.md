@@ -44,12 +44,40 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 
 <!-- ENTRIES BELOW (newest first) -->
 
-## #036 [TECH] `apps/{es,pt}/src/pages/court-interpreting.astro` inline `<script>` triggers esbuild CSS-minify warning -- 12/06/26 -- OPEN
+## #040 [TECH] Google Reviews API endpoint exists only on IE + Sales; UK/ES/PT consumers permanently on fallback -- 12/06/26 -- OPEN
+- Logged by: Claude (Code, Opus 4.8) — surfaced during Phase K Google Reviews wiring inventory.
+- Symptom: The `/api/google-reviews` worker endpoint is deployed only on IE and Sales markets. UK/ES/PT have no endpoint, so their `GoogleReviewsBadge` consumers 404 on hydration and sit on the static fallback rating permanently. Hydration script handles `.google-reviews-badge`, `.google-reviews-compact`, and `[data-badge-*]` consumers — so the wiring exists, just the endpoint is missing per market.
+- Context: Footer "5.0 · 20 Google Reviews" literal text + SSR JSON-LD across markets is hardcoded entirely (not wired to any API call). Cross-market `index.astro` rating baselines also diverge — UK/ES/PT use 18 reviews vs IE's 20. IE worker fetches Places API v1, gated on `GOOGLE_PLACES_API_KEY` + `GOOGLE_PLACE_ID` env vars, with Cloudflare edge cache (`cf.cacheTtl` + `Cache-Control`) — not KV.
+- Resolution: (open) — separate workstream-grade work. Prep doc at `docs/google-reviews-wiring-prep.md` covers: API client interface, full consumer inventory across markets, recommended approach (per-market worker deployments vs single shared origin), data-integration risks (rate limits, downtime fallback, stale cache behaviour). Not blocking — fallback rating is acceptable in production.
+- Recurrence: 1 (Phase K recon).
+
+## #039 [TECH] LangHero `flag-pl` variant unmapped — both IE Polish directional pages render "Native Polish speakers" chip with no colour class (live silent bug) -- 12/06/26 -- OPEN
+- Logged by: Claude (Code, Opus 4.8) — surfaced during Phase K DirectionalPair recon.
+- Symptom: `LangHero.astro` `chipClass` map has no `flag-pl` key — only `flag` (red/Polish) and `flag-ua`. Lookup is `chipClass[chip.variant] ?? ''` (line 94), so both IE Polish directional pages (english-to-polish + polish-to-english) which pass `variant: 'flag-pl'` silently fall through to base `.lh-chip` with no colour. The existing `flag` variant IS the red/Polish style — `flag-pl` was a phantom synonym.
+- Context: Surfaced during Phase K DirectionalPair recon (5.1). Originally flagged as #027 (variant unmapped — directional-pair pages affected) but the silent-no-colour-render behaviour is the live bug — chip renders permanently styleless on production today.
+- Resolution: (open) — one-line fix: change `variant: 'flag-pl'` → `variant: 'flag'` in both IE Polish directional page data. Will fold into DirectionalPairPage template workstream (see `docs/directional-pair-recon.md`). Sibling: #027 (broader DirectionalPair scope), #026 (LangHero vestigial props).
+- Recurrence: 1 (Phase K recon).
+
+## #038 [TECH] DS polish workstream is prerequisite for programmatic SEO scale-out (Phase K-original) -- 12/06/26 -- OPEN (informational)
+- Logged by: Claude (desktop) — surfaced during Phase J completion close-out.
+- Symptom: The originally-scoped Phase K workstream was programmatic SEO scale-out (IE 250–350 pages, UK 800–1,200, ES 120–180, PT 200–300 — all archetypes have data-driven templates ready). However, the live DS visual state currently has `tk-surface` / `tk-card` glass treatment carrying the brand identity, and the design-system kit (`ui_kits/website/site.css`) is flat — divergent. Generating hundreds of new pages now would lock in the current state across thousands of URLs before the DS visual direction is finalised.
+- Context: Tier 2 glass-vs-flat decision (#037) parked the visual-application question on the basis that DS polish work is the next-best path. Programmatic SEO scale-out should wait until DS polish is shipped so new pages render the polished DS, not the current state.
+- Resolution: (informational) — sequencing constraint, not a bug. Programmatic SEO workstream paused pending DS polish workstream completion.
+- Recurrence: 1.
+
+## #037 [TECH/DS] Tier 2 glass-vs-flat DECIDED: keep `tk-surface` / `tk-card` glass as sanctioned DS-extension -- 12/06/26 -- DECIDED
+- Logged by: Claude (desktop) — Maciej's decision on Phase J completion run audit.
+- Symptom: Phase J completion audit surfaced 423 occurrences of `tk-surface` / `tk-card` (formerly `apple-bg` / `apple-card-bg`) glass treatment (blur + radius + shadow) across ~90 files × 4 markets. The DS website-kit `site.css` is flat (`.section`, `.section-alt`, `.section-head`, no surface treatment). Migration to flat would require ~50 attended commits across all markets.
+- Context: The glass treatment IS the brand identity — production screenshots confirmed it reads clean and intentional, not broken. The kit's flat treatment was authored to coexist with, not replace, the glass. Brand-namespacing via the `tk-*` rename (commit aa75d91) makes glass-as-extension structurally coherent.
+- Resolution: **DECIDED 12/06/26 (Maciej).** Keep glass. `tk-surface` / `tk-card` sanctioned as DS-extension, coexists with kit primitives (`.section`, `.svc`, etc.) rather than competing for the same concept. Future DS visual work happens once the DS files are polished and Maciej writes fresh DS prompts — not by retrofitting flat onto what's shipped.
+- Recurrence: N/A — decision logged, not bug.
+
+## #036 [TECH] `apps/{es,pt}/src/pages/court-interpreting.astro` inline `<script>` triggers esbuild CSS-minify warning -- 12/06/26 -- RESOLVED
 - Logged by: Claude (Code, Opus 4.8) — surfaced during DS-conformance Phase F build runs.
 - Symptom: Build emits `[css-syntax-error] Unexpected "<"` warning on `apps/es/src/pages/court-interpreting.astro` and the PT equivalent. Build succeeds; warning is noise but indicates an inline `<script>` block with `//`-line comments that esbuild's CSS-minify pass parses incorrectly.
 - Context: Pre-existing; not touched by this run. Likely an Astro mode-misclassification or a `<style>` block accidentally enclosing JS-style comments. Affects ES and PT only — IE and UK equivalents (if they exist) do not warn.
-- Resolution: cleanup task. Either move the inline JS to a typed module, or strip the `//` comments inside the affected block.
-- Recurrence: persistent across all Phase F builds.
+- Resolution: **RESOLVED 12/06/26 (Phase K, Opus 4.8 run, commit `6f7e4b8`).** Root cause: both ES and PT `court-interpreting.astro` had a `<style>` block opened at line 169 that was never closed — line 234 jumped straight into `<script>`. esbuild parsed the `<script>` `<` inside CSS context and emitted the warning. Fix: insert `</style>` before the `<script>`. IE/UK never warned because they correctly close `</style>`. All 4 markets build clean post-fix. Note: the embedded `<script>` was previously inert (rendered as literal CSS text inside the unclosed `<style>`, never executed) — targets `.booking-form` which doesn't exist on the page, so promoting it to a real script attaches nothing. Zero behavioural change.
+- Recurrence: persistent across all Phase F builds — now closed.
 
 ## #035 [TECH] `packages/ui/src/design-system/ui_kits/drawer/**` references the client portal kit, not the SmartQuote drawer archetype -- 12/06/26 -- OPEN (informational)
 - Logged by: Claude (Code, Opus 4.8) — surfaced during DS-conformance Phase I recon.
@@ -86,11 +114,11 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 - Resolution: For new data files use the Write tool (or `Out-File -Encoding UTF8` on freshly composed strings, NOT round-tripped content). For raw HTML strings that carry currency/punctuation, prefer HTML numeric entities (`&#x20AC;` for EUR, `&#x2013;` for en-dash, `&#x2019;` for right single quote) over literal multi-byte characters. If `Get-Content` IS used on a UTF-8 file, always pass `-Encoding UTF8` explicitly. Open: consider session-default `$PSDefaultParameterValues['*:Encoding']='utf8'` in PowerShell profile to make this safer by default.
 - Recurrence: 1
 
-## #030 [TECH] `ServiceDetailPage` raw HTML section field is `rawHtml` not `html`; wrong key silently strips all sections -- 11/06/26 -- PARTIALLY RESOLVED (keep open)
+## #030 [TECH] `ServiceDetailPage` raw HTML section field is `rawHtml` not `html`; wrong key silently strips all sections -- 11/06/26 -- RESOLVED
 - Logged by: Claude (Code, Sonnet 4.6)
 - Symptom: Built page rendered with only the hero (`<main>` had 33 words total) despite the data file declaring multiple sections. No build error, no TypeScript error.
 - Context: Phase D-10 (PT document-translation migration). The `RawSection` variant of the `ServiceDetailSection` discriminated union expects `rawHtml: string`; the data file was authored with `html: string`. TypeScript narrows on the `type` discriminator and strips unknown keys silently, so the section object passed the structural check but rendered as empty.
-- Resolution: Always use `rawHtml` for `RawSection` payloads. Worth a quick eyeball pass on any data file before commit: `Select-String -Path apps/*/src/data/service-detail/*.ts -Pattern '^\s+html:'` should return zero hits. **PARTIAL FIX 12/06/26 (Phase E + Bug Sweep, Opus 4.8 run):** dev-mode runtime warnings added to `GuidePage.astro` and `ServiceDetailPage.astro` via `import.meta.env.DEV` gate — silent in production, surfaces missing discriminated-union payloads at dev time. Commits in Phase E + Bug Sweep chain. **Remaining open:** back-port the same dev-warning pattern to `LandingPage.astro`, `LanguageHubPage.astro`, `LanguagePage.astro`, `DocTypePage.astro` (4 templates). Bounded follow-up.
+- Resolution: Always use `rawHtml` for `RawSection` payloads. **RESOLVED 12/06/26 (Phase J + Phase K, Opus 4.8 runs).** Dev-mode runtime warnings now cover all 6 data-driven templates via `import.meta.env.DEV` gate — silent in production, surfaces missing discriminated-union payloads at dev time. Coverage: GuidePage.astro + ServiceDetailPage.astro (Phase J, commit def34e7 chain); LandingPage.astro + LanguageHubPage.astro + LanguagePage.astro + DocTypePage.astro (Phase K, commit `cce4748`). LanguagePage/DocTypePage use the `BodyBlock` discriminated-union validator; LandingPage uses hero-layout discriminator; LanguageHubPage uses presence-based named-section validation (no discriminated union to validate). Pattern complete across the templates.
 - Recurrence: 1
 
 ## #029 [SEO] Cross-market european-languages hub pages carry wrong @id domains, areaServed, and copy-paste residue — preserved byte-faithful in Phase B-4 -- 11/06/26 -- RESOLVED
