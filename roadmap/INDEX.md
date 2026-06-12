@@ -10,7 +10,6 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Status | Owner | Last update | File |
 |---|---|---|---|---|
-| Design-system conformance | Phase H SHIPPED — fix-layer retired (647 lines deleted, 1 A-class port); #014 + #017 (SmartQuote auto-open) RESOLVED in commit ffdff77; Phase E (GuidePage + IE guides + Round 2 component ports) next | Maciej | 11/06/26 | [design-system-conformance.md](design-system-conformance.md) |
 | Payments & customer journey | IN PROGRESS — Phase 0 (Claude Design pass) | Maciej | 07/06/26 | [workstream-1-payments-and-journey.md](workstream-1-payments-and-journey.md) |
 | Portugal market research | In progress | David (via Claude) | 06/06/26 | [portugal-market-research.md](portugal-market-research.md) |
 
@@ -29,6 +28,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Shipped | File |
 |---|---|---|
+| Design-system conformance (Phases A–I + DocTypePage + Bug Sweep) — 6 production templates, 47 pages migrated across IE/UK/ES/PT, 647-line fix-layer retired, SmartQuote modal #014/#017 RESOLVED | 12/06/26 | [design-system-conformance.md](design-system-conformance.md) |
 | Interpreting corpus — cashflow intelligence extraction (11 books) | 11/06/26 | [interpreting-corpus-research.md](interpreting-corpus-research.md) |
 | WA Watcher v0.5 — chat hygiene + model controls | 09/06/26 | [wa-watcher-v0.5.md](wa-watcher-v0.5.md) |
 | Document-baking studio + viewer | 06/06/26 | [baking-studio.md](baking-studio.md) |
