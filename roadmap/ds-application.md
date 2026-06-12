@@ -1,6 +1,6 @@
 # ROADMAP — ds-application
 
-**Status:** IN PROGRESS — Phase 0 (foundation prep)
+**Status:** SHIPPED 12/06/26 — see [sign-off doc](../../tatkowski-interpreting-recruitment/docs/ds-application-signoff-2026-06-12.md) (commit `9c772e6`)
 **Owner:** Maciej
 **Last update:** 12/06/26 by Code
 
@@ -303,4 +303,21 @@ Renamed the canonical DS folder to `packages/ui/src/Tatkowski Design System/` (m
 
 ## Post-ship summary
 
-[Filled in after Status = SHIPPED.]
+**Closed 12/06/26.** 18 commits across 3 phases + final verification sweep. See [docs/ds-application-signoff-2026-06-12.md](../../tatkowski-interpreting-recruitment/docs/ds-application-signoff-2026-06-12.md) for the full sign-off (matrix, deviations, carry-forwards).
+
+- **Phase 1 (foundation):** `tokens/pattern.css` + 8 zone tokens + IntersectionObserver + `no-pattern-opacity` adherence rule; zones attached to every section across 6 templates × 4 markets; `1a6e104` opacity hack reverted; admin α 0.6 ↔ 0.18 on `<main>` focusin; drawer body α 1.0.
+- **Phase 2 (surface tiers + legacy floors):** `tokens/elevation.css` E1/E2/E3 sets; class-map `.tk-surface` → E1 / `.tk-card` → E2 / new `.tk-overlay` → E3; legacy `.lang-hero` navy gradient + `.hero-split` navy gradient + lang-hero text-color !important overrides + `.drawer-centred` opaque gradient all removed; SalesManager desktop order-detail panel → E3-equivalent.
+- **Phase 3 (content corrections):** `info@`→`contact@` Statement of Accuracy; #010 refund language aligned with T&Cs across IE/UK/ES/PT (16 surfaces total); blue `.cta-section` single-source replacement; #039 `flag-pl` chip variant alias; #035 duplicate certified-translation heading verified no-op.
+
+**Builds clean at close:** IE 52 · UK 47 · ES 45 · PT 38 · sales 5 · drawer 1. 88 real-browser screenshots in `docs/ds-application-screenshots-2026-06-12/`. `no-pattern-opacity` adherence passing.
+
+**Carry-forwards (EXPLICITLY-DEFERRED, see sign-off §6 for reasons):**
+1. SW version bump policy (recommend bump in closing deploy commit)
+2. AdminApp `patternDimmed` + `panelFocused` collapse — gated on operator-logic refactor
+3. SM card visual rhythm polish (radius/shadow)
+4. `.hero.tk-card` dark-mode override (zero current usage, keep for hygiene pass)
+5. `/irish-translation/` green-theme — DS-conformance-pending desktop brand call
+6. **ES + PT partial localisation gap — gates ES/PT programmatic SEO scale-out** (the big one — separate workstream needed)
+7. PT `garantindo` informational (no action)
+
+**Gating effect for next:** IE + UK programmatic SEO scale-out **unblocked**. ES + PT scale-out **gated** on the new localisation workstream.

@@ -17,6 +17,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Notes |
 |---|---|
+| ES + PT localisation pass | NEW — gating prerequisite for ES/PT programmatic SEO scale-out. Surfaced by ds-application Round 3 close: ES service-detail data files + several pages/*.astro on .es/.pt domains still in English, with Ireland-rooted authority terminology (SNIG/Garda/QQI/areaServed Ireland). See ds-application sign-off §6 for full surface list. Roadmap not yet created. |
 | Interpreting intake widget | Scope locked 06/06/26. SmartQuote equivalent for lead product. Public form on 4 sites + internal B2B log form. Manual quoting (per-job cost variance). [interpreting-intake.md](interpreting-intake.md) |
 | Chatwoot on Hetzner | Scope locked 06/06/26. Self-hosted, EUR 4.51/mo, gating prerequisite for WA AI. Queued behind interpreting intake (revenue first). [chatwoot.md](chatwoot.md) |
 | WhatsApp AI intake (tatkowski.ai) | Depends on Chatwoot + Meta permanent token + UK/ES WABA numbers. Roadmap not yet created. |
@@ -28,6 +29,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Shipped | File |
 |---|---|---|
+| DS application — Round 3 (pattern foundation + E1/E2/E3 surfaces + #010 refund alignment + #039 flag-pl + blue CTA + info@→contact@) — 18 commits, 88 verification screenshots, 7 carry-forwards (incl. ES+PT localisation gating ES/PT SEO scale-out). IE+UK programmatic SEO scale-out UNBLOCKED | 12/06/26 | [ds-application.md](ds-application.md) — sign-off in monorepo `docs/ds-application-signoff-2026-06-12.md` |
 | Design-system conformance (Phases A–I + DocTypePage + Bug Sweep + Phase J post-ship + Phase K close-out) — 6 production templates, 47 pages migrated across IE/UK/ES/PT, 647-line fix-layer retired, SmartQuote modal #014/#017 RESOLVED, brand-namespace `apple-*` → `tk-*` rename, IP audit clean, Tier 2 glass-kept decision logged | 12/06/26 | [design-system-conformance.md](design-system-conformance.md) |
 | Interpreting corpus — cashflow intelligence extraction (11 books) | 11/06/26 | [interpreting-corpus-research.md](interpreting-corpus-research.md) |
 | WA Watcher v0.5 — chat hygiene + model controls | 09/06/26 | [wa-watcher-v0.5.md](wa-watcher-v0.5.md) |
