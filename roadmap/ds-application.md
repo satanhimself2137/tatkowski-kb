@@ -42,6 +42,50 @@ Apply the Round 3 DS direction (`specs/Hero-DottedPattern-Fix.html` + `Glass-Ele
 
 ## Build log
 
+### 12/06/26 21:35 — Code — Round 3 Phase 2 close (§2.1 + §2.2 + §2.3)
+
+Phase 2 delivers the surface-tier system + the legacy hero floor removals direction §4 demanded. The four sub-steps:
+
+**§2.1 — tokens/elevation.css.** Three tier token sets (E1 surface / E2 raised card / E3 overlay) plus per-tier `--e{N}-blur` / `--e3-saturate`. Theme-aware via existing tokens (`--bg`, `--bg-secondary`, `--divider`); dark overrides per spec. Imported in global.css after pattern.css. No behaviour change yet — the class-map swap in §2.2a is where tokens start being consumed. Commit `5dea82c`.
+
+**§2.2a — class-map swap.** Rewrote the `.tk-surface` / `.tk-card` rule bodies in global.css to consume E1/E2 tokens. Added new `.tk-overlay` consuming E3 tokens. ~423 existing `tk-*` uses migrate automatically per the audit's plan (no markup edits). Resolved audit findings: 'blur is theatre on near-opaque surfaces' (E2 drops blur — perf win), 'invisible white border on light surfaces' (theme-aware borders via tokens), 'undefined hierarchy' (E1 < E2 < E3 explicit). Commit `ad003ef`.
+
+**§2.2b + §2.2c — legacy floor removals (direction §4: 'no opaque floor box').** Without this, §1.2's hero scrim was hidden behind the legacy gradients.
+
+- `.lang-hero` (LangHero.astro): dropped linear navy gradient `#0a1628 → #1a2744 → #0f172a`. Text re-pointed to `var(--text)` / `var(--text-secondary)` / `var(--accent-text)`. Chips theme-aware via `color-mix(in srgb, var(--text) 8/15%, transparent)`. Decorative `::before`/`::after` orange radials kept — soft glows, not floors.
+- `.hero-split` (LandingPage.astro): `--hero-bg` fallback flipped from navy gradient to `transparent`; themed pages (e.g. IE irish via `themeAccent='ireland-green'`) still get their `--hero-bg` override. h1/lede/badges all theme-aware. Dropped paired `[data-theme="dark"]` overrides that were no longer needed.
+- global.css 453-456: removed the `html .lang-hero .hero-title { color: #fff !important }` family of overrides that pinned text white under the old dark-floor assumption.
+- `.drawer-centred` (drawer.css): dropped the orange-radial + slate-linear gradient that covered the pattern on the login/OTP screens. Substrate now `transparent` per direction §4c 'Substrate: flat white' — pattern + scrim flow through from the §1.4 body-zone wrapper.
+
+Kept (NOT floors — soft tints, spec-aligned): global.css `.hero { background: radial-gradient(ellipse 60% 50% at 50% 0%, var(--accent-tint), transparent 70%) }` (the accent-tint pulse — mockup §1 explicitly retains it as the `.tint` layer); `.doc-hero` / `.page-hero` (no background to begin with); `.hero.tk-card` dark-mode gradient at global.css 443-446 (doesn't apply to the actual hero classes in the templates as they ship — left alone to keep scope tight).
+
+Verified live in browser on IE /russian-translation light theme: `.lang-hero` background `rgba(0,0,0,0)` (transparent), `.hero-title` color `rgb(15,23,42)` (= `#0f172a` dark slate). Commit `b710cc1`.
+
+**§2.3 — SalesManager surface tier alignment.** Desktop order-detail sliding panel → E3-equivalent: `rgba(15,23,42,.72)` background, `backdrop-filter: blur(14px) saturate(140%)`, `box-shadow: 0 24px 64px -16px rgba(0,0,0,.6)`. The dim backdrop sibling at `rgba(0,0,0,.55)` shows through the panel for the overlay-over-content effect. Mobile stays opaque on `T.surface1` — translucent over the full-screen mobile drawer would just look hazy. Metric cards: NO change. Already E2-equivalent in spirit (opaque `T.surface1`, no blur, hard-dark substrate); wholesale conversion would visually disrupt every card in SM (kanban, dashboard, mobile order cards) — out of §2.3 scope. Hard out-of-scope adherence: 7-line edit limited to `panelStyle` constant at OrderDetail.tsx:468-486. No touches to payment pipeline, order lifecycle, bake stages, status transitions, `useOrders` hook, `onUpdate/onArchive/onDelete` handlers, or any operator logic. Commit `e40f84d`.
+
+**Verification (commit `9c021e4`):** ran the full screenshot sweep + new sales/drawer SPA captures. 92 fresh PNGs in `docs/ds-application-screenshots-2026-06-12/`. 4 expected-absent (UK LangPage not in codebase). MANIFEST.json + README.md updated to phase-aware shape.
+
+**Builds clean throughout all four sub-steps:** IE 52 · UK 47 · ES 45 · PT 38 · sales 5 · drawer 1.
+
+**Files touched in Phase 2 (8):**
+- packages/ui/src/styles/tokens/elevation.css (new, 53 lines)
+- packages/ui/src/styles/global.css (@import + .tk-* class-map + lang-hero override removal)
+- packages/ui/src/components/LangHero.astro (legacy floor + theme-aware text)
+- packages/ui/src/templates/LandingPage.astro (hero-split flatten + theme-aware text)
+- packages/ui/src/components/OrderDetail.tsx (panelStyle → E3-equivalent)
+- apps/drawer/src/styles/drawer.css (drawer-centred flatten)
+- tools/ds-application-screenshots-spa.mjs (new — sales/drawer SPA captures)
+- docs/ds-application-screenshots-2026-06-12/ (92 PNG + README.md + MANIFEST.json)
+
+**Commits in order:**
+- 5dea82c — feat(ds): add tokens/elevation.css with E1/E2/E3 tiers (Round 3 §2.1)
+- ad003ef — feat(ds): class-map .tk-surface → E1, .tk-card → E2, add .tk-overlay → E3 (Round 3 §2.2a)
+- b710cc1 — feat(ds): remove legacy hero floors + drawer auth-gate flatten (Round 3 §2.2b+c)
+- e40f84d — feat(ds): salesmanager surface tier alignment (Round 3 §2.3)
+- 9c021e4 — docs(ds): Round 3 Phase 2 verification — 92 fresh screenshots (88 public + 4 SPA)
+
+---
+
 ### 12/06/26 21:18 — Code — Round 3 §1.4: Drawer pattern application
 
 Apply the body zone per direction §4c. Drawer is its own SPA (no BaseLayout) so the wiring mirrors §1.3's SalesManager pattern: import `tokens/pattern.css` in the entry, mount `DottedPattern` and add `data-pattern-zone="body"` at the outer wrapper. No observer needed — single zone for the whole app.
