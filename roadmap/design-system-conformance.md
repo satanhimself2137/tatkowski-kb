@@ -1,8 +1,8 @@
 # ROADMAP — Design-system conformance
 
-**Status:** Phase H SHIPPED — fix-layer retired (647 lines deleted; 1 A-class port at commit 8a3379c, `.trust-item small` colour → `var(--muted)`). Phase H "port-2" sweep `3ce5f1b` reverted by `edb780c` after root-cause diagnosis traced the apparent regression to issues #014 + #017 (SmartQuote modal auto-opened over hero on page load) — now RESOLVED in commit ffdff77. Phase H visual-diff re-run with the modal closed was deferred; manual browser verification across all 4 markets confirms hero buttons render as designed and the two legitimate Phase H ports hold. Phases A/B/C/D/H + DocTypePage collectively cover language/hub/landing/service-detail/doc-type archetypes across all four markets with fix-layer dependencies removed. Next: Phase E (GuidePage template + IE guides + Round 2 GuideBlocks/StickyCta ports).
+**Status:** **SHIPPED 12/06/26.** Phases A/B/C/D/E/F/H/I + DocTypePage + Bug Sweep all complete. 6 production templates shipped (LanguagePage, LanguageHubPage, LandingPage, ServiceDetailPage, GuidePage, DocTypePage); 8 Round 2 guide components ported to production (`GuideTOC`, `CalloutBlock`, `CalloutGridBlock`, `StepListBlock`, `ComparisonTableBlock`, `FAQBlock`, `CrossLinkBlock`, `StickyCta`); fix-layer retired (647 lines `!important` CSS deleted); SmartQuote modal #014 + #017 resolved; #029 + 3 latent content bugs resolved in Bug Sweep. All 4 markets build clean (IE 52pp · UK 47pp · ES 45pp · PT 38pp). See Post-ship summary below.
 **Owner:** Maciej
-**Last update:** 11/06/26 by Claude (desktop) — Phase H post-ship amendment + #014/#017 RESOLVED
+**Last update:** 12/06/26 by Claude (desktop) — workstream SHIPPED close-out
 
 ---
 
@@ -523,6 +523,62 @@ Retired all three `!important` fix-layer CSS files. Full classification audit (S
 
 ---
 
+### 12/06/26 — Claude (Code, Opus 4.8) — Phases E + F + I + Bug Sweep — workstream completion run — SHIPPED
+
+Single Opus 4.8 run completing the remaining workstream. 18 commits across 4 pushes, all 4 markets green throughout (IE 52pp · UK 47pp · ES 45pp · PT 38pp).
+
+**Phase E — GuidePage template + Round 2 component ports + IE guides — SHIPPED**
+
+Built `GuidePage` template + `GuidePageData` type + 8 production `.astro` component ports from `packages/ui/src/design-system/ui_kits/` reference: `GuideTOC`, `CalloutBlock`, `CalloutGridBlock`, `StepListBlock`, `ComparisonTableBlock`, `FAQBlock`, `CrossLinkBlock`, `StickyCta`.
+
+`GuidePageData` mirrors `ServiceDetailPageData` discriminated-union pattern with section opt-in, `emitGuideSchema` / `emitFaqSchema` opt-outs, `pageUrlOverride`, `embeddedSmartQuoteForm` flag, bespoke-markup support (`preHeroHtml`, wrapper attrs, hero overrides), `noHreflangGB`, `stickyCta?` presence-driven opt-in.
+
+Migrated 1/1 IE guide: `inis-translation-guide`. Byte-faithful SEO gate green — title / meta / canonical / h1 / 9 h2s / link set identical; JSON-LD deep-equal; wordRatio 1.0154. Real-browser verified — no SmartQuote auto-open (#014 + #017 fix holds).
+
+**#030 partial fix:** dev-mode runtime warnings added to `GuidePage.astro` and back-ported to `ServiceDetailPage.astro` via `import.meta.env.DEV` gate. 4 templates remain for bounded follow-up.
+
+**Commits:** def34e7 (template + 8 ports + GuidePageData) → eb7cdd0 (E-1 migration) → 4a9e2e4 (journal).
+
+**Phase F — Guide fan-out UK/ES/PT — SHIPPED**
+
+Added optional `introHtml` field to guide grid/list/table/FAQ blocks (additive only). Built `tools/guide-gate.mjs` for archetype-specific gating.
+
+Migrated 3 guides market-by-market:
+- UK `ukvi-translation-guide` — wordRatio 1.0077, gate green.
+- ES `guia-apostilla` — wordRatio 1.0000 exact, proved no-page-level-schema path (matches #022 precedent).
+- PT `guia-apostila` — wordRatio 1.0000 exact, proved emoji + Portuguese accents render with zero mojibake (validates #031 discipline).
+
+All three jsonLd deep-equal pre→post.
+
+**Commits:** 838a11d (introHtml + guide-gate) → 1066d2c (UK) → 1ae1261 (ES) → b2fd6d7 (PT) → 919da9f (journal).
+
+**Phase I — Drawer refresh — SHIPPED with premise correction**
+
+Recon found `packages/ui/src/design-system/ui_kits/drawer/**` is the client-portal kit, a different archetype from `SmartQuoteDrawer` (already DS-conformant; `position: sticky` not `fixed`). Refused to manufacture a speculative diff against a mismatched reference. Shipped the one legitimate in-scope change — token hygiene sweep on brand hardcodes (`#ff6a1a` → `var(--accent)`) with zero-visual-change verification. Logged premise finding as **#035** — future drawer-refresh tasks need a drawer-specific design reference.
+
+**Commits:** e63c3a7 (token hygiene) → fc243fe (journal).
+
+**Bug Sweep — 4 fixed, 3 deferred**
+
+Fixed (per-commit):
+- **#032** IE `color: dummy` malformed trust-grid spans — `18202b8` (completed to valid HTML).
+- **#033** UK + PT medical-translation `Npoundlogy` mojibake — `19601b2`. Root cause: historical €→£ sweep matched "euro" inside "Neurology". Broad re-grep for sibling damage; no further hits.
+- **#034** ES service-detail `@id` cross-domain provider refs — `399b4c5`. `tatkowski.com` → `tatkowski.es`. Emails untouched.
+- **#029** european-languages hub schema bugs — `b1d5045` (es) + `ad8af0b` (ie UKVI→ISD ×20) + `7003e92` (pt areaServed→Portugal).
+
+Deferred:
+- **#018** — premise correction (header is `position: sticky`, not `fixed`); ~8px gap untraced after 2 passes; needs cross-market visual gate.
+- **#026** — vestigial confirmed but removal hits 20+ files; >5-file scope guard tripped. Recommended for DirectionalPairPage workstream.
+- **#030** — 2/6 templates done; 4 remaining (LandingPage, LanguageHubPage, LanguagePage, DocTypePage) bounded follow-up.
+
+**New issues logged:** #032/#033/#034 (RESOLVED same-run), #035 (Phase I premise), #036 (pre-existing CSS-minify warning on `apps/{es,pt}/src/pages/court-interpreting.astro`).
+
+**Day-0 visual baseline scope reduction** (Decisions log entry) — run scoped Day-0 visual baseline to actual gate consumers (guide/drawer surfaces) rather than 72 up-front screenshots. Rationale: dist-based SEO byte-faithful gate is the hard gate and stayed reliable throughout. Phase E journal deviation #4. Trade-off accepted; recommended pattern for future workstreams of similar shape.
+
+**Commits:** 18202b8 → 19601b2 → 399b4c5 → b1d5045 → ad8af0b → 7003e92 → 70b11ed (Bug Sweep journal) → 94c1fab (workstream summary doc).
+
+---
+
 ## Done criteria
 
 - [x] Zero `#ff6a3d` hardcodes outside `design-system/` and `dist/` — commit 6472120
@@ -537,14 +593,92 @@ Retired all three `!important` fix-layer CSS files. Full classification audit (S
 - [ ] DirectionalPairPage template — IE-only 4 pages, deferred to follow-up workstream after Phases C–I + bug sweep
 - [x] ServiceDetailPage template + IE flagships migrated data-driven (Phase C SHIPPED 4/4 — commits b42d318 → f2f6e56 → bf755c1 → 994b3b7 → 67e747e + journal be37388)
 - [x] ServiceDetail fan-out UK/ES/PT (Phase D SHIPPED 12/12 — commits ec3bca6 → e3592ce → 98d4bc3 → 346725a → f8e048c → 2943ce0 → 7579aef → 7be87fd → 51f39be → ad9aa61 → 4036e72 → 8ada373 + journal 4a0f731)
-- [ ] GuidePage template + IE guides migrated data-driven (Phase E) — also requires porting Round 2 GuideBlocks + StickyCta to production `.astro`
-- [ ] Guide fan-out UK/ES/PT (Phase F)
-- [x] `contrast-enforcer.css`, `text-contrast-fixes.css`, `badge-fix.css` retired — Phase H SHIPPED 11/06/26 (commits 8a3379c port + 4ef84ec delete; "port-2" 3ce5f1b reverted by edb780c after #014/#017 diagnosis; journal docs/phase-h-progress.md + docs/smartquote-014-017-fix-progress.md)
-- [ ] Drawer refresh against `ui_kits/drawer` — Phase I
-- [ ] End-of-workstream bug sweep — issues #015, #018, #023 (UK visa classification), #029 (cross-market hub schema bugs surfaced in Phase B-4), #030 (`rawHtml` vs `html` silent strip), #031 (PowerShell UTF-8 encoding trap), plus the do-not-silently-fix list (latent typos + ES certified @id domain bug + IE color:dummy CSS bug). Resolved during workstream: #014 + #017 (commit ffdff77).
+- [x] GuidePage template + IE guides migrated data-driven (Phase E SHIPPED — commits def34e7 template + 8 component ports + eb7cdd0 migration + 4a9e2e4 journal; 1 IE guide migrated `inis-translation-guide`, wordRatio 1.0154, all gates green)
+- [x] Guide fan-out UK/ES/PT (Phase F SHIPPED — commits 838a11d introHtml additive + 1066d2c UK + 1ae1261 ES + b2fd6d7 PT + 919da9f journal; UK 1.0077, ES 1.0000, PT 1.0000, all jsonLd deep-equal)
+- [x] Drawer refresh against `ui_kits/drawer` — Phase I SHIPPED with premise correction (commits e63c3a7 token hygiene + fc243fe journal). `ui_kits/drawer` is client-portal archetype, not SmartQuote drawer; logged #035. Token hygiene swept `#ff6a1a` → `var(--accent)` with zero-visual-change verification. SmartQuoteDrawer considered DS-conformant as-shipped pending a drawer-specific design reference.
+- [x] End-of-workstream bug sweep — 4 fixed (#029 + 3 latent), 3 deferred with reasons. Commits 18202b8 (#032 IE color:dummy) + 19601b2 (#033 UK+PT Npoundlogy) + 399b4c5 (#034 ES service-detail @id) + b1d5045/ad8af0b/7003e92 (#029 hubs) + 70b11ed (journal). Deferred: #018 (premise correction needed cross-market visual gate), #026 (>5-file scope guard tripped), #030 (4 remaining templates bounded follow-up).
 
 ---
 
 ## Post-ship summary
 
-*(filled in after Status = SHIPPED)*
+**Workstream:** Design-system conformance + data-driven page-generation infrastructure
+**Window:** 10/06/26 → 12/06/26
+**Final commit on close-out:** `94c1fab` (workstream summary doc)
+
+### What shipped
+
+**6 production templates** spanning all archetypes across all 4 markets:
+- `DocTypePage` (Phase G, parametrised market-agnostic) — 25 doc-type pages migrated
+- `LanguagePage` (Phase A) — 6 IE standard language pages, 4 IE deferred (bespoke landers, themed, hub)
+- `LandingPage` (Phase B) — flagship-archetype pages across IE/UK/ES/PT
+- `LanguageHubPage` (Phase B) — european-languages hubs across IE/UK/ES/PT
+- `ServiceDetailPage` (Phase C + D) — 4 IE flagships + 12 fan-out (UK/ES/PT × 4) = 16 service-detail pages
+- `GuidePage` (Phase E + F) — 1 IE + 3 fan-out guides
+
+**Round 2 component ports** (Phase E) — 8 production `.astro` components from `packages/ui/src/design-system/ui_kits/` reference:
+`GuideTOC`, `CalloutBlock`, `CalloutGridBlock`, `StepListBlock`, `ComparisonTableBlock`, `FAQBlock`, `CrossLinkBlock`, `StickyCta`.
+
+**Fix-layer retirement** (Phase H) — `contrast-enforcer.css` (294 lines), `text-contrast-fixes.css` (~331 lines), `badge-fix.css` (19 lines) — 647 lines of `!important` CSS deleted. 1 A-class port (`.trust-item small` colour to `var(--muted)`). One revert (`3ce5f1b`) — see "Lessons" below.
+
+**Critical bug resolved** — issues #014 + #017 (SmartQuote modal auto-opening over hero on page load, doubled header, empty body) RESOLVED in commit `ffdff77`. Root cause was `.sqf-root` shipping `position: fixed; top: 50%; left: 50%; z-index: 9000` with no default-hide on `.sqf-scrim` — every inline mount painted as a centred modal from first paint. This bug had been quietly shipping every inline SmartQuote on every product page since the first conformance phase; users were getting an empty modal flashed on every product page for weeks.
+
+**Bug Sweep — content corrections:**
+- #029 RESOLVED — european-languages hub schema/areaServed/copy-paste residue (3 markets, 3 commits).
+- #032 RESOLVED — IE medical-translation trust-grid `color: dummy` malformed spans.
+- #033 RESOLVED — UK + PT medical-translation `Npoundlogy` mojibake from a historical €→£ sweep.
+- #034 RESOLVED — ES service-detail provider `@id` cross-domain (now resolves to `tatkowski.es#business`).
+
+### What did not ship (parked for future workstreams)
+
+- `DirectionalPairPage` — IE-only 4 pages (english-to-polish, polish-to-english, english-to-ukrainian, ukrainian-to-english). Deferred to follow-up workstream. Will close #027 (LangHero flag-pl variant unmapped) and likely interact with #026 (LangHero vestigial props removal).
+- #018 (header-offset gap above hero) — premise correction surfaced during Bug Sweep (header is sticky, not fixed); ~8px gap untraced after 2 diagnostic passes; needs dedicated single-session task with proper cross-market visual-regression instrumentation.
+- #026 (LangHero vestigial props) — vestigial status confirmed but removal hits 20+ data files; >5-file scope guard tripped. Recommended to handle with DirectionalPairPage workstream.
+- #030 (rawHtml vs html dev-warning) — back-ported to 2/6 templates (`GuidePage`, `ServiceDetailPage`). 4 remaining (`LandingPage`, `LanguageHubPage`, `LanguagePage`, `DocTypePage`) — bounded follow-up.
+- #023 (UK visa pages classification) — operator decision pending.
+- #015 (issues.ps1 tool format bug) — workflow concern, low-priority.
+- #031 (PowerShell UTF-8 encoding trap) — workflow concern, mitigated by Write-tool authoring discipline.
+- #035 (`ui_kits/drawer` reference mismatch) — newly logged, informational. Future drawer refresh needs a drawer-specific design reference.
+- #036 (`court-interpreting.astro` CSS-minify warning, ES + PT) — newly logged, cleanup ticket.
+
+### Headline metrics
+
+- **Total commits across workstream:** ~80 from `f472294` (Phase G pilot) to `94c1fab` (workstream summary). Per-phase chains documented in build log below.
+- **Total pages migrated:** 47 (DocTypePage 25 + LanguagePage 6 + LandingPage+LanguageHubPage 13 + ServiceDetailPage 16 + GuidePage 4) across all 4 markets.
+- **Total CSS removed:** 647 lines `!important` fix-layer (Phase H).
+- **Total `data/*` files created:** ~47 per-page data files now drive the migrated surface area.
+- **Build state at close:** All 4 markets clean (IE 52pp · UK 47pp · ES 45pp · PT 38pp).
+
+### Architecture deliverables
+
+- All shared templates parametrise identity off `site` config (no hardcoded domain / WhatsApp / locale / currency / country).
+- All shared templates support section opt-in via discriminated-union arrays — markets at different content maturity render naturally.
+- All shared templates support `pageUrlOverride` for legacy schema `@id` quirks.
+- All shared templates support `emit*Schema` opt-out flags per node type.
+- Theme variants (per-market accents) supported via `themeAccent` mechanism + `design-system/themes/*.css` (Phase B precedent).
+- Apostrophe / esbuild double-quote-outer-delimiter discipline established (#016).
+- `rawHtml` not `html` discipline established with dev-warning mitigation (#030, partial).
+- UTF-8 file authoring via Write tool, not PowerShell round-trip (#031).
+- SEO byte-faithful gate via `tools/seo-snapshot-market.mjs` + `tools/seo-compare-market.mjs` + per-archetype gates (`tools/guide-gate.mjs` added in Phase F).
+- Visual regression: Phase H established `tools/phase-h-screenshots.mjs` pattern; Phase E/F/I scoped to gate-consumers for cost-efficiency.
+
+### Lessons (kept for the next workstream)
+
+1. **Visual gates are only as reliable as the page state they capture.** Phase H's `3ce5f1b` was a wrong "A-class port" the agent talked itself into because the Playwright screenshots framed a broken render state (the #014 modal painting over the hero) as ground truth. The diff-worsening signal was rationalised away ("the baseline must be different") instead of investigated. The revert in `edb780c` + the real fix in `ffdff77` recovered cleanly, but the cost was one bad commit shipped and a re-diagnosis session. **Rule:** diff-worsening on a change is evidence the change is wrong, not evidence the baseline is wrong, unless there is independent reason to mistrust the baseline.
+2. **Premise pushback is the right call.** Phase I's "drawer refresh against ui_kits/drawer" mandate turned out to compare against a different archetype. The agent correctly refused to manufacture a speculative diff, shipped only the legitimate token-hygiene change, and logged #035. This is the failure mode operating rules want — don't fabricate work to fill a prompt scope.
+3. **Market-by-market migration sequencing outperformed page-type-by-page-type.** Same-market identity context (currency, canonical, hreflang, locale, language) loaded once per market keeps the working set tighter. Locked in from Phase D onward.
+4. **Latent revenue-path bugs (#014 here) deserve escalation regardless of when they surface.** The SmartQuote modal bug had been quietly shipping for weeks across all 4 markets. Future bug-triage should weight revenue-path severity, not just first-discovered-date.
+5. **Day-0 visual baseline at workstream start is more reliable than running diffs phase-by-phase.** The Opus 4.8 completion run scoped baselines to gate consumers — defensible given the dist-based SEO gate remained the hard gate, but a single up-front baseline would have caught the #014 visual symptom earlier in the workstream.
+
+### Decisions log
+
+- **Phase H `3ce5f1b` revert** (11/06/26) — wrong A-class port traced to #014 misread; reverted by `edb780c`, real fix in `ffdff77`. Lesson 1 above.
+- **Phase I premise correction** (12/06/26) — `ui_kits/drawer` is client-portal archetype, not SmartQuote drawer. Token hygiene shipped (`e63c3a7`), speculative refresh refused. Lesson 2 above. Logged as #035.
+- **Day-0 visual baseline scope reduction** (12/06/26) — Opus 4.8 run scoped baseline to gate-consumers (guide / drawer surfaces) rather than 72 up-front screenshots. Documented in Phase E journal deviation #4. SEO byte-faithful gate remained hard-line throughout.
+
+### Next workstreams (in suggested order)
+
+1. **DirectionalPairPage template + IE 4 directional pair pages** — closes #027, likely interacts with #026 removal.
+2. **#018 header-offset gap dedicated single-session task** — needs visual-regression instrumentation across all 4 markets; premise corrected.
+3. **#030 dev-warning back-port to 4 remaining templates** — bounded follow-up, 1–2 hour task.
+4. **Programmatic SEO scale-out (Phase K, separate workstream)** — IE 250–350 pages, UK 800–1,200, ES 120–180, PT 200–300. Now unblocked: all archetypes have data-driven templates ready for generation at scale.
