@@ -483,3 +483,14 @@ Defined `.tk-tm` utility class in `packages/ui/src/styles/global.css` (Utility c
 - Build: IE 52 ✓ / UK 47 ✓ / ES 45 ✓ / PT 38 ✓. All 4 manifests verified: 4 entries, `-v4` filenames, `#ff6934`.
 - CF Pages: all 4 projects Active on `6f9efd6`.
 - 192px maskable: NOW RESOLVED — `android-chrome-maskable-192x192-v4.png` (8514 bytes) deployed from DS `derive.js` output. `_trace/notes.md` confirms this was generated this round. 192px maskable pending item is closed.
+
+**PWA maskable v5 (commit 3bea9c3)** — `PWA maskable v5: body-anchored, tail clipped, white bg (Option A)`
+- Decision (desktop): Option A — scale body UP to fill safe-zone; tail extends past canvas and gets launcher-clipped. Better than Option B (shrink) because the speech-bubble identity is preserved for regular icons; maskable loses the tail by design.
+- `derive.js`: `paint()` extended with `render_bbox` parameter — when set, positions the full SVG so the sub-rect's centre maps to canvas centre, and scales so the sub-rect fills the inset area. Tail overflow is clipped by canvas boundary. Backward compatible (rules without `render_bbox` behave identically to before).
+- Maskable DERIVATIONS entries: `bg: '#0a0d1a'` → `#ffffff`, `inset_pct: 11` → `4`, added `render_bbox: { w: 227, h: 212, cx: 113.5, cy: 106 }` (body bbox only; tail at y=242 intentionally overflows).
+- `regen-maskable.cjs` added — Node.js sharp-based script for maskable-only regen (needed because `node-canvas` not installed in repo; `dist/` is gitignored so only apps/*/public/icons/ copies are committed).
+- `iconVersion` bumped `-v4` → `-v5` across all 4 site configs.
+- 5 files copied per market (192/512 any, 192/512 maskable, apple-touch) = 20 new PNG files.
+- Build: IE 52 ✓ / UK 47 ✓ / ES 45 ✓ / PT 38 ✓. IE manifest verified: 4 entries, `-v5` filenames, `theme_color: #ff6934`.
+- Pixel verification: orange body at (100,100), (256,100) ✓; white bg at top-left corner ✓; tail clipping at y=511 confirmed (orange at x=450, white at x=400/511 corner) ✓.
+- CF Pages: all 4 projects Active on `3bea9c3`.
