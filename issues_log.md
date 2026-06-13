@@ -1,4 +1,4 @@
-# Issues & Gotchas Log
+﻿# Issues & Gotchas Log
 
 Append-only log of issues, workarounds, and gotchas across all areas -- technical, client, legal, ops, anything non-obvious worth recording so the next person (human or AI) doesn't burn time rediscovering it.
 
@@ -43,6 +43,20 @@ Separators are ASCII double-hyphen (`--`) by design so the tooling stays encodin
 ---
 
 <!-- ENTRIES BELOW (newest first) -->
+
+## #041 [TECH] Edit tool fails on large CRLF string replacements — 13/06/26 — RESOLVED
+- Logged by: Claude (Code, Sonnet 4.6) — surfaced during cookie banner restyle (a079730).
+- Symptom: Edit tool's old_string matching silently fails when the target file uses CRLF line endings and the replacement block spans many lines. Tool reports no match even when content appears identical.
+- Context: `packages/ui/src/components/CookieConsent.astro` is CRLF. Two successive Edit attempts on a ~360-line CSS block both failed — first missed a `width: 100% !important;` line after HTML edits shifted line numbers; second failed on exact-match CRLF mismatch that the tool doesn't surface clearly.
+- Resolution: RESOLVED — bypass with PowerShell `[System.IO.File]::ReadAllText()` + `.IndexOf()` + `.Substring()` string surgery. Reads raw bytes (CRLF preserved), does exact substring replacement, writes back. Single-quoted here-strings `@'...'@` treat `$` as literal — safe for CSS content. Pattern documented in `patterns/` if not yet there.
+- Recurrence: 1.
+
+## #042 [TECH] global.css `[role="alert"]` rule overrides component z-index with `!important` — 13/06/26 — OPEN
+- Logged by: Claude (Code, Sonnet 4.6) — surfaced during cookie banner restyle verification.
+- Symptom: `packages/ui/src/styles/global.css` line 2759–2765 sets `[role="alert"], [role="status"], .notification, .cookie-consent { z-index: 1000 !important; }`. Any component with `role="alert"` or class `.cookie-consent` cannot set its own z-index — the global !important wins. CookieConsent bar showed z-index 1000 in devtools despite our `.cookie-consent { z-index: 49 }`.
+- Context: Pre-existing. Verified via eval on `/certified-translation/` (non-landing page — index.astro also stacks a `z-index: 2147483647 !important` scoped rule for `.is-landing #cookie-consent`). Does not affect position-based stacking — `--cookie-bar-h` CSS var still pushes PWAInstallPrompt up correctly via `bottom: calc(...)`.
+- Resolution: (open) — the !important z-index cluster in global.css needs a cleanup pass. Not blocking production stacking. Defer to a future global.css audit task.
+- Recurrence: 1.
 
 ## #040 [TECH] Google Reviews API endpoint exists only on IE + Sales; UK/ES/PT consumers permanently on fallback -- 12/06/26 -- OPEN
 - Logged by: Claude (Code, Opus 4.8) — surfaced during Phase K Google Reviews wiring inventory.

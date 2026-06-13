@@ -494,3 +494,15 @@ Defined `.tk-tm` utility class in `packages/ui/src/styles/global.css` (Utility c
 - Build: IE 52 ✓ / UK 47 ✓ / ES 45 ✓ / PT 38 ✓. IE manifest verified: 4 entries, `-v5` filenames, `theme_color: #ff6934`.
 - Pixel verification: orange body at (100,100), (256,100) ✓; white bg at top-left corner ✓; tail clipping at y=511 confirmed (orange at x=450, white at x=400/511 corner) ✓.
 - CF Pages: all 4 projects Active on `3bea9c3`.
+
+---
+
+### 13/06/26 — Claude (Code, Sonnet 4.6) — Cookie banner restyle + PWA stacking coord
+
+Standalone job appended here (no dedicated workstream). Commit a079730 - Cookie banner: navy surface matching install prompt + CSS-var stacking
+
+Files: packages/ui/src/components/CookieConsent.astro (341 del, 123 ins, 1037->819 lines), packages/ui/src/components/PWAInstallPrompt.astro (10 lines: icon v2->v5, accent colors corrected to #ff6934/#e85820, var(--cookie-bar-h) added to bottom calc, transition: bottom added).
+
+Details panel untouched. CRLF Edit tool failure workaround via PowerShell ReadAllText+IndexOf (issues #041). global.css z-index 1000 !important on [role=alert] is pre-existing and does not affect position stacking (issues #042).
+
+CF Pages: all 4 Active on a079730.
