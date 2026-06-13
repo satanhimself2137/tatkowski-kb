@@ -213,6 +213,41 @@ Visual verification: IE light mode 1440px ✓, IE dark mode 1440px ✓ (cards, p
 
 ---
 
+### 13/06/26 — Claude (Code, Sonnet 4.6) — Phase 2d: phone-interpreting (all 4 markets)
+
+Key finding: all 4 files use a self-contained `--pi-*` custom property system already referenced throughout CSS rules. The hardcoded hex only appeared in the `:root` definitions and the `:global([data-theme="dark"])` overrides — not in individual CSS rules.
+
+Approach taken: replace hex values in `:root --pi-*` definitions with global tokens; trim dark block from 9 overriding vars to 3 non-tokenisable vars.
+
+Changes (identical across all 4 files):
+- `:root --pi-bg: #ffffff` → `var(--surface)`
+- `:root --pi-bg-alt: #f5f7fa` → `var(--surface-alt)`
+- `:root --pi-card: #ffffff` → `var(--card-bg)`
+- `:root --pi-text-hi: #0f172a` → `var(--text)`
+- `:root --pi-text-mid: #334155` → `var(--text-secondary)`
+- `:root --pi-text-lo: #64748b` → `var(--muted)`
+- `:root --pi-accent: #ff6a1a` → `var(--accent)`
+- Deleted from dark block: `--pi-bg`, `--pi-bg-alt`, `--pi-card`, `--pi-text-hi`, `--pi-text-mid`, `--pi-text-lo` (all now handled by global tokens)
+- Kept in dark block: `--pi-border: rgba(255,255,255,.09)` (rgba, no token), `--pi-hero-from: #060d1a`, `--pi-hero-to: #0d1827` (hero gradient bg, not text)
+- Left as-is: `--pi-accent-2: #ff8540`, `--pi-hero-from/to` in `:root` (gradient bg colours)
+
+Verified: light mode `--pi-bg=#ffffff`, `--pi-text-hi=#0f172a`, `--pi-accent=#ff6a1a` ✓
+Dark mode `--pi-bg=#1e293b` (surface token), `--pi-card=rgba(30,41,59,0.85)` ✓
+
+Build clean · IE 52 ✓ · UK 47 ✓ · ES 45 ✓ · PT 38 ✓
+CF deploy `82ace7f` → Active (all 4 markets confirmed)
+
+**Files touched:**
+- `apps/ie/src/pages/phone-interpreting.astro`
+- `apps/es/src/pages/phone-interpreting.astro`
+- `apps/pt/src/pages/phone-interpreting.astro`
+- `apps/uk/src/pages/phone-interpreting.astro`
+
+**Commits:**
+- 82ace7f — fix(tokens): phone-interpreting cross-market — point --pi-* vars at global tokens, trim dark block to 3 non-tokenisable vars
+
+---
+
 ## Phase plan + severity ranking
 
 ### Phase 1 — Canary (this session)
