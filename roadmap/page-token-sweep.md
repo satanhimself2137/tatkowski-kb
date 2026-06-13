@@ -463,4 +463,7 @@ Defined `.tk-tm` utility class in `packages/ui/src/styles/global.css` (Utility c
 
 ### Post-ship — design debt
 
-**PWA icon maskable safe-zone** — regenerate `android-chrome-512x512-v2.png` with the speech-bubble logo content within the inner 70% (≥77px padding on all 4 sides at 512px canvas) in a future Claude Design pass, then flip `purpose` back to `'any maskable'` in `packages/ui/src/utils/buildPWAManifest.ts`. Current `'any'` value is the correct call until that padded PNG exists. The same padded PNG should be deployed to all 4 markets simultaneously (ES + IE + UK + PT).
+**PWA icon maskable safe-zone — RESOLVED for 512px (commit f233978)**
+CD delivered `android-chrome-512x512-maskable.png` (171 KB, safe-zone padded). Deployed to all 4 markets as `android-chrome-512x512-v2.png`. `buildPWAManifest.ts` purpose for 512 flipped back to `'any maskable'`. Manifest confirmed from build: `{"src":"/icons/android-chrome-512x512-v2.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}`. Real-install verification by Maciej post-deploy.
+
+**PWA icon maskable safe-zone — 192px STILL PENDING** — `android-chrome-192x192-v2.png` has no safe-zone version. Currently set to `purpose: 'any'` in `buildPWAManifest.ts`. Request CD generate the 192px maskable version in the next design session; deploy with same 4-market pattern; flip 192 purpose to `'any maskable'` at that point.
