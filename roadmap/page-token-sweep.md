@@ -440,3 +440,11 @@ Build: IE 52 ✓ · UK 47 ✓ · ES 45 ✓ · PT 38 ✓
 4. **`global.css` second `:root` accent override line ~1098** — pre-existing live bug, deliberately left per scope exclusion
 5. **Warm-tinted inline style** in apostille-service line 71 (`#fff7ed`/`#fed7aa`) — no clean tokens for amber warmth
 6. **Warning amber** (`#fbbf24`) — appears in multiple files; no token; out of scope
+
+---
+
+### Post-ship touchup — 13/06/26
+
+**Commit 92cd7ec** — `fix(hero): IE certified-translation split-card equal-height polish`
+
+Applied `align-items: stretch` to `.sqf-hero-ctx-wrap` and `align-self: stretch` to `.sqf-hero-form-col` inside `@media (min-width: 860px)`. Both split cards now render equal height at 1440px (light + dark); mobile 390px unchanged. Build IE 52 pages clean. Note: split hero lives in `certified-translation.astro`, not `index.astro` as the touchup brief stated. Pattern logged at `patterns/hero-split-divergence.md`.
