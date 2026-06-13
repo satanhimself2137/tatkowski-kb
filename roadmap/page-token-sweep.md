@@ -113,6 +113,41 @@ CF deploy `ce2eff4` → Active
 
 ---
 
+### 13/06/26 — Claude (Code, Sonnet 4.6) — Phase 2a: document-translation (all 4 markets)
+
+Token-replaced all hardcoded hex in `document-translation.astro` across IE/ES/PT/UK. Deleted IE's 53-line bolted dark override block and two smaller redundant overrides (`.dt-trust-item`, `.dt-crosslinks`) present in all 4 files.
+
+Key changes (all 4 files):
+- `.dt-crosslinks`: `#f8fafc` bg → `var(--surface-alt)`, `#e2e8f0` border → `var(--divider)`
+- `.dt-crosslinks a`: `#ff6a1a` → `var(--accent)`
+- `.language-tag`, `.step-number`, `.submit-button`: `background: #ff6a1a` → `var(--accent)` (replace_all)
+- `.process-step`: `border-top: 4px solid #ff6a1a` → `var(--accent)`
+- `.pricing-header`: `background: #0f172a` → `var(--table-header-bg)`, `color: white` → `var(--table-header-text)`
+- `.pricing-row` + mobile `.price-col`: `border-bottom: 1px solid #e2e8f0` → `var(--divider)`
+- Form inputs: `border: 2px solid #e5e7eb` → `var(--divider)`, `border-color: #ff6a1a` focus → `var(--accent)`
+- `.file-upload-area`: `border: 2px dashed #d1d5db` → `var(--border)`, hover `border-color: #ff6a1a` → `var(--accent)`
+- `.upload-note`: `color: #6b7280` → `var(--muted)`
+- `.form-group label`: `color: #374151` → `var(--text-secondary)`
+- Prior batches (from previous session): `color: #64748b/0f172a/334155` → tokens, `background: white` → `var(--card-bg)`, section backgrounds → `var(--surface-alt)`, `.dt-trust-icon` → `var(--accent)`, `.dt-chip *` → `var(--text) !important`
+- IE only: deleted 53-line `/* Dark mode contrast overrides */` block (all selectors now redundant via tokens)
+- All 4 files: deleted `[data-theme="dark"] .dt-trust-item` (redundant) + `[data-theme="dark"] .dt-crosslinks` (redundant)
+- Left as-is: `.pricing-notes` warning yellow, `.cta-section .cta-button.primary:hover { background: #f8fafc }` (intentional), brand gradients, checkbox crimson `#dc143c`, `.dt-chips-bar` dark override (glass backdrop, no token equivalent)
+
+Build clean · IE 52 ✓ · UK 47 ✓ · ES 45 ✓ · PT 38 ✓
+Visual verification: dark + light mode scrolled through services, process, pricing table, quote form, FAQ — all correct
+CF deploy `a16c466` → Active (IE/ES/PT/UK all confirmed)
+
+**Files touched:**
+- `apps/ie/src/pages/document-translation.astro`
+- `apps/es/src/pages/document-translation.astro`
+- `apps/pt/src/pages/document-translation.astro`
+- `apps/uk/src/pages/document-translation.astro`
+
+**Commits:**
+- a16c466 — fix(tokens): document-translation — replace hardcoded hex with tokens, drop bolted dark overrides (all 4 markets)
+
+---
+
 ## Phase plan + severity ranking
 
 ### Phase 1 — Canary (this session)
