@@ -148,6 +148,71 @@ CF deploy `a16c466` → Active (IE/ES/PT/UK all confirmed)
 
 ---
 
+### 13/06/26 — Claude (Code, Sonnet 4.6) — Phase 2b: apostille-service (all 4 markets)
+
+Token-replaced all hardcoded hex in `apostille-service.astro` across IE/UK/ES/PT. IE and UK had a large dark override block (~70 lines); reduced to 2 kept rules each. ES/PT had no override block.
+
+Key changes (all 4 files):
+- `color: #0f172a/334155/475569/64748b` → `var(--text)` / `var(--text-secondary)` / `var(--muted)`
+- `background: white` (11 instances each) → `var(--card-bg)`
+- `background: #f8fafc` (5 section backgrounds) → `var(--surface-alt)`
+- `background: #f1f5f9` (`.process-details span`) → `var(--surface-alt)`
+- `border: ... #e2e8f0/#cbd5e1` → `var(--divider)` / `var(--border)` as appropriate
+- `.pricing-header` bg → `var(--table-header-bg)`, color → `var(--table-header-text)`
+- Dark override blocks reduced to 2 kept rules in IE+UK:
+  - `.note-item` warning amber (base uses `#fef3cd` — no token)
+  - `.internal-cross-links` inline style override
+- ES/PT: no dark override block (none existed)
+
+Build clean · IE 52 ✓ · UK 47 ✓ · ES 45 ✓ · PT 38 ✓
+Visual verification: light + dark × 1440 + 390 — all sections correct
+CF deploy `16efe02` → Active (all 4 markets confirmed)
+
+**Files touched:**
+- `apps/ie/src/pages/apostille-service.astro`
+- `apps/es/src/pages/apostille-service.astro`
+- `apps/pt/src/pages/apostille-service.astro`
+- `apps/uk/src/pages/apostille-service.astro`
+
+**Commits:**
+- 16efe02 — fix(tokens): apostille-service — replace hardcoded hex with tokens, trim dark overrides (all 4 markets)
+
+---
+
+### 13/06/26 — Claude (Code, Sonnet 4.6) — Phase 2c: business-interpreting (all 4 markets)
+
+Token-replaced all hardcoded hex in `business-interpreting.astro` across IE/ES/PT/UK. IE was already largely tokenized; only redundant dark override deletions needed. ES/PT/UK had condensed base CSS with hardcoded hex throughout.
+
+Key changes ES/PT/UK:
+- `color:#0f172a` → `var(--text)` (h2s, card h3, v-item h4, faq-item h3)
+- `background:#fff` → `var(--card-bg)` (.card, .v-item, .booking-form, .field inputs, .faq-item)
+- `background:#f1f5f9` → `var(--surface-alt)` (.pill)
+- `border:1px solid #e2e8f0` → `var(--divider)` (.pill, .card, .booking-form, .faq-item)
+- `border:2px solid #e2e8f0` → `var(--divider)` (.field input)
+- `color:#475569` → `var(--text-secondary)` (.booking .sub, .field label)
+- `color:#64748b` → `var(--muted)` (.notice)
+- Deleted dark override blocks entirely (ES: 10 lines, PT: 10 lines, UK: 8 lines)
+
+Key changes IE:
+- Deleted 6 redundant dark overrides: `.card`, `.v-item`, `.booking-form`, `.faq-item`, `.why-item` (all duplicated what `var(--card-bg)` already provides), plus `.why-item h4`, and 9-line text-color block
+- Kept 5 legitimate dark overrides: `.hero-list li`, `.btn.ghost`, `.btn.ghost:hover`, `.stat` (all rgba glass with different opacities per mode), `.field input` (semi-transparent deep bg)
+
+Left as-is (intentional): brand gradient buttons (`#ff6a1a`/`#ff8c61`), blue form focus/submit (`#3b82f6`/`#2563eb`)
+
+Build clean · IE 52 ✓ · UK 47 ✓ · ES 45 ✓ · PT 38 ✓
+Visual verification: IE light mode 1440px ✓, IE dark mode 1440px ✓ (cards, pills, headings, FAQ all correct)
+
+**Files touched:**
+- `apps/ie/src/pages/business-interpreting.astro`
+- `apps/es/src/pages/business-interpreting.astro`
+- `apps/pt/src/pages/business-interpreting.astro`
+- `apps/uk/src/pages/business-interpreting.astro`
+
+**Commits:**
+- a6f0a11 — fix(tokens): business-interpreting — replace hardcoded hex with tokens, drop bolted dark overrides (all 4 markets)
+
+---
+
 ## Phase plan + severity ranking
 
 ### Phase 1 — Canary (this session)
