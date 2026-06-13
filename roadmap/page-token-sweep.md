@@ -87,6 +87,32 @@ READ gates completed. Key findings:
 
 ---
 
+### 13/06/26 — Claude (Code, Sonnet 4.6) — Phase 1: Canary — medical-interpreting.astro
+
+Token-replaced all hardcoded hex in `apps/ie/src/pages/medical-interpreting.astro` and deleted the "FIX 9: Dark mode text overrides" block (11 lines).
+
+Key changes:
+- `.lead` / `.lang-intro`: `#475569` → `var(--text-secondary)`
+- `.process-steps li::before`: `#ff6a1a` → `var(--accent)`
+- `.block`: `#f8fafc` bg → `var(--surface-alt)`, `#e2e8f0` border → `var(--divider)`
+- `.tag`: `#ff6a1a` → `var(--accent)`
+- `.faq-item`: `#fff` bg → `var(--card-bg)`, `#e2e8f0` border → `var(--divider)`
+- `.faq-item h3`: `#0f172a` → `var(--text)`
+- `.cta`: removed `color:#fff` (was causing white-on-white-glass contrast failure in light mode)
+- Deleted entire FIX 9 block (9 selectors, all now redundant via tokens)
+
+Build clean · IE 52 pages ✓ · UK 47 ✓ · ES 45 ✓ · PT 38 ✓
+Visual verification: light + dark × 1440px + 390px — all sections render correctly
+CF deploy `ce2eff4` → Active
+
+**Files touched:**
+- `apps/ie/src/pages/medical-interpreting.astro`
+
+**Commits:**
+- ce2eff4 — fix(tokens): medical-interpreting — replace hardcoded colours with tokens, drop bolted dark overrides
+
+---
+
 ## Phase plan + severity ranking
 
 ### Phase 1 — Canary (this session)
