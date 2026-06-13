@@ -448,3 +448,15 @@ Build: IE 52 ✓ · UK 47 ✓ · ES 45 ✓ · PT 38 ✓
 **Commit 92cd7ec** — `fix(hero): IE certified-translation split-card equal-height polish`
 
 Applied `align-items: stretch` to `.sqf-hero-ctx-wrap` and `align-self: stretch` to `.sqf-hero-form-col` inside `@media (min-width: 860px)`. Both split cards now render equal height at 1440px (light + dark); mobile 390px unchanged. Build IE 52 pages clean. Note: split hero lives in `certified-translation.astro`, not `index.astro` as the touchup brief stated. Pattern logged at `patterns/hero-split-divergence.md`.
+
+**Commit ce13c40** — `fix(sqf): C.1 — typewriter pill min-height + upload icon clearance`
+
+`min-height: 1.75rem` on `.sqf-ai-status` stabilises pill across all typewriter message lengths. `margin-top: 1.75rem` on `.sqf-drop-placeholder` gives 18px clear space between pill bottom and upload icon at 390px (target ≥16px). Desktop gap identical. CSS-only — no JS touched. File: `packages/ui/src/components/SmartQuoteForm.astro`.
+
+**Commit 857180c** — `fix(pwa): C.2 — remove maskable from 512px icon purpose`
+
+Diagnosis: all 4 markets (IE/UK/ES/PT) have had byte-identical icon PNGs since their first commit (`a64fb31`). The brief's "ES is reference" premise was based on stale state. The actual issue: `purpose: 'any maskable'` tells Android launchers they can circle-crop the icon using the inner 80%, but the current 512px PNG does not have the required safe zone — speech bubble extends close to PNG edges. Fix: changed `purpose: 'any maskable'` → `purpose: 'any'` in `packages/ui/src/utils/buildPWAManifest.ts`. Affects all 4 markets correctly.
+
+### Post-ship — design debt
+
+**PWA icon maskable safe-zone** — regenerate `android-chrome-512x512-v2.png` with the speech-bubble logo content within the inner 70% (≥77px padding on all 4 sides at 512px canvas) in a future Claude Design pass, then flip `purpose` back to `'any maskable'` in `packages/ui/src/utils/buildPWAManifest.ts`. Current `'any'` value is the correct call until that padded PNG exists. The same padded PNG should be deployed to all 4 markets simultaneously (ES + IE + UK + PT).
