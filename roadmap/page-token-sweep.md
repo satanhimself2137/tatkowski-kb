@@ -463,7 +463,13 @@ Defined `.tk-tm` utility class in `packages/ui/src/styles/global.css` (Utility c
 
 ### Post-ship — design debt
 
-**PWA icon maskable safe-zone — RESOLVED for 512px (commit f233978)**
-CD delivered `android-chrome-512x512-maskable.png` (171 KB, safe-zone padded). Deployed to all 4 markets as `android-chrome-512x512-v2.png`. `buildPWAManifest.ts` purpose for 512 flipped back to `'any maskable'`. Manifest confirmed from build: `{"src":"/icons/android-chrome-512x512-v2.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}`. Real-install verification by Maciej post-deploy.
+**PWA icon update pipeline (commits f233978 + 9d18ee0)**
 
-**PWA icon maskable safe-zone — 192px STILL PENDING** — `android-chrome-192x192-v2.png` has no safe-zone version. Currently set to `purpose: 'any'` in `buildPWAManifest.ts`. Request CD generate the 192px maskable version in the next design session; deploy with same 4-market pattern; flip 192 purpose to `'any maskable'` at that point.
+- f233978: CD 512 maskable PNG landed, purpose flipped to `'any maskable'` — but deployed under same `-v2` filename. BROWSERS DID NOT UPDATE because `immutable` cache on the old URL prevents re-fetch for 1 year.
+- 9d18ee0: Two root causes diagnosed and fixed:
+  - **Root 1 (primary):** Old PNG at same URL cached with `immutable`. Fix: bumped `iconVersion` `-v2` → `-v3` across all 4 site configs. New icon URLs force fresh fetch. All 3 icon files (512, 192, apple-touch) bumped to `-v3`.
+  - **Root 2 (secondary):** `_headers` `/icons/*` blanket rule + specific `/icons/site.webmanifest` rule — CF Pages MERGES matching headers, not last-wins. Manifest was receiving corrupted `Cache-Control: public, max-age=31536000, immutable, no-store, must-revalidate`. Fixed by replacing `/icons/*` blanket with specific prefix patterns (`/icons/android-chrome-*`, `/icons/apple-touch-icon-*`, `/icons/social-card.jpg`). Manifest now gets only `no-store`.
+  - **Not the issue:** All 4 sw.js files already correctly bypass `/icons/site.webmanifest` at line 25–26.
+- Manifest from IE build post-9d18ee0: `"src":"/icons/android-chrome-512x512-v3.png","purpose":"any maskable"` ✓
+
+**PWA icon maskable safe-zone — 192px STILL PENDING** — `android-chrome-192x192-v3.png` has no safe-zone version. Currently set to `purpose: 'any'` in `buildPWAManifest.ts`. Request CD generate the 192px maskable version in the next design session; deploy as `-v4.png` (or next version at that time); flip 192 purpose to `'any maskable'` at that point. **Lesson learned:** always bump `iconVersion` when replacing icon file content — never overwrite at the same versioned URL.
