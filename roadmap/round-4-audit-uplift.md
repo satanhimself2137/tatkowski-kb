@@ -1,6 +1,6 @@
 # ROADMAP — Round 4 Audit & Uplift
 
-**Status:** IN PROGRESS — Stage 1 complete / Stage 2 pending
+**Status:** IN PROGRESS — Stage 2 complete / Stage 3 pending
 **Owner:** Maciej
 **Last update:** 13/06/26 by Code
 
@@ -43,6 +43,37 @@ Full design-system audit-and-uplift: token conformance sweep across all shared c
 ---
 
 ## Build log
+
+### 13/06/26 — Code — Stage 2: Template extraction (404/terms/contact/faq × 4 markets)
+
+4 new shared Astro templates added to `packages/ui/src/templates/`: NotFoundPage, LegalPage (slot-based), ContactPage (slot-based), FaqPage (data-driven). All 16 market pages (4 archetypes × 4 markets) migrated to use them. CSS and accordion JS live in templates; market pages supply localized copy via slots or props. Build clean (52pp IE). CRLF/LF warnings expected — encoding-only, not build errors.
+
+**Key fixes during migration:**
+- PT contact: was hardcoding phone/WA numbers; fixed to use siteConfig.whatsappNumber/phoneTel/phone
+- ES terms: hardcoded tatkowski.com in breadcrumbs → `${siteConfig.domain}`
+- All FAQ breadcrumbs: hardcoded domain URLs → `${siteConfig.domain}`
+- UK FAQ right-to-work copy: was referencing "Irish employment law" → corrected to UK employment law
+- ES FAQ: "SNIG" description clarified to Spanish acronym; court names localised to Spanish courts
+
+**Skipped from Stage 2 per spec:**
+- §2.3, 2.4 (SectorLandingPage / recruitment copy) — recruitment exclusion
+- About pages, JurisdictionDocPage, CityPage, ServiceDetailPage, DocTypePage extension, LanguagePage extension, OrderPage, HomePage — deferred to follow-on sessions
+- §4.4 — recruitment content (skipped)
+
+**Files touched:**
+- `packages/ui/src/templates/NotFoundPage.astro` (new)
+- `packages/ui/src/templates/LegalPage.astro` (new)
+- `packages/ui/src/templates/ContactPage.astro` (new)
+- `packages/ui/src/templates/FaqPage.astro` (new)
+- `apps/{ie,uk,es,pt}/src/pages/404.astro` (migrated)
+- `apps/{ie,uk,es,pt}/src/pages/terms.astro` (migrated)
+- `apps/{ie,uk,es,pt}/src/pages/contact.astro` (migrated)
+- `apps/{ie,uk,es,pt}/src/pages/faq.astro` (migrated)
+
+**Commits:**
+- fc81755 — feat(stage-2): template extraction — 404/terms/contact/faq × 4 markets
+
+---
 
 ### 13/06/26 — Code — Stage 1.8: button/form/faq/pricing CSS tokenisation
 
