@@ -457,6 +457,10 @@ Applied `align-items: stretch` to `.sqf-hero-ctx-wrap` and `align-self: stretch`
 
 Diagnosis: all 4 markets (IE/UK/ES/PT) have had byte-identical icon PNGs since their first commit (`a64fb31`). The brief's "ES is reference" premise was based on stale state. The actual issue: `purpose: 'any maskable'` tells Android launchers they can circle-crop the icon using the inner 80%, but the current 512px PNG does not have the required safe zone — speech bubble extends close to PNG edges. Fix: changed `purpose: 'any maskable'` → `purpose: 'any'` in `packages/ui/src/utils/buildPWAManifest.ts`. Affects all 4 markets correctly.
 
+**Commit ee01130** — `fix(smartquote-tm): canonical glyph treatment (.tk-tm) applied site-wide`
+
+Defined `.tk-tm` utility class in `packages/ui/src/styles/global.css` (Utility classes section): `font-size: 0.55em; vertical-align: super; line-height: 0; font-weight: inherit; margin-left: 0.05em; letter-spacing: 0`. Applied `<sup class="tk-tm">™</sup>` to all visible `SmartQuote™` text nodes across all 4 markets: shared components (SmartQuoteForm, SmartQuoteDrawer, CtaCluster, LandingPage, DocTypePage, LanguageHubPage, LanguagePage templates), 14 service-detail `.ts` data files (HTML string contexts only), and ~26 market `.astro` pages (UK 10, IE 4, ES 7, PT 5). `aria-label=` and `setAttribute` lines correctly skipped throughout. Production build confirmed: `.tk-tm{font-size:.55em;...}` present in compiled CSS. Also swapped SmartQuoteForm.astro header from local `.sqf-tm` to shared `.tk-tm`.
+
 ### Post-ship — design debt
 
 **PWA icon maskable safe-zone** — regenerate `android-chrome-512x512-v2.png` with the speech-bubble logo content within the inner 70% (≥77px padding on all 4 sides at 512px canvas) in a future Claude Design pass, then flip `purpose` back to `'any maskable'` in `packages/ui/src/utils/buildPWAManifest.ts`. Current `'any'` value is the correct call until that padded PNG exists. The same padded PNG should be deployed to all 4 markets simultaneously (ES + IE + UK + PT).
