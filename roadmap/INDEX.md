@@ -10,6 +10,7 @@ At-a-glance view of every workstream. Each entry links to its roadmap file. Main
 
 | Workstream | Status | Owner | Last update | File |
 |---|---|---|---|---|
+| Round 4 Audit & Uplift | IN PROGRESS — Stage 1 complete / Stage 2 pending | Maciej | 13/06/26 | [round-4-audit-uplift.md](round-4-audit-uplift.md) |
 | Payments & customer journey | IN PROGRESS — Phase 0 (Claude Design pass) | Maciej | 07/06/26 | [workstream-1-payments-and-journey.md](workstream-1-payments-and-journey.md) |
 | Portugal market research | In progress | David (via Claude) | 06/06/26 | [portugal-market-research.md](portugal-market-research.md) |
 
