@@ -473,3 +473,13 @@ Defined `.tk-tm` utility class in `packages/ui/src/styles/global.css` (Utility c
 - Manifest from IE build post-9d18ee0: `"src":"/icons/android-chrome-512x512-v3.png","purpose":"any maskable"` ✓
 
 **PWA icon maskable safe-zone — 192px STILL PENDING** — `android-chrome-192x192-v3.png` has no safe-zone version. Currently set to `purpose: 'any'` in `buildPWAManifest.ts`. Request CD generate the 192px maskable version in the next design session; deploy as `-v4.png` (or next version at that time); flip 192 purpose to `'any maskable'` at that point. **Lesson learned:** always bump `iconVersion` when replacing icon file content — never overwrite at the same versioned URL.
+
+**PWA brand-mark Round 4 (commit 6f9efd6)** — `PWA brand-mark v4: split maskable icons, traced #ff6934, unified favicon.svg`
+- `packages/ui/src/utils/buildPWAManifest.ts`: manifest now emits 4 separate entries (any-192, maskable-192, any-512, maskable-512) with `purpose: 'any'` and `purpose: 'maskable'` split — combined `'any maskable'` string was wrong per Android docs.
+- `theme_color` updated `#ff6a1a` → `#ff6934` (traced from pixel analysis of `icon.png`; `_trace/notes.md` confirms).
+- `iconVersion` bumped `-v3` → `-v4` across all 4 site configs (Edit tool — NOT PowerShell, to avoid BOM corruption).
+- New v4 PNGs deployed to all 4 markets: `android-chrome-192x192-v4.png`, `android-chrome-512x512-v4.png`, `android-chrome-maskable-192x192-v4.png`, `android-chrome-maskable-512x512-v4.png`, `apple-touch-icon-v4.png`, `favicon-16x16.png`, `favicon-32x32.png`.
+- `favicon.svg` overwritten with `brand-mark.svg` (DS asset, viewBox `0 0 227 242`, bubble `#ff6934`).
+- Build: IE 52 ✓ / UK 47 ✓ / ES 45 ✓ / PT 38 ✓. All 4 manifests verified: 4 entries, `-v4` filenames, `#ff6934`.
+- CF Pages: all 4 projects Active on `6f9efd6`.
+- 192px maskable: NOW RESOLVED — `android-chrome-maskable-192x192-v4.png` (8514 bytes) deployed from DS `derive.js` output. `_trace/notes.md` confirms this was generated this round. 192px maskable pending item is closed.
