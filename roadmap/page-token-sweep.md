@@ -1,6 +1,6 @@
 # ROADMAP — Page-level token sweep + dark-mode override completion
 
-**Status:** IN PROGRESS — Phase 1
+**Status:** SHIPPED
 **Owner:** Agent (Code, Sonnet 4.6)
 **Last update:** 13/06/26 by Claude (Code)
 
@@ -295,6 +295,148 @@ CF deploy `82ace7f` → Active (all 4 markets confirmed)
 
 ---
 
+### 13/06/26 — Claude (Code, Sonnet 4.6) — Phase 3 Tier A: IE high-severity unique pages (sev 31/30/24)
+
+**translation-services-dublin.astro (sev 31):** Custom page, no dark override block. 16 token substitutions — Tailwind-style greys (#1f2937/#111827/#374151/#4b5563/#6b7280) mapped to semantic tokens (--text / --text-secondary / --muted). Cards, tables, FAQ, section tints all tokenized. Kept: hero gradient, brand blues (#1e40af/#1d4ed8 — no token), #e5e7eb card borders (near --divider but not exact).
+
+**certified-translation.astro (sev 30):** `<style is:global>` block. Tokenized `.faq-item h3` and `.language-card h3` text colours, deleted 3 redundant dark text-colour overrides, trimmed `.faq-item` dark block (kept rgba glass, removed redundant text colour). 9 bare `#ff6a1a` → `var(--accent)` in focus/link/brand selectors. Kept: glass rgba overrides for cards, hero gradient, accent-dark `.faq-item a` colour.
+
+**index.astro IE (sev 24):** Most of the 24 audit hits were `var(--token, #fallback)` fallback values — already tokenized. Only 3 bare hex changes: 2× `.logo-frame`/`.landing-btn border: #ff6a1a` → `var(--accent)`, deleted redundant `[data-theme="dark"] .logo-frame` rule.
+
+Build: IE 52 ✓
+
+**Files touched:**
+- `apps/ie/src/pages/translation-services-dublin.astro`
+- `apps/ie/src/pages/certified-translation.astro`
+- `apps/ie/src/pages/index.astro`
+
+**Commits:**
+- 934bf41 — fix(tokens): Phase 3 Tier A — IE translation-services-dublin, certified-translation, index (sev 31/30/24)
+
+---
+
+### 13/06/26 — Claude (Code, Sonnet 4.6) — Phase 3 Tier B: UK/ES/PT homepages (sev 26 each)
+
+Identical 3-fix pattern on each: 2× `border: 1.5px solid #ff6a1a` → `var(--accent)`, deleted redundant `[data-theme="dark"] .logo-frame` rule. UK-specific section already token-wrapped (`var(--brand, #ff6b3d)`). Committed per market.
+
+Build: IE 52 ✓ · UK 47 ✓ · ES 45 ✓ · PT 38 ✓
+
+**Files touched:**
+- `apps/uk/src/pages/index.astro`
+- `apps/es/src/pages/index.astro`
+- `apps/pt/src/pages/index.astro`
+
+**Commits:**
+- e7029c1 — fix(tokens): Phase 3 Tier B — UK homepage index.astro (sev 26)
+- a790229 — fix(tokens): Phase 3 Tier B — ES homepage index.astro (sev 26)
+- e41f48e — fix(tokens): Phase 3 Tier B — PT homepage index.astro (sev 26)
+
+---
+
+### 13/06/26 — Claude (Code, Sonnet 4.6) — Phase 3 Tier C: IE unique pages (sev 18/21/18)
+
+**school-interpreting.astro (sev 18):** Simple style block. `.pill bg: #f1f5f9` → `var(--surface-alt)`, `.pill border: #e2e8f0` → `var(--divider)`, `.field input:focus border-color: #ff6a1a` → `var(--accent)`. Kept: gradients, green v-item border (#10b981 — no token), hero #fff (on dark bg).
+
+**admin.astro (sev 21):** Permanently dark dashboard. Only `#ff6a1a` → `var(--accent)` safe (all other dark-palette values intentional). Applied replace_all for `color: #ff6a1a` + targeted fix for `border-left: 3px solid #ff6a1a`. Left all dark bg/text colours untouched.
+
+**interpreting.astro IE (sev 18):** Has page-local `--text-high/mid/low` `:root` vars (same `--pi-*` pattern as phone-interpreting). Fix: pointed text var definitions at global tokens, deleted 3 dark override lines (`--text-high/mid/low` became redundant). 6 bare `#ff6a1a` → `var(--accent)` in card hover, pricing table focus-within, trust-icon, form-input focus, file-upload hover, focus-visible. Left table/surface page-local vars (custom calibrated values).
+
+Build: IE 52 ✓
+
+**Files touched:**
+- `apps/ie/src/pages/school-interpreting.astro`
+- `apps/ie/src/pages/admin.astro`
+- `apps/ie/src/pages/interpreting.astro`
+
+**Commits:**
+- dd1b6f1 — fix(tokens): Phase 3 Tier C — IE school-interpreting, admin, interpreting (sev 18/21/18)
+
+---
+
+### 13/06/26 — Claude (Code, Sonnet 4.6) — Phase 3 Tier D: UK interpreting + sales notifications (sev 17/17)
+
+**interpreting.astro UK (sev 17):** Same page-local var system as IE. Pointed `--text-high/mid/low` at global tokens, deleted dark block entries for those 3 vars, replaced 5 bare `#ff6a1a` (border-color ×3, focus-outline ×2). SVG `stroke="#ff6a1a"` in HTML markup — out of scope.
+
+**notifications.astro sales (sev 17):** Permanently dark SalesManager page. Replaced 3 bare `#ff6a1a` (mark-read-btn color, notif-dot background, notif-ref color) → `var(--accent)`. Left `#ff6a1a55` (8-digit alpha hex — can't tokenize with var()), and all dark-palette colours (#e2e8f0/#64748b/#334155 as fixed-dark text).
+
+Build: UK 47 ✓ · Sales 5 ✓
+
+**Files touched:**
+- `apps/uk/src/pages/interpreting.astro`
+- `apps/sales/src/pages/notifications.astro`
+
+**Commits:**
+- 03d2a83 — fix(tokens): Phase 3 Tier D — UK interpreting, sales notifications (sev 17/17)
+
+---
+
+### 13/06/26 — Claude (Code, Sonnet 4.6) — Phase 4: Shared components (sev 18 each)
+
+**Footer.astro (sev 18):** Always-dark gradient footer. Only `#ff6a1a` safe to tokenize — `.footer-nav-link:hover { color: #ff6a1a !important }` → `var(--accent)`. All other hex (#e2e8f0/#f8fafc/#cbd5e1/#64748b) are intentional fixed-dark palette values.
+
+**BookInterpreterForm.astro (sev 18):** 1 fix — `.bif-input:focus { border-color: #ff6a1a }` → `var(--accent)`. Dark panel bg override (`#0f172a`) kept (legitimate glass dark). Spinner `border-top-color: #fff` kept (contrast against orange gradient). WhatsApp green `#16a34a` kept (no token).
+
+**SmartQuoteDrawer.astro (sev 18):** Confirmed already clean — all `#ff6a1a` in this file is wrapped in `var(--accent, #ff6a1a)`. No edits needed. Remaining `#f8fafc`/`#fff` are legitimate always-white text on dark/orange backgrounds.
+
+Build: IE 52 ✓ · UK 47 ✓ · ES 45 ✓ · PT 38 ✓
+
+**Files touched:**
+- `packages/ui/src/components/Footer.astro`
+- `packages/ui/src/components/BookInterpreterForm.astro`
+- `packages/ui/src/components/SmartQuoteDrawer.astro` *(no edits — already clean)*
+
+**Commits:**
+- 9a949cb — fix(tokens): Phase 4 — Footer, BookInterpreterForm accent tokens (SmartQuoteDrawer already clean)
+
+---
+
 ## Post-ship summary
 
-*(to be filled in after SHIPPED)*
+### All commits (this workstream)
+
+| Phase | Commit | Description |
+|---|---|---|
+| 1 | ce2eff4 | medical-interpreting — canary |
+| 2a | a16c466 | document-translation — all 4 markets |
+| 2b | 16efe02 | apostille-service — all 4 markets |
+| 2c | a6f0a11 | business-interpreting — all 4 markets |
+| 2d | 82ace7f | phone-interpreting — all 4 markets |
+| 3A | 934bf41 | IE: translation-services-dublin, certified-translation, index |
+| 3B | e7029c1 | UK homepage |
+| 3B | a790229 | ES homepage |
+| 3B | e41f48e | PT homepage |
+| 3C | dd1b6f1 | IE: school-interpreting, admin, interpreting |
+| 3D | 03d2a83 | UK interpreting, sales notifications |
+| 4 | 9a949cb | Footer, BookInterpreterForm (SmartQuoteDrawer already clean) |
+
+### Pages touched
+
+**apps/ie:** medical-interpreting, document-translation, apostille-service, business-interpreting, phone-interpreting, translation-services-dublin, certified-translation, index, school-interpreting, admin, interpreting
+
+**apps/uk:** document-translation, apostille-service, business-interpreting, phone-interpreting, index, interpreting
+
+**apps/es:** document-translation, apostille-service, business-interpreting, phone-interpreting, index
+
+**apps/pt:** document-translation, apostille-service, business-interpreting, phone-interpreting, index
+
+**apps/sales:** notifications
+
+**packages/ui/components:** Footer, BookInterpreterForm
+
+### Done criteria
+
+- [x] All audit entries with severity ≥ 15 either fixed or explicitly deferred-with-reason
+- [x] IE / UK / ES / PT homepages pass dark-mode contrast at 390 + 1440
+- [x] `apps/ie/src/pages/medical-interpreting.astro` carries no "FIX N" comment block
+- [x] `roadmap/page-token-sweep.md` close-out section written with commits list, pages touched, deferred items
+- [x] All bare `#ff6a1a` in touched pages either tokenized or confirmed as legitimate keeper (gradient, alpha-hex, SVG attribute)
+- [ ] Screenshots index at `docs/page-token-sweep-screenshots/` — deferred (visual verification done inline during each phase; dedicated screenshot directory not created)
+
+### Deferred items
+
+1. **Brand blues** (#1e40af/#1d4ed8 in translation-services-dublin) — no token exists; requires a separate design decision
+2. **`#ff6a1a55` / 8-digit alpha hex** (notifications.astro) — CSS limitation; `var()` can't carry alpha suffix without `color-mix()`
+3. **SVG `stroke="#ff6a1a"` attributes** (UK interpreting markup, IE index icons) — not CSS; requires `currentColor` refactor out of scope here
+4. **`global.css` second `:root` accent override line ~1098** — pre-existing live bug, deliberately left per scope exclusion
+5. **Warm-tinted inline style** in apostille-service line 71 (`#fff7ed`/`#fed7aa`) — no clean tokens for amber warmth
+6. **Warning amber** (`#fbbf24`) — appears in multiple files; no token; out of scope
